@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="User"
+            type="com.example.engagecommerce.repo.FirebaseCloud" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userDataHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image_profile_action"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/rick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true" />
+
+        <View
+            android:id="@+id/viewSupport"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_profile_action"
+            app:layout_constraintEnd_toEndOf="@+id/image_profile_action"
+            app:layout_constraintStart_toStartOf="@+id/image_profile_action"
+            app:layout_constraintTop_toTopOf="@+id/image_profile_action" />
+
+        <TextView
+            android:id="@+id/menuUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{User.userData.firstName}"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/viewSupport"
+            app:layout_constraintStart_toEndOf="@+id/image_profile_action" />
+
+        <TextView
+            android:id="@+id/menuUserEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text=""
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/image_profile_action"
+            app:layout_constraintTop_toBottomOf="@+id/viewSupport" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
