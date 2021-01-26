@@ -11,7 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
 import com.example.engagecommerce.data.Product
 
-class CartAdapter(private val listener: OnProductClick) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter(private val listener: OnProductClick) :
+    RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     val cartList = ArrayList<Product>()
 

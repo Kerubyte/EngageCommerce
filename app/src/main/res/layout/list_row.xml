@@ -59,10 +59,12 @@
             android:id="@+id/text_free_delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/muli"
             android:text="FREE Delivery"
-            android:textColor="#7CB342"
-            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="@+id/text_product_name"
             app:layout_constraintTop_toBottomOf="@+id/text_product_name" />
 

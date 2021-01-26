@@ -20,29 +20,6 @@ class FirebaseCloud {
     val currentUser: LiveData<User>
         get() = _currentUser
 
-    fun listen() {
-
-        if (auth.currentUser != null) {
-            val uid = auth.currentUser?.uid
-
-            cloud.collection("users")
-                .document(uid!!)
-                .addSnapshotListener { user, error ->
-                    if (error != null) {
-                        Log.d("snapshot", error.message.toString())
-                        return@addSnapshotListener
-                    }
-
-                    if (user != null && user.exists()) {
-                        return@addSnapshotListener
-                    } else {
-                        return@addSnapshotListener
-                    }
-                }
-        }
-    }
-
-
     fun getUserData(): LiveData<User>? {
 
         val cloudResult = MutableLiveData<User>()
@@ -123,7 +100,7 @@ class FirebaseCloud {
                 .document(auth.currentUser?.uid!!)
                 .update("cart", FieldValue.arrayUnion(productUid))
                 .addOnSuccessListener {
-                    Log.d("cart", "Dodano do koszyka")
+                    Log.d("cart", "Added to Cart")
                 }
                 .addOnFailureListener {
                     Log.d("cart", it.message.toString())
@@ -136,7 +113,7 @@ class FirebaseCloud {
             .document(auth.currentUser?.uid!!)
             .update("cart", FieldValue.arrayRemove(product.uid))
             .addOnSuccessListener {
-                Log.d("cart", "Usunieto z koszyka")
+                Log.d("cart", "Removed from Cart")
             }
             .addOnFailureListener {
                 Log.d("cart", it.message.toString())

@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.text.DecimalFormat
 
 class ProductDetailFragment : RootFragment(), View.OnClickListener {
 
@@ -25,7 +26,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
     private lateinit var viewModel: ProductDetailViewModel
     private lateinit var viewModelFactory: ProductDetailViewModelFactory
     private lateinit var binding: FragmentDetailProductBinding
-    private val repository = FirebaseCloud()
+    private lateinit var repository: FirebaseCloud
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -39,8 +40,17 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             false
         )
         auth = Firebase.auth
+        repository = FirebaseCloud()
 
         binding.buttonAddToCart.setOnClickListener(this)
+
+
+
+
+        return binding.root
+    }
+
+    override fun onResume() {
 
         viewModelFactory = ProductDetailViewModelFactory(
             ProductDetailFragmentArgs
@@ -50,11 +60,10 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
 
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductDetailViewModel::class.java)
-
         viewModel.product.observe(viewLifecycleOwner, {
             binding.textProductNameDetail.text = it?.name
             binding.textProductDescriptionDetail.text = it?.description
-            binding.textProductPriceDetail.text = it?.price.toString()
+            binding.textProductPriceDetail.text = priceFormat(it.price)
             val image = binding.imageProductImageDetaills
             Glide.with(requireView())
                 .load(it.imageUrl)
@@ -62,12 +71,16 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         })
 
         viewModel.user?.observe(viewLifecycleOwner, {
-            Log.d("viewModel", "${checkForProductInCart(it)}")
             val state = checkForProductInCart(it)
             setButtonState(state)
+            Log.d("observer", "${it.cart}")
         })
+        super.onResume()
+    }
 
-        return binding.root
+    private fun priceFormat(price: Long?): String {
+        val input = DecimalFormat("£###,###0.00")
+        return input.format(price)
     }
 
     // Check if viewed product is already in cart
@@ -101,7 +114,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
                             .productUid
                     )
                     setButtonState(false)
-                    Log.d("viewModel2", "${viewModel.user?.value?.cart}")
 
                 }
         }

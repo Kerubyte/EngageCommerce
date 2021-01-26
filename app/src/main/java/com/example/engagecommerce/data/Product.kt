@@ -6,5 +6,6 @@ data class Product(
     val price: Long? = null,
     val description: String? = null,
     val details: List<String>? = null,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val delivery: Boolean = false
 )

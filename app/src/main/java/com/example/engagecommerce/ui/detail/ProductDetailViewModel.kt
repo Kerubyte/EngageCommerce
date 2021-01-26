@@ -12,10 +12,4 @@ class ProductDetailViewModel(productUid: String) : ViewModel() {
     val product = repository.getSingleProduct(productUid)
 
     val user = repository.getUserData()
-
-    val costam = repository.listen()
-
-
-
-
 }
