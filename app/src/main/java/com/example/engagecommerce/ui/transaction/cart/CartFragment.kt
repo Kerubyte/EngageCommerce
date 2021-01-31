@@ -12,12 +12,15 @@ import com.example.engagecommerce.adapter.CartAdapter
 import com.example.engagecommerce.adapter.OnProductClick
 import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.databinding.FragmentCartBinding
+import com.example.engagecommerce.utils.Utils
+import java.text.DecimalFormat
 
 
 class CartFragment : RootFragment(), OnProductClick {
 
     private lateinit var cartViewModel: CartFragmentViewModel
     private lateinit var binding: FragmentCartBinding
+    private lateinit var utils: Utils
     private val adapter = CartAdapter(this)
 
     override fun onCreateView(
@@ -31,6 +34,7 @@ class CartFragment : RootFragment(), OnProductClick {
             false
         )
 
+        utils = Utils()
         cartViewModel = CartFragmentViewModel()
         return binding.root
     }
@@ -49,7 +53,7 @@ class CartFragment : RootFragment(), OnProductClick {
         // Navigate to checkout passing cart value along
         binding.buttonToCheckout.setOnClickListener {
             val cartValue = binding.textCartQuantityValue.text
-            navvvv(cartValue.toString())
+            navigateToCheckout(cartValue.toString())
         }
     }
 
@@ -65,7 +69,9 @@ class CartFragment : RootFragment(), OnProductClick {
     private fun updateCart() {
         val productsInCartList = adapter.cartList
         val cartValue = cartViewModel.calculateCartValue(productsInCartList)
-        binding.textCartTotalValue.text = cartValue.toString()
+        binding.textCartTotalValue.text = utils.formatPrice.format(cartValue)
         binding.textCartQuantityValue.text = productsInCartList.size.toString()
     }
+
+
 }

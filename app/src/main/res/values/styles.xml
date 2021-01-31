@@ -5,5 +5,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
+    <style name="primaryButtonStyle">
+        <item name="android:fontFamily">@font/muli</item>
+        <item name="android:color">@color/secondaryDarkColor</item>
+    </style>
+
 
 </resources>

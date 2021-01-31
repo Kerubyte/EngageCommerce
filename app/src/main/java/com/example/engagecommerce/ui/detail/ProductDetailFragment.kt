@@ -14,6 +14,7 @@ import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentDetailProductBinding
 import com.example.engagecommerce.repo.FirebaseCloud
+import com.example.engagecommerce.utils.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,6 +29,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
     private lateinit var binding: FragmentDetailProductBinding
     private lateinit var repository: FirebaseCloud
     private lateinit var auth: FirebaseAuth
+    private lateinit var utils: Utils
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +43,9 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         )
         auth = Firebase.auth
         repository = FirebaseCloud()
+        utils = Utils()
 
         binding.buttonAddToCart.setOnClickListener(this)
-
-
-
-
         return binding.root
     }
 
@@ -63,7 +62,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         viewModel.product.observe(viewLifecycleOwner, {
             binding.textProductNameDetail.text = it?.name
             binding.textProductDescriptionDetail.text = it?.description
-            binding.textProductPriceDetail.text = priceFormat(it.price)
+            binding.textProductPriceDetail.text = utils.formatPrice.format(it.price)
             val image = binding.imageProductImageDetaills
             Glide.with(requireView())
                 .load(it.imageUrl)
@@ -76,11 +75,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             Log.d("observer", "${it.cart}")
         })
         super.onResume()
-    }
-
-    private fun priceFormat(price: Long?): String {
-        val input = DecimalFormat("£###,###0.00")
-        return input.format(price)
     }
 
     // Check if viewed product is already in cart
@@ -97,7 +91,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
 
         val button = binding.buttonAddToCart
         button.isEnabled = state
-        if (state) button.text = getString(R.string.add_to_cart_button)
+        if (state) button.text = getString(R.string.button_add_to_cart_text)
         else button.text = getString(R.string.button_in_cart_text)
     }
 

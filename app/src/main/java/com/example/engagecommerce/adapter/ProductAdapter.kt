@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
 import com.example.engagecommerce.data.Product
+import com.example.engagecommerce.utils.Utils
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -18,6 +19,7 @@ import kotlin.collections.ArrayList
 class ProductAdapter(private val listener: OnProductClick) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
+    private val utils = Utils()
     private val productsList = ArrayList<Product>()
 
     fun setProducts(list: List<Product>) {
@@ -41,11 +43,6 @@ class ProductAdapter(private val listener: OnProductClick) :
         return productsList.size
     }
 
-    private fun priceFormat(price: Long?): String {
-        val input = DecimalFormat("£###,###0.00")
-        return input.format(price)
-    }
-
     private fun bindData(holder: ProductViewHolder) {
         val name = holder.itemView.findViewById<TextView>(R.id.text_product_name)
         val price = holder.itemView.findViewById<TextView>(R.id.text_product_price_cart)
@@ -54,10 +51,11 @@ class ProductAdapter(private val listener: OnProductClick) :
 
         name.text = productsList[holder.adapterPosition].name
         deliveryOption.isVisible = productsList[holder.adapterPosition].delivery
-        price.text = priceFormat(productsList[holder.adapterPosition].price!!)
+        price.text = utils.formatPrice.format(productsList[holder.adapterPosition].price!!)
         Glide.with(holder.itemView)
             .load(productsList[holder.adapterPosition].imageUrl)
             .into(image)
+
     }
 
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {

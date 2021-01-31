@@ -1,21 +1,29 @@
 package com.example.engagecommerce
 
+import android.app.Activity
 import android.os.Bundle
+import android.text.Layout
+import android.util.Log
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.ActivityMainBinding
+import com.example.engagecommerce.databinding.DrawerHeaderLayoutBinding
 import com.example.engagecommerce.repo.FirebaseCloud
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.drawer_header_layout.view.*
+import java.security.acl.Owner
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -23,7 +31,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
-    private lateinit var cloud: FirebaseCloud
+    private lateinit var repo: FirebaseCloud
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             )
 
         auth = Firebase.auth
-        cloud = FirebaseCloud()
+        repo = FirebaseCloud()
 
         // Drawer Menu
         navigationView = binding.layoutNavigationMenu
@@ -53,11 +61,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        setNavigationMenuContent() 
+        setNavigationMenuContent()
+        val userDocument = repo.getCurrentUser()
+
+        userDocument?.addSnapshotListener { querySnapshot, error ->
+            error?.let {
+                Log.d("snapshot", it.message.toString())
+                return@addSnapshotListener
+            }
+            querySnapshot?.let {
+
+                val currentUser = it.toObject<User>()
+                updateCartSize(currentUser!!)
+            }
+        }
     }
 
     override fun onBackPressed() {
-        if (binding.layoutDrawer.isDrawerOpen(GravityCompat.START))  {
+        if (binding.layoutDrawer.isDrawerOpen(GravityCompat.START)) {
             binding.layoutDrawer.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
@@ -103,5 +124,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             navigationView.menu.setGroupVisible(R.id.unLoggedGroup, true)
             navigationView.menu.setGroupVisible(R.id.loggedInGroup, false)
         }
+    }
+
+    private fun updateCartSize(user: User) {
+
+        val cartSize = user.cart?.size
+        binding.textCartQuantityMain.text = cartSize.toString()
+
     }
 }

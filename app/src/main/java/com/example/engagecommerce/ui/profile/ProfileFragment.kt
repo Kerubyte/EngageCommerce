@@ -16,6 +16,7 @@ import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentProfileBinding
 import com.example.engagecommerce.repo.FirebaseAuthentication
+import java.util.*
 
 class ProfileFragment : RootFragment(), View.OnClickListener {
 
@@ -56,7 +57,10 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
     }
 
     private fun bindUserData(user: User) {
-        Log.d("Profile", user.toString())
+        val locale = Locale.getDefault()
+        binding.textFirstNameValue.text = user.firstName?.capitalize(locale)
+        binding.textLastNameValue.text = user.lastName?.capitalize(locale)
+        binding.textEmailValue.text = user.email?.capitalize(locale)
     }
 
     // Handle all of the clicks in the fragment

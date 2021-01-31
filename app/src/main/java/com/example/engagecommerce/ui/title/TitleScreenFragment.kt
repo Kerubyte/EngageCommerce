@@ -54,11 +54,9 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO finish adapter divider
         binding.recyclerTitleScreen.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = productAdapter
-            //addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         }
     }
 

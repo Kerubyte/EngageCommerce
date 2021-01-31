@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.engagecommerce.ui.transaction.cart.CartFragmentDirections
+import java.text.DecimalFormat
 
 abstract class RootFragment : Fragment() {
 
@@ -30,16 +31,10 @@ abstract class RootFragment : Fragment() {
             .navigate(R.id.menuLogin)
     }
 
-    fun navigateToCheckout() {
-        Navigation.findNavController(requireView())
-            .navigate(R.id.action_menuCart_to_checkoutFragment)
-    }
-
-    fun navvvv(cartValue: String) {
+    fun navigateToCheckout(cartValue: String) {
         findNavController().navigate(
             CartFragmentDirections.actionMenuCartToCheckoutFragment(cartValue)
         )
     }
-
 
 }

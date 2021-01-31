@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
 import com.example.engagecommerce.data.Product
+import com.example.engagecommerce.utils.Utils
 
 class CartAdapter(private val listener: OnProductClick) :
     RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     val cartList = ArrayList<Product>()
+    private val utils = Utils()
 
     fun setCartProducts(list: List<Product>) {
         cartList.clear()
@@ -44,7 +46,7 @@ class CartAdapter(private val listener: OnProductClick) :
         val image = holder.itemView.findViewById<ImageView>(R.id.image_product_image_cart)
 
         name.text = cartList[holder.adapterPosition].name
-        price.text = cartList[holder.adapterPosition].price.toString()
+        price.text = utils.formatPrice.format(cartList[holder.adapterPosition].price)
         Glide.with(holder.itemView)
             .load(cartList[holder.adapterPosition].imageUrl)
             .into(image)

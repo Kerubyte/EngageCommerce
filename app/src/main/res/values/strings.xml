@@ -24,7 +24,7 @@
     <string name="password_label">Password</string>
     <string name="create_account_header">Create Account</string>
     <string name="register_bio">Provide your details or continue with Google</string>
-    <string name="first_name_hint">First Name</string>
+    <string name="first_name_hint">Enter First Name</string>
     <string name="last_name_hint">Enter Last Name</string>
     <string name="first_name_label">First Name</string>
     <string name="last_name_label">Last Name</string>
@@ -39,12 +39,22 @@
     <string name="cart_value" />
     <string name="cart_total">Total</string>
     <string name="add_to_cart_deprecated" />
-    <string name="add_to_cart_button">Add to Cart</string>
-    <string name="productheroimage">productHeroImage</string>
+    <string name="button_add_to_cart_text">Add to Cart</string>
+    <string name="button_in_cart_text">In Cart</string>
+    <string name="product_hero_image">productHeroImage</string>
     <string name="price_desc">Price:</string>
     <string name="enter_first_name">Enter your first name</string>
     <string name="enter_last_name">Enter your last name</string>
-    <string name="default_cart_total_value">0</string>
+    <string name="default_cart_total_value">£0.00</string>
     <string name="default_cart_quantity_value">0</string>
-    <string name="button_in_cart_text">In Cart</string>
+    <string name="button_sign_out_text">Sign Out</string>
+    <string name="first_name_text">First Name:</string>
+    <string name="last_name_text">Last Name:</string>
+    <string name="email_text">Email:</string>
+    <string name="price_placeholder_text">$200</string>
+    <string name="content_desc_cart_delete" />
+    <string name="product_name_placeholder_text">Product Name</string>
+    <string name="content_desc_product">Image of the product</string>
+    <string name="free_delivery_text">FREE Delivery</string>>
+
 </resources>

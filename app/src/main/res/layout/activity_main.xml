@@ -26,8 +26,8 @@
 
                 <ImageView
                     android:id="@+id/image_menu_action"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginStart="10dp"
                     android:contentDescription="@string/menu_button"
                     android:src="@drawable/ic_hamburger"
@@ -38,8 +38,8 @@
 
                 <ImageView
                     android:id="@+id/image_profile_action"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@string/navigation_button"
                     android:src="@drawable/ic_person"
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="7dp"
                     android:fontFamily="@font/muli"
                     android:text="0"
                     android:textColor="@color/primaryTextColor"
@@ -66,8 +66,8 @@
 
                 <ImageView
                     android:id="@+id/image_cart_action"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginEnd="16dp"
                     android:contentDescription="@string/cart_button"
                     android:src="@drawable/ic_cart2"
