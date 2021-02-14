@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.repo.FirebaseCloud
+import com.user.sdk.UserCom
+import com.user.sdk.events.ProductEventType
 
 
 class CartFragmentViewModel : ViewModel() {
@@ -31,5 +33,28 @@ class CartFragmentViewModel : ViewModel() {
 
     fun removeFromCart(product: Product) {
         repository.removeFromCart(product)
+    }
+
+    fun sendProductEvent(list: List<Product>) {
+
+        val myParams: HashMap<String, Any> = HashMap()
+
+        for (product in list) {
+
+            myParams["name"] = product.name.toString()
+            myParams["price"] = product.price.toString()
+            myParams["Image_URL"] = product.imageUrl.toString()
+
+            UserCom.getInstance().sendProductEvent(
+                product.uid.toString(),
+                ProductEventType.CHECKOUT,
+                myParams
+            )
+
+        }
+
+        // Add attributes and values
+
+
     }
 }

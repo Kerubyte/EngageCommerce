@@ -1,6 +1,7 @@
 package com.example.engagecommerce.ui.transaction.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,11 @@ import com.example.engagecommerce.adapter.OnProductClick
 import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.databinding.FragmentCartBinding
 import com.example.engagecommerce.utils.Utils
+import com.user.sdk.UserCom
+import com.user.sdk.events.ScreenName
 import java.text.DecimalFormat
 
-
+@ScreenName(name = "Cart")
 class CartFragment : RootFragment(), OnProductClick {
 
     private lateinit var cartViewModel: CartFragmentViewModel
@@ -36,6 +39,7 @@ class CartFragment : RootFragment(), OnProductClick {
 
         utils = Utils()
         cartViewModel = CartFragmentViewModel()
+        UserCom.getInstance().trackScreen(this)
         return binding.root
     }
 
@@ -52,9 +56,11 @@ class CartFragment : RootFragment(), OnProductClick {
 
         // Navigate to checkout passing cart value along
         binding.buttonToCheckout.setOnClickListener {
-            val cartValue = binding.textCartQuantityValue.text
+            val cartValue = binding.textCartTotalValue.text
             navigateToCheckout(cartValue.toString())
+            cartViewModel.sendProductEvent(adapter.cartList)
         }
+
     }
 
     // TODO

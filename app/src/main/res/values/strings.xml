@@ -55,6 +55,13 @@
     <string name="content_desc_cart_delete" />
     <string name="product_name_placeholder_text">Product Name</string>
     <string name="content_desc_product">Image of the product</string>
-    <string name="free_delivery_text">FREE Delivery</string>>
+    <string name="free_delivery_text">FREE Delivery</string>
+    <string name="default_cart_size_text">0</string>
+    <string name="order_button_text">Confirm and Order</string>
+    <string name="amount_to_pay_text">To pay:</string>
+    <string name="text_delivery_date">Arrives on</string>
+    <string name="header_first_name_placeholder">Rick</string>
+    <string name="last_name_placeholder">Doe</string>>
+    <string name="email_placeholder">Rick@example.com</string>
 
 </resources>

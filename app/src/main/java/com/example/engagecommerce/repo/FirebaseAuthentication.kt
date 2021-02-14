@@ -7,23 +7,36 @@ import com.example.engagecommerce.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.user.sdk.UserCom
+import com.user.sdk.customer.Customer
+import com.user.sdk.customer.CustomerUpdateCallback
+import com.user.sdk.customer.RegisterResponse
 
 class FirebaseAuthentication {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var cloud: FirebaseCloud = FirebaseCloud()
 
+    private val objectCustomerCallback = object : CustomerUpdateCallback {
+        override fun onSuccess(p0: RegisterResponse) {
+            Log.d("register", "UserCom Registered")
+        }
+
+        override fun onFailure(p0: Throwable) {
+            Log.d("register", "UserCom Failure")
+        }
+    }
+
     // Live Data for navigation
     private val _navigate = MutableLiveData<Boolean>()
     val navigate: LiveData<Boolean>
         get() = _navigate
 
-
     // Create User Account in Firebase Auth and add new User to Cloud Storage
     fun createAccount(email: String, password: String, firstName: String, lastName: String) {
 
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener() {
+            .addOnSuccessListener {
                 val user = User(
                     auth.currentUser!!.uid,
                     firstName = firstName,
@@ -31,13 +44,20 @@ class FirebaseAuthentication {
                     auth.currentUser!!.email,
                     listOf()
                 )
+                val customer = Customer()
+                    .id(auth.currentUser!!.uid)
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .email(email)
+
                 cloud.createNewUser(user)
+                UserCom.getInstance()
+                    .register(customer, objectCustomerCallback)
 
                 _navigate.value = true
             }
             .addOnFailureListener { exc ->
                 Log.d("register", exc.toString())
-
             }
     }
 
@@ -45,10 +65,14 @@ class FirebaseAuthentication {
     fun loginUser(email: String, password: String) {
 
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    _navigate.value = true
-                }
+            .addOnSuccessListener {
+                val customer = Customer()
+                    .id(auth.currentUser!!.uid)
+                    .email(email)
+
+                UserCom.getInstance()
+                    .register(customer, objectCustomerCallback)
+                _navigate.value = true
             }
             .addOnFailureListener { exc ->
                 Log.d("login", exc.toString())
@@ -58,6 +82,7 @@ class FirebaseAuthentication {
     // Sign out user
     fun signOut() {
         Firebase.auth.signOut()
+        UserCom.getInstance().logout()
         _navigate.value = true
     }
 

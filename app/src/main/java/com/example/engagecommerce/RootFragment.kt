@@ -1,15 +1,11 @@
 package com.example.engagecommerce
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.engagecommerce.ui.activity.MainActivity
 import com.example.engagecommerce.ui.transaction.cart.CartFragmentDirections
-import java.text.DecimalFormat
 
 abstract class RootFragment : Fragment() {
 

@@ -12,7 +12,10 @@ import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentLoginBinding
 import com.example.engagecommerce.repo.FirebaseAuthentication
+import com.user.sdk.UserCom
+import com.user.sdk.events.ScreenName
 
+@ScreenName(name = "Login")
 class LoginFragment : RootFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentLoginBinding
@@ -33,10 +36,6 @@ class LoginFragment : RootFragment(), View.OnClickListener {
         //Get Repository ViewModel to provide Firebase Auth
         viewModelAuth = FirebaseAuthentication()
 
-
-        binding.buttonLogin.setOnClickListener(this)
-        binding.textSignUpAction.setOnClickListener(this)
-
         viewModelAuth.navigate.observe(viewLifecycleOwner, {
             if (it) {
                 viewModelAuth.onDoneNavigating()
@@ -44,6 +43,9 @@ class LoginFragment : RootFragment(), View.OnClickListener {
             }
         })
 
+        binding.buttonLogin.setOnClickListener(this)
+        binding.textSignUpAction.setOnClickListener(this)
+        UserCom.getInstance().trackScreen(this)
         return binding.root
     }
 

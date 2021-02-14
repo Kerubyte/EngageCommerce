@@ -26,8 +26,11 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.user.sdk.UserCom
+import com.user.sdk.events.ScreenName
 import kotlinx.android.synthetic.main.fragment_title_screen.*
 
+@ScreenName(name = "Home")
 class TitleScreenFragment : RootFragment(), OnProductClick {
 
     private val titleScreenViewModel: TitleScreenViewModel by viewModels()
@@ -48,6 +51,7 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
         )
         auth = Firebase.auth
 
+        UserCom.getInstance().trackScreen(this)
         return binding.root
     }
 

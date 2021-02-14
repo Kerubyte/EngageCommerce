@@ -93,7 +93,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.2.1'
 
     // Marketing Automation sdk
-    implementation 'com.user:android-sdk:1.2.0'
+    implementation 'com.user:android-sdk:1.2.2'
 
 
 

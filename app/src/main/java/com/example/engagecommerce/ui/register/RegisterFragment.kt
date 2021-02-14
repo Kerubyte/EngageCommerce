@@ -2,6 +2,7 @@ package com.example.engagecommerce.ui.register
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
+import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentRegisterBinding
 import com.example.engagecommerce.repo.FirebaseAuthentication
+import com.user.sdk.UserCom
+import com.user.sdk.customer.Customer
+import com.user.sdk.customer.CustomerUpdateCallback
+import com.user.sdk.customer.RegisterResponse
+import com.user.sdk.events.ScreenName
 
+@ScreenName(name = "Register")
 class RegisterFragment : RootFragment(), View.OnClickListener {
 
-    private lateinit var viewModelAuth: FirebaseAuthentication
+    private lateinit var viewModel: RegisterViewModel
     private lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
@@ -27,18 +35,18 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
             container,
             false
         )
-        viewModelAuth = FirebaseAuthentication()
+        viewModel = RegisterViewModel()
 
-        binding.buttonRegister.setOnClickListener(this)
-        binding.textSignInAction.setOnClickListener(this)
-
-        viewModelAuth.navigate.observe(viewLifecycleOwner, {
+        viewModel.auth.navigate.observe(viewLifecycleOwner, {
             if (it) {
-                viewModelAuth.onDoneNavigating()
+                viewModel.auth.onDoneNavigating()
                 restartMainActivity()
             }
         })
 
+        binding.buttonRegister.setOnClickListener(this)
+        binding.textSignInAction.setOnClickListener(this)
+        UserCom.getInstance().trackScreen(this)
         return binding.root
     }
 
@@ -48,7 +56,7 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
         if (!validateForm()) {
             return
         }
-        viewModelAuth.createAccount(email, password, firstName, lastName)
+        viewModel.auth.createAccount(email, password, firstName, lastName)
     }
 
 
@@ -72,12 +80,6 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
             binding.editPasswordRegister.error = null
         }
         return valid
-    }
-
-    // Navigate to Title Fragment after registering
-    private fun navigateToHome() {
-        Navigation.findNavController(requireView())
-            .navigate(R.id.menuHome)
     }
 
     // Handle all of the clicks in the fragment

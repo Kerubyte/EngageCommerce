@@ -7,7 +7,7 @@
         android:id="@+id/layout_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".ui.activity.MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -53,11 +53,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginBottom="7dp"
+                    android:layout_marginBottom="6dp"
                     android:fontFamily="@font/muli"
-                    android:text="0"
+                    android:text="@string/default_cart_size_text"
                     android:textColor="@color/primaryTextColor"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/image_cart_action"
                     app:layout_constraintEnd_toEndOf="@+id/image_cart_action"
                     app:layout_constraintStart_toStartOf="@+id/image_cart_action"

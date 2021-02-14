@@ -2,20 +2,129 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/checkoutLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.transaction.CheckoutFragment">
 
-    <TextView
-        android:id="@+id/text_total_amount_to_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_add_to_cart_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.transaction.CheckoutFragment">
+
+        <TextView
+            android:id="@+id/text_total_amount_to_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/muli"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_price_order"
+            app:layout_constraintStart_toEndOf="@+id/text_price_order"
+            app:layout_constraintTop_toTopOf="@+id/text_price_order"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_first_name_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/muli"
+            android:text="@string/first_name_text"
+            android:textColor="@color/primaryTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_last_name_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/muli"
+            android:text="@string/last_name_text"
+            android:textColor="@color/primaryTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_first_name_order" />
+
+        <TextView
+            android:id="@+id/text_email_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/muli"
+            android:text="@string/email_text"
+            android:textColor="@color/primaryTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_last_name_order" />
+
+        <TextView
+            android:id="@+id/text_first_name_value_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/muli"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_first_name_order"
+            app:layout_constraintStart_toEndOf="@+id/text_first_name_order"
+            app:layout_constraintTop_toTopOf="@+id/text_first_name_order"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_last_name_value_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/muli"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_last_name_order"
+            app:layout_constraintStart_toEndOf="@+id/text_last_name_order"
+            app:layout_constraintTop_toTopOf="@+id/text_last_name_order"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_email_value_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/muli"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_email_order"
+            app:layout_constraintStart_toEndOf="@+id/text_email_order"
+            app:layout_constraintTop_toTopOf="@+id/text_email_order"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_price_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/muli"
+            android:text="@string/amount_to_pay_text"
+            android:textColor="@color/primaryTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_email_order" />
+
+        <Button
+            android:id="@+id/button_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/muli"
+            android:text="@string/order_button_text"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            app:icon="@drawable/ic_bag"
+            app:iconTint="@color/secondaryDarkColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

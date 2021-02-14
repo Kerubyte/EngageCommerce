@@ -1,37 +1,35 @@
-package com.example.engagecommerce
+package com.example.engagecommerce.ui.activity
 
-import android.app.Activity
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.example.engagecommerce.R
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.ActivityMainBinding
-import com.example.engagecommerce.databinding.DrawerHeaderLayoutBinding
-import com.example.engagecommerce.repo.FirebaseCloud
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.security.acl.Owner
+import com.user.sdk.events.ScreenName
+import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 
-
+@ScreenName(name = "Activity")
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
+    private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
-    private lateinit var repo: FirebaseCloud
+    private var snapshotListenerRegistration: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,17 +40,33 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             )
 
         auth = Firebase.auth
-        repo = FirebaseCloud()
+        viewModel = MainViewModel()
 
         // Drawer Menu
         navigationView = binding.layoutNavigationMenu
 
-        // Container to switch fragments in
         navController = Navigation.findNavController(
             this, R.id.navHostFragment
         )
 
         NavigationUI.setupWithNavController(navigationView, navController)
+
+        viewModel.user?.observe(this, { user ->
+            updateDrawerHeader(user)
+        })
+
+        // Listener to observe changes in current user and update Cart Size view
+        snapshotListenerRegistration = viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
+            error?.let {
+                Log.d("snapshotMain", it.message.toString())
+                return@addSnapshotListener
+            }
+            querySnapshot?.let {
+
+                val currentUser = it.toObject<User>()
+                updateCartSize(currentUser!!)
+            }
+        }
 
         binding.imageMenuAction.setOnClickListener(this)
         binding.imageProfileAction.setOnClickListener(this)
@@ -62,19 +76,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         setNavigationMenuContent()
-        val userDocument = repo.getCurrentUser()
+    }
 
-        userDocument?.addSnapshotListener { querySnapshot, error ->
-            error?.let {
-                Log.d("snapshot", it.message.toString())
-                return@addSnapshotListener
-            }
-            querySnapshot?.let {
-
-                val currentUser = it.toObject<User>()
-                updateCartSize(currentUser!!)
-            }
-        }
+    override fun onStop() {
+        super.onStop()
+        snapshotListenerRegistration?.remove()
     }
 
     override fun onBackPressed() {
@@ -127,9 +133,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateCartSize(user: User) {
-
         val cartSize = user.cart?.size
         binding.textCartQuantityMain.text = cartSize.toString()
+    }
 
+    private fun updateDrawerHeader(user: User) {
+        if (auth.currentUser != null) {
+            binding.layoutDrawer.userDataHeader.text_first_name_value_header.text = user.firstName
+            binding.layoutDrawer.userDataHeader.text_last_name_value_header.text = user.lastName
+            binding.layoutDrawer.userDataHeader.text_email_value_header.text = user.email
+        }
     }
 }
