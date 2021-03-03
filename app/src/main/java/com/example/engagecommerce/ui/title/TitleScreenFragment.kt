@@ -1,19 +1,12 @@
 package com.example.engagecommerce.ui.title
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
@@ -21,14 +14,11 @@ import com.example.engagecommerce.adapter.OnProductClick
 import com.example.engagecommerce.adapter.ProductAdapter
 import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.databinding.FragmentTitleScreenBinding
-import com.example.engagecommerce.repo.FirebaseAuthentication
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
-import kotlinx.android.synthetic.main.fragment_title_screen.*
 
 @ScreenName(name = "Home")
 class TitleScreenFragment : RootFragment(), OnProductClick {
@@ -63,7 +53,6 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
             adapter = productAdapter
         }
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

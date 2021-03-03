@@ -8,6 +8,55 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/image_profile_action"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/rick"
+        app:riv_oval="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/text_first_name_value_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/muli"
+        android:text="Dawid"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/image_profile_action"
+        app:layout_constraintStart_toStartOf="@+id/image_profile_action"
+        app:layout_constraintTop_toBottomOf="@+id/image_profile_action" />
+
+    <TextView
+        android:id="@+id/text_last_name_value_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/muli"
+        android:text="Tyburek"
+        android:textColor="@color/secondaryDarkColor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_email_value_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/muli"
+        android:text="sdej@user.com"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_first_name_value_profile"
+        app:layout_constraintStart_toStartOf="@+id/text_first_name_value_profile"
+        app:layout_constraintTop_toBottomOf="@+id/text_first_name_value_profile" />
+
     <Button
         android:id="@+id/button_sign_out"
         android:layout_width="0dp"
@@ -27,74 +76,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/secondaryColor" />
 
-    <TextView
-        android:id="@+id/text_first_name_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
-        android:fontFamily="@font/muli"
-        android:text="@string/first_name_text"
-        android:textColor="@color/primaryTextColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_last_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/muli"
-        android:text="@string/last_name_text"
-        android:textColor="@color/secondaryTextColor"
-        app:layout_constraintStart_toStartOf="@+id/text_first_name_profile"
-        app:layout_constraintTop_toBottomOf="@+id/text_first_name_profile" />
-
-    <TextView
-        android:id="@+id/text_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/muli"
-        android:text="@string/email_text"
-        android:textColor="@color/primaryTextColor"
-        app:layout_constraintStart_toStartOf="@+id/text_last_name"
-        app:layout_constraintTop_toBottomOf="@+id/text_last_name" />
-
-    <TextView
-        android:id="@+id/text_first_name_value_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/muli"
-        android:textColor="@color/secondaryDarkColor"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_first_name_profile"
-        app:layout_constraintStart_toEndOf="@+id/text_first_name_profile"
-        app:layout_constraintTop_toTopOf="@+id/text_first_name_profile" />
-
-    <TextView
-        android:id="@+id/text_last_name_value_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/muli"
-        android:textColor="@color/secondaryDarkColor"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_last_name"
-        app:layout_constraintStart_toEndOf="@+id/text_last_name"
-        app:layout_constraintTop_toTopOf="@+id/text_last_name" />
-
-    <TextView
-        android:id="@+id/text_email_value_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/muli"
-        android:textColor="@color/secondaryDarkColor"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_email"
-        app:layout_constraintStart_toEndOf="@+id/text_email"
-        app:layout_constraintTop_toTopOf="@+id/text_email" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

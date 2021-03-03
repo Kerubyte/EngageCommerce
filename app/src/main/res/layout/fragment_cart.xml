@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/divider_cart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,6 +96,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:enabled="false"
         app:strokeColor="#FFB300" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

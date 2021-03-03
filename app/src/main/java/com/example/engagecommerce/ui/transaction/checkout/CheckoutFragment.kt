@@ -1,33 +1,33 @@
 package com.example.engagecommerce.ui.transaction.checkout
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentCheckoutBinding
-import com.example.engagecommerce.databinding.FragmentCheckoutBindingImpl
+import com.example.engagecommerce.utils.Utils
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
-import java.util.*
 
 @ScreenName(name = "Checkout")
-class CheckoutFragment : RootFragment() {
+class CheckoutFragment : RootFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentCheckoutBinding
     private lateinit var viewModel: CheckoutViewModel
     private lateinit var viewModelFactory: CheckoutViewModelFactory
+    private lateinit var user: LiveData<User>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_checkout,
@@ -48,17 +48,26 @@ class CheckoutFragment : RootFragment() {
         })
 
         binding.textTotalAmountToPay.text = cartValueBundle
+        user = viewModel.user!!
 
+        binding.buttonOrder.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
+
         return binding.root
     }
 
+    override fun onClick(view: View?) {
+        when (view) {
+            binding.buttonOrder -> {
+                viewModel.createOrderFromCart(user.value?.cart)
+                viewModel.clearUserCart()
+                restartMainActivity()
+            }
+        }
+    }
+
     private fun bindUserData(user: User) {
-
-        val locale = Locale.getDefault()
-        binding.textFirstNameValueOrder.text = user.firstName?.capitalize(locale)
-        binding.textLastNameValueOrder.text = user.lastName?.capitalize(locale)
-        binding.textEmailValueOrder.text = user.email?.capitalize(locale)
-
+        binding.fname.text = user.firstName?.capitalize(Utils.locale)
+        binding.textView4.text = user.lastName?.capitalize(Utils.locale)
     }
 }

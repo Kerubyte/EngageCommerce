@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
@@ -16,7 +15,6 @@ class CartAdapter(private val listener: OnProductClick) :
     RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     val cartList = ArrayList<Product>()
-    private val utils = Utils()
 
     fun setCartProducts(list: List<Product>) {
         cartList.clear()
@@ -40,21 +38,21 @@ class CartAdapter(private val listener: OnProductClick) :
         bindCartData(holder)
     }
 
+    override fun getItemCount(): Int {
+        return cartList.size
+    }
+
     private fun bindCartData(holder: CartViewHolder) {
         val name = holder.itemView.findViewById<TextView>(R.id.text_product_name_cart)
         val price = holder.itemView.findViewById<TextView>(R.id.text_product_price_cart)
         val image = holder.itemView.findViewById<ImageView>(R.id.image_product_image_cart)
 
         name.text = cartList[holder.adapterPosition].name
-        price.text = utils.formatPrice.format(cartList[holder.adapterPosition].price)
+        price.text = Utils.formatPrice.format(cartList[holder.adapterPosition].price)
         Glide.with(holder.itemView)
             .load(cartList[holder.adapterPosition].imageUrl)
             .into(image)
      }
-
-    override fun getItemCount(): Int {
-        return cartList.size
-    }
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {

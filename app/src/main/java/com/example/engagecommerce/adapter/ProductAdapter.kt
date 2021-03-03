@@ -11,15 +11,10 @@ import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
 import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.utils.Utils
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ProductAdapter(private val listener: OnProductClick) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
-    private val utils = Utils()
     private val productsList = ArrayList<Product>()
 
     fun setProducts(list: List<Product>) {
@@ -46,12 +41,14 @@ class ProductAdapter(private val listener: OnProductClick) :
     private fun bindData(holder: ProductViewHolder) {
         val name = holder.itemView.findViewById<TextView>(R.id.text_product_name)
         val price = holder.itemView.findViewById<TextView>(R.id.text_product_price_cart)
+        val brand = holder.itemView.findViewById<TextView>(R.id.text_brand_value)
         val image = holder.itemView.findViewById<ImageView>(R.id.image_product_image)
         val deliveryOption = holder.itemView.findViewById<TextView>(R.id.text_free_delivery)
 
         name.text = productsList[holder.adapterPosition].name
         deliveryOption.isVisible = productsList[holder.adapterPosition].delivery
-        price.text = utils.formatPrice.format(productsList[holder.adapterPosition].price!!)
+        price.text = Utils.formatPrice.format(productsList[holder.adapterPosition].price!!)
+        brand.text = productsList[holder.adapterPosition].brand
         Glide.with(holder.itemView)
             .load(productsList[holder.adapterPosition].imageUrl)
             .into(image)

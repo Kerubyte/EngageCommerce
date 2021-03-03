@@ -63,5 +63,6 @@
     <string name="header_first_name_placeholder">Rick</string>
     <string name="last_name_placeholder">Doe</string>>
     <string name="email_placeholder">Rick@example.com</string>
+    <string name="brand_text">by</string>
 
 </resources>

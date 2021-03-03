@@ -1,17 +1,15 @@
 package com.example.engagecommerce.ui.login
 
-import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentLoginBinding
 import com.example.engagecommerce.repo.FirebaseAuthentication
+import com.example.engagecommerce.utils.Utils
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 
@@ -49,36 +47,6 @@ class LoginFragment : RootFragment(), View.OnClickListener {
         return binding.root
     }
 
-    // Login user
-    private fun loginUser(email: String, password: String) {
-        if (!validateForm()) {
-            return
-        }
-        viewModelAuth.loginUser(email, password)
-    }
-
-    // Validate if the required inputs are not empty
-    private fun validateForm(): Boolean {
-        var valid = true
-
-        val email = binding.editLoginEmail.text.toString()
-        if (TextUtils.isEmpty(email)) {
-            binding.editLoginEmail.error = "Required"
-            valid = false
-        } else {
-            binding.editLoginEmail.error = null
-        }
-
-        val password = binding.editLoginPassword.text.toString()
-        if (TextUtils.isEmpty(password)) {
-            binding.editLoginPassword.error = "Required"
-            valid = false
-        } else {
-            binding.editLoginPassword.error = null
-        }
-        return valid
-    }
-
     // Handle all of the clicks in the fragment
     override fun onClick(v: View?) {
         when (v) {
@@ -90,5 +58,15 @@ class LoginFragment : RootFragment(), View.OnClickListener {
             binding.textSignUpAction ->
                 navigateToRegister()
         }
+    }
+
+    // Login user
+    private fun loginUser(email: String, password: String) {
+        if (!Utils.validateFirstAndLastName(email, password)) {
+            binding.editLoginEmail.error = "Required"
+            binding.editLoginPassword.error = "Required"
+            return
+        }
+        viewModelAuth.loginUser(email, password)
     }
 }

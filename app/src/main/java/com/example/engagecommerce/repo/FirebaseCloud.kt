@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.data.User
+import com.example.engagecommerce.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
@@ -41,7 +42,7 @@ class FirebaseCloud {
                     .addOnSuccessListener {
                         if (auth.currentUser != null) {
                             val user = it.toObject(User::class.java)
-                            cloudResult.postValue(user)
+                            cloudResult.postValue(user!!)
                         }
                     }
                     .addOnFailureListener {
@@ -93,7 +94,7 @@ class FirebaseCloud {
                 .get()
                 .addOnSuccessListener {
                     val product = it.toObject(Product::class.java)
-                    cloudResult.postValue(product)
+                    cloudResult.postValue(product!!)
                 }
                 .addOnFailureListener {
                     Log.d("getSingleProduct", it.message.toString())
@@ -147,4 +148,29 @@ class FirebaseCloud {
             }
             return cloudResult
         }
+
+    fun clearUserCart() {
+
+        cloud.collection("users")
+            .document(auth.currentUser!!.uid)
+            .update(mapOf(
+                "cart" to FieldValue.delete()
+            ))
+    }
+
+    fun createNewOrder(list: List<String>) {
+
+        val timeNow = Utils.timeNow
+
+        val order = hashMapOf<String, Any>()
+        order["products"] = list
+
+        if (auth.currentUser != null) {
+            cloud.collection("orders")
+                .document(auth.currentUser?.uid!!)
+                .collection("orders")
+                .document(timeNow)
+                .set(order)
+        }
+    }
     }

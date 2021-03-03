@@ -1,6 +1,7 @@
 package com.example.engagecommerce
 
 import android.app.Application
+import com.example.engagecommerce.utils.Keys
 import com.user.sdk.UserCom
 
 class App : Application() {
@@ -9,9 +10,9 @@ class App : Application() {
         super.onCreate()
         UserCom.Builder(
             this,
-            "EweqN0IbQoDB7Nlud6pV2K35fAJa7VvQ4vMs9Mi93STX1vvgSXoOnVNFfPqZNpe4",
-            "4F8oIb",
-            "https://engagecommerce.user.com/"
+            Keys.apiKey,
+            Keys.domainKey,
+            Keys.baseUrl
         )
             .trackAllActivities(true)
             .build()

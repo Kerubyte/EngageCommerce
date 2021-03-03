@@ -13,13 +13,11 @@ class CartFragmentViewModel : ViewModel() {
     private val repository = FirebaseCloud()
     private val user = repository.getUserData()
 
-
     val userCart = user?.switchMap {
         repository.getProductsFromCart(it.cart)
     }
 
     fun calculateCartValue(list: List<Product>): Long {
-
         var cartValue = 0L
 
         if (list.isNotEmpty()) {
@@ -27,7 +25,6 @@ class CartFragmentViewModel : ViewModel() {
                 cartValue += product.price!!
             }
         }
-
         return cartValue
     }
 
@@ -35,7 +32,7 @@ class CartFragmentViewModel : ViewModel() {
         repository.removeFromCart(product)
     }
 
-    fun sendProductEvent(list: List<Product>) {
+    fun sendProductEvent(list: List<Product>, eventType: ProductEventType) {
 
         val myParams: HashMap<String, Any> = HashMap()
 
@@ -47,14 +44,9 @@ class CartFragmentViewModel : ViewModel() {
 
             UserCom.getInstance().sendProductEvent(
                 product.uid.toString(),
-                ProductEventType.CHECKOUT,
+                eventType,
                 myParams
             )
-
         }
-
-        // Add attributes and values
-
-
     }
 }

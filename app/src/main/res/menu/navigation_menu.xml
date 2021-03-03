@@ -8,6 +8,7 @@
         android:title="@string/home" />
 
     <group android:id="@+id/loggedInGroup">
+
         <item
             android:id="@+id/menuCart"
             android:title="@string/cart" />
@@ -22,6 +23,7 @@
     </group>
 
     <group android:id="@+id/unLoggedGroup">
+
         <item
             android:id="@+id/menuLogin"
             android:title="@string/login" />
@@ -31,19 +33,15 @@
             android:title="@string/register" />
     </group>
 
-    <item android:title="@string/additional">
+    <group android:id="@+id/settingsGroups">
 
-        <menu>
+        <item
+            android:id="@+id/menuSettings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/menuAbout"
+            android:title="@string/about_us" />
 
-            <item
-                android:id="@+id/menuSettings"
-                android:title="@string/settings" />
-            <item
-                android:id="@+id/menuAbout"
-                android:title="@string/about_us" />
-
-        </menu>
-
-    </item>
+    </group>
 
 </menu>

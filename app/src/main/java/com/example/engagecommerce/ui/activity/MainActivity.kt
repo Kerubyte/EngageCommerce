@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         binding = DataBindingUtil
             .setContentView(
                 this,
@@ -51,36 +52,37 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         NavigationUI.setupWithNavController(navigationView, navController)
 
-        viewModel.user?.observe(this, { user ->
-            updateDrawerHeader(user)
-        })
-
-        // Listener to observe changes in current user and update Cart Size view
-        snapshotListenerRegistration = viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
-            error?.let {
-                Log.d("snapshotMain", it.message.toString())
-                return@addSnapshotListener
-            }
-            querySnapshot?.let {
-
-                val currentUser = it.toObject<User>()
-                updateCartSize(currentUser!!)
-            }
-        }
-
         binding.imageMenuAction.setOnClickListener(this)
         binding.imageProfileAction.setOnClickListener(this)
         binding.imageCartAction.setOnClickListener(this)
     }
 
     override fun onStart() {
-        super.onStart()
         setNavigationMenuContent()
+
+        // Listener to observe changes in current user and update Cart Size view
+        snapshotListenerRegistration =
+            viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
+                error?.let {
+                    Log.d("snapshotMain", it.message.toString())
+                    return@addSnapshotListener
+                }
+                querySnapshot?.let {
+
+                    val currentUser = it.toObject<User>()
+                    updateCartSize(currentUser!!)
+                }
+            }
+
+        viewModel.user?.observe(this, { user ->
+            updateDrawerHeader(user)
+        })
+        super.onStart()
     }
 
     override fun onStop() {
-        super.onStop()
         snapshotListenerRegistration?.remove()
+        super.onStop()
     }
 
     override fun onBackPressed() {
@@ -104,7 +106,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 else navigateToLogin()
         }
     }
-
 
     private fun openDrawerMenu() {
         binding.layoutDrawer.openDrawer(GravityCompat.START)
@@ -134,7 +135,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun updateCartSize(user: User) {
         val cartSize = user.cart?.size
-        binding.textCartQuantityMain.text = cartSize.toString()
+
+        if (user.cart.isNullOrEmpty()) {
+            binding.textCartQuantityMain.text = "0"
+        } else {
+            binding.textCartQuantityMain.text = cartSize.toString()
+        }
     }
 
     private fun updateDrawerHeader(user: User) {

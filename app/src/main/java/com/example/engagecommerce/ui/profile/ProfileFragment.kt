@@ -10,10 +10,8 @@ import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentProfileBinding
-import com.example.engagecommerce.repo.FirebaseAuthentication
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
-import com.user.sdk.events.UserComEvent
 import java.util.*
 
 @ScreenName(name = "Profile")
@@ -62,8 +60,10 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
 
     private fun bindUserData(user: User) {
         val locale = Locale.getDefault()
-        binding.textFirstNameValueProfile.text = user.firstName?.capitalize(locale)
-        binding.textLastNameValueProfile.text = user.lastName?.capitalize(locale)
+
+        val firstName = user.firstName?.capitalize(locale)
+        val lastName = user.lastName?.capitalize(locale)
+        binding.textFirstNameValueProfile.text = firstName + lastName
         binding.textEmailValueProfile.text = user.email?.capitalize(locale)
     }
 }

@@ -16,7 +16,9 @@
     app:cardMaxElevation="@dimen/custom_card_elevation"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="false"
-    app:contentPadding="5dp">
+    app:contentPaddingBottom="6dp"
+    app:contentPaddingLeft="3dp"
+    app:contentPaddingRight="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/list_row_cart"
@@ -60,25 +62,45 @@
             android:id="@+id/text_free_delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:fontFamily="@font/muli"
             android:text="@string/free_delivery_text"
             android:textColor="#403F3E"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:visibility="visible"
-            app:layout_constraintStart_toStartOf="@+id/text_product_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_product_name" />
+            app:layout_constraintStart_toStartOf="@+id/text_product_price_cart"
+            app:layout_constraintTop_toBottomOf="@+id/text_product_price_cart" />
 
         <TextView
             android:id="@+id/text_product_price_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
             android:fontFamily="@font/muli"
             android:text="@string/price_desc"
             android:textColor="@color/secondaryDarkColor"
             app:layout_constraintStart_toStartOf="@+id/text_product_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_free_delivery" />
+            app:layout_constraintTop_toBottomOf="@+id/text_brand" />
+
+        <TextView
+            android:id="@+id/text_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:text="@string/brand_text"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/text_product_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_product_name" />
+
+        <TextView
+            android:id="@+id/text_brand_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/muli"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_brand"
+            app:layout_constraintStart_toEndOf="@+id/text_brand" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

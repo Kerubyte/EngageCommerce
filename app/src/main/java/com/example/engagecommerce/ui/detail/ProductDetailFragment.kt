@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
@@ -18,7 +17,6 @@ import com.example.engagecommerce.repo.FirebaseCloud
 import com.example.engagecommerce.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -34,10 +32,8 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
     private lateinit var binding: FragmentDetailProductBinding
     private lateinit var repository: FirebaseCloud
     private lateinit var auth: FirebaseAuth
-    private lateinit var utils: Utils
     private lateinit var product: Product
     private var snapshotListenerRegistration: ListenerRegistration? = null
-    private var currentUser: DocumentReference? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +47,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         )
         auth = Firebase.auth
         repository = FirebaseCloud()
-        utils = Utils()
-        currentUser = viewModel.currentUser
 
         viewModelFactory = ProductDetailViewModelFactory(
             ProductDetailFragmentArgs
@@ -70,7 +64,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         })
 
         // Listener to observe changes in current user and check for Product in cart
-        snapshotListenerRegistration = currentUser?.addSnapshotListener { querySnapshot, error ->
+        snapshotListenerRegistration = viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
             error?.let {
                 Log.d("snapshotProduct", it.message.toString())
                 return@addSnapshotListener
@@ -84,41 +78,13 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
 
         binding.buttonAddToCart.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
+
         return binding.root
     }
 
     override fun onStop() {
         super.onStop()
         snapshotListenerRegistration?.remove()
-    }
-
-    // Populate view with Product data
-    private fun bindProductData(product: Product) {
-        binding.textProductNameDetail.text = product.name
-        binding.textProductDescriptionDetail.text = product.description
-        binding.textProductPriceDetail.text = utils.formatPrice.format(product.price)
-        val image = binding.imageProductImageDetaills
-        Glide.with(requireView())
-            .load(product.imageUrl)
-            .into(image)
-    }
-
-    // Check if viewed product is already in cart
-    private fun checkForProductInCart(currentUser: User): Boolean {
-        val cart = currentUser.cart
-        val productUid = ProductDetailFragmentArgs.fromBundle(requireArguments()).productUid
-
-        return if (cart != null) productUid !in cart
-        else true
-    }
-
-    // Enable or Disable 'add to cart' button
-    private fun setButtonState(state: Boolean) {
-
-        val button = binding.buttonAddToCart
-        button.isEnabled = state
-        if (state) button.text = getString(R.string.button_add_to_cart_text)
-        else button.text = getString(R.string.button_in_cart_text)
     }
 
     // Handle clicks in the fragment
@@ -140,6 +106,33 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
                     setButtonState(false)
                 }
         }
+    }
 
+    // Populate view with Product data
+    private fun bindProductData(product: Product) {
+        binding.textProductNameDetail.text = product.name
+        binding.textProductDescriptionDetail.text = product.description
+        binding.textProductPriceDetail.text = Utils.formatPrice.format(product.price)
+        val image = binding.imageProductImageDetaills
+        Glide.with(requireView())
+            .load(product.imageUrl)
+            .into(image)
+    }
+
+    // Check if viewed product is already in cart
+    private fun checkForProductInCart(currentUser: User): Boolean {
+        val cart = currentUser.cart
+        val productUid = ProductDetailFragmentArgs.fromBundle(requireArguments()).productUid
+
+        return if (cart != null) productUid !in cart
+        else true
+    }
+
+    // Enable or Disable 'add to cart' button
+    private fun setButtonState(state: Boolean) {
+        val button = binding.buttonAddToCart
+        button.isEnabled = state
+        if (state) button.text = getString(R.string.button_add_to_cart_text)
+        else button.text = getString(R.string.button_in_cart_text)
     }
 }

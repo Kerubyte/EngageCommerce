@@ -46,23 +46,24 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/image_cart_action"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black" />
+                    app:tint="@color/primaryTextColor" />
 
                 <TextView
                     android:id="@+id/text_cart_quantity_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="9dp"
                     android:fontFamily="@font/muli"
                     android:text="@string/default_cart_size_text"
                     android:textColor="@color/primaryTextColor"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/image_cart_action"
                     app:layout_constraintEnd_toEndOf="@+id/image_cart_action"
                     app:layout_constraintStart_toStartOf="@+id/image_cart_action"
                     app:layout_constraintTop_toTopOf="@+id/image_cart_action"
-                    app:layout_constraintVertical_bias="0.60" />
+                    app:layout_constraintVertical_bias="0.57" />
 
                 <ImageView
                     android:id="@+id/image_cart_action"
@@ -70,7 +71,7 @@
                     android:layout_height="32dp"
                     android:layout_marginEnd="16dp"
                     android:contentDescription="@string/cart_button"
-                    android:src="@drawable/ic_cart2"
+                    android:src="@drawable/ic_cart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -96,9 +97,11 @@
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/layout_navigation_menu"
             style="@style/primaryTextStyle"
+            android:theme="@style/NavigationView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:maxWidth="300dp"
             app:headerLayout="@layout/drawer_header_layout"
             app:itemIconTint="@color/secondaryColor"
             app:itemTextAppearance="@style/primaryTextStyle"
