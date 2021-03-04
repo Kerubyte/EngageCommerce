@@ -67,7 +67,9 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
     }
 
     private fun bindUserData(user: User) {
-        binding.fname.text = user.firstName?.capitalize(Utils.locale)
-        binding.textView4.text = user.lastName?.capitalize(Utils.locale)
+        val locale = Utils.locale
+
+        binding.textFirstNameValue.text = user.firstName?.capitalize(locale)
+        binding.textLastNameValue.text = user.lastName?.capitalize(locale)
     }
 }
