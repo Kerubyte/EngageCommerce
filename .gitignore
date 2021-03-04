@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/kotlin/com/example/engagecommerce/utils/Keys.kt
