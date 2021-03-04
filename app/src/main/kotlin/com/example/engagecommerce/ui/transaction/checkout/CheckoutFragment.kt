@@ -22,6 +22,7 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
     private lateinit var viewModel: CheckoutViewModel
     private lateinit var viewModelFactory: CheckoutViewModelFactory
     private lateinit var user: LiveData<User>
+    private lateinit var cartValueBundle: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +36,7 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
             false
         )
 
-        val cartValueBundle = CheckoutFragmentArgs
+        cartValueBundle = CheckoutFragmentArgs
             .fromBundle(requireArguments())
             .cartValue
 
@@ -59,7 +60,8 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view) {
             binding.buttonOrder -> {
-                viewModel.createOrderFromCart(user.value?.cart)
+                val userCart = user.value?.cart
+                viewModel.createOrderFromCart(userCart, cartValueBundle)
                 viewModel.clearUserCart()
                 restartMainActivity()
             }

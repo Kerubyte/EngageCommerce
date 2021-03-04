@@ -158,12 +158,13 @@ class FirebaseCloud {
             ))
     }
 
-    fun createNewOrder(list: List<String>) {
+    fun createNewOrder(list: List<String>, value: String) {
 
         val timeNow = Utils.timeNow
 
         val order = hashMapOf<String, Any>()
         order["products"] = list
+        order["value"] = value
 
         if (auth.currentUser != null) {
             cloud.collection("orders")

@@ -13,9 +13,9 @@ class CheckoutViewModel(cartValue: String) : ViewModel() {
         repository.clearUserCart()
     }
 
-    fun createOrderFromCart(list: List<String>?) {
+    fun createOrderFromCart(list: List<String>?, value: String) {
         if (list != null) {
-            repository.createNewOrder(list)
+            repository.createNewOrder(list, value)
         }
     }
 
