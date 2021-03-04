@@ -28,7 +28,6 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
     private lateinit var binding: FragmentTitleScreenBinding
     private lateinit var auth: FirebaseAuth
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
