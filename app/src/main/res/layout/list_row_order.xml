@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_card_view_order"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background"
+    android:focusable="auto"
+    app:cardBackgroundColor="@color/primaryColor"
+    app:cardCornerRadius="@dimen/cardview_custom_radius"
+    app:cardElevation="@dimen/custom_card_elevation"
+    app:cardMaxElevation="@dimen/custom_card_elevation"
+    app:cardPreventCornerOverlap="true"
+    app:contentPaddingBottom="6dp"
+    app:contentPaddingLeft="3dp"
+    app:contentPaddingRight="3dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_row_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background">
+
+        <TextView
+            android:id="@+id/text_order_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/muli"
+            android:text="TextView"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/primaryTextColor"
+            app:layout_constraintBottom_toTopOf="@+id/text_order_timestamp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_order_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="TextView"
+            android:textAppearance="@style/primaryTextStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/text_order_value" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -11,7 +11,6 @@ object Utils {
 
     val locale: Locale = Locale.UK
     val formatPrice: NumberFormat = NumberFormat.getCurrencyInstance(locale)
-    val timeNow = Calendar.getInstance().time.toString()
 
     // Validate if the required inputs are not empty and correctly formatted
     fun validateEmailAndPassword(email: String, password: String): Boolean {
