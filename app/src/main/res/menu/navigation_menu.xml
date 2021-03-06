@@ -3,37 +3,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menuHome"
+        android:id="@+id/titleFragment"
         android:enabled="true"
         android:title="@string/home" />
 
     <group android:id="@+id/loggedInGroup">
 
         <item
-            android:id="@+id/menuCart"
+            android:id="@+id/cartFragment"
             android:title="@string/cart" />
 
         <item
-            android:id="@+id/menuOrders"
+            android:id="@+id/ordersFragment"
             android:title="@string/orders" />
 
         <item
-            android:id="@+id/menuProfile"
+            android:id="@+id/profileFragment"
             android:title="@string/profile" />
     </group>
 
     <group android:id="@+id/unLoggedGroup">
 
         <item
-            android:id="@+id/menuLogin"
+            android:id="@+id/loginFragment"
             android:title="@string/login" />
 
         <item
-            android:id="@+id/menuRegister"
+            android:id="@+id/registerFragment"
             android:title="@string/register" />
     </group>
 
-    <group android:id="@+id/settingsGroups">
+    <group android:id="@+id/settingsGroup">
 
         <item
             android:id="@+id/menuSettings"

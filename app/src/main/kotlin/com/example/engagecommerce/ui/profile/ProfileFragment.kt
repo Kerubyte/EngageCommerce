@@ -31,6 +31,7 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
             container,
             false
         )
+        setAnimation()
 
         // Observe Live Data to restart Activity on logout
         profileViewModel.auth.navigate.observe(viewLifecycleOwner, {
@@ -64,7 +65,7 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
 
         val firstName = user.firstName?.capitalize(locale)
         val lastName = user.lastName?.capitalize(locale)
-        binding.textFirstNameValueProfile.text = "$firstName + $lastName"
+        binding.textFirstNameValueProfile.text = "$firstName $lastName"
         binding.textEmailValueProfile.text = user.email?.capitalize(locale)
     }
 }

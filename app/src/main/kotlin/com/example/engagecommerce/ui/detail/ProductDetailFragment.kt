@@ -45,6 +45,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             container,
             false
         )
+        setAnimation()
         auth = Firebase.auth
         repository = FirebaseCloud()
 

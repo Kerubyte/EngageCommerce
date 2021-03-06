@@ -1,6 +1,5 @@
 package com.example.engagecommerce.repo
 
-import android.icu.util.Calendar
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -159,9 +158,7 @@ class FirebaseCloud {
             )
     }
 
-    fun createNewOrder(list: List<String>, value: String) {
-
-        val timeNow = Calendar.getInstance().time.toString()
+    fun createNewOrder(list: List<String>, value: String, timeNow: String) {
 
         val order = hashMapOf<String, Any>()
         order["products"] = list

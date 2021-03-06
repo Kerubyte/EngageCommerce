@@ -34,6 +34,7 @@ class CartFragment : RootFragment(), OnProductClick, View.OnClickListener {
             container,
             false
         )
+        setAnimation()
 
         cartViewModel = CartFragmentViewModel()
         binding.buttonToCheckout.setOnClickListener(this)

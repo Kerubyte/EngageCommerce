@@ -1,6 +1,7 @@
 package com.example.engagecommerce.ui.login
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentLoginBinding
 import com.example.engagecommerce.repo.FirebaseAuthentication
 import com.example.engagecommerce.utils.Utils
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.SlideDistanceProvider
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 
@@ -30,6 +33,7 @@ class LoginFragment : RootFragment(), View.OnClickListener {
             container,
             false
         )
+        setAnimation()
 
         //Get Repository ViewModel to provide Firebase Auth
         viewModelAuth = FirebaseAuthentication()

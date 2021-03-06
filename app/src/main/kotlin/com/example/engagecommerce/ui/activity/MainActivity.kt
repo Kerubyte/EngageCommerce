@@ -85,8 +85,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        if (binding.layoutDrawer.isDrawerOpen(GravityCompat.START)) {
-            binding.layoutDrawer.closeDrawer(GravityCompat.START)
+        if (isDrawerOpen()) {
+            closeDrawerMenu()
         } else {
             super.onBackPressed()
         }
@@ -110,16 +110,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.layoutDrawer.openDrawer(GravityCompat.START)
     }
 
+    private fun closeDrawerMenu() {
+        binding.layoutDrawer.closeDrawer(GravityCompat.START)
+    }
+
+    private fun isDrawerOpen(): Boolean {
+        return binding.layoutDrawer.isDrawerOpen(GravityCompat.START)
+    }
+
     private fun navigateToProfile() {
-        navController.navigate(R.id.menuProfile)
+        navController.navigate(R.id.profileFragment)
     }
 
     private fun navigateToCart() {
-        navController.navigate(R.id.menuCart)
+        navController.navigate(R.id.cartFragment)
     }
 
     private fun navigateToLogin() {
-        navController.navigate(R.id.menuLogin)
+        navController.navigate(R.id.loginFragment)
     }
 
     private fun setNavigationMenuContent() {

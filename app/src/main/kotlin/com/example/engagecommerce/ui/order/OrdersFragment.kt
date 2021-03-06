@@ -10,10 +10,8 @@ import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.adapter.OrderAdapter
 import com.example.engagecommerce.databinding.FragmentOrdersBinding
-import com.example.engagecommerce.repo.FirebaseCloud
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
-import kotlinx.android.synthetic.main.fragment_orders.*
 
 @ScreenName(name = "Orders")
 class OrdersFragment : RootFragment() {
@@ -30,7 +28,9 @@ class OrdersFragment : RootFragment() {
             inflater,
             R.layout.fragment_orders,
             container,
-            false)
+            false
+        )
+        setAnimation()
 
         ordersViewModel = OrdersViewModel()
         UserCom.getInstance().trackScreen(this)

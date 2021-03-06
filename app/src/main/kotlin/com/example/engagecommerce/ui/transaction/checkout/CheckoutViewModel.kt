@@ -1,5 +1,6 @@
 package com.example.engagecommerce.ui.transaction.checkout
 
+import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import com.example.engagecommerce.repo.FirebaseCloud
 
@@ -15,8 +16,8 @@ class CheckoutViewModel(cartValue: String) : ViewModel() {
 
     fun createOrderFromCart(list: List<String>?, value: String) {
         if (list != null) {
-            repository.createNewOrder(list, value)
+            val timeNow = Calendar.getInstance().time.toString()
+            repository.createNewOrder(list, value, timeNow)
         }
     }
-
 }

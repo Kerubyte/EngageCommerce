@@ -38,6 +38,7 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
             container,
             false
         )
+        setAnimation()
         auth = Firebase.auth
 
         UserCom.getInstance().trackScreen(this)

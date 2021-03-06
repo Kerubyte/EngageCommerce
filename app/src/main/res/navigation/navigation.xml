@@ -3,19 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/menuHome">
+    app:startDestination="@id/titleFragment">
     <fragment
-        android:id="@+id/menuHome"
+        android:id="@+id/titleFragment"
         android:name="com.example.engagecommerce.ui.title.TitleScreenFragment"
         android:label="fragment_title_screen"
         tools:layout="@layout/fragment_title_screen" >
         <action
             android:id="@+id/action_titleScreenFragment_to_productDetailFragment"
-            app:destination="@id/productDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -24,50 +20,50 @@
         tools:layout="@layout/fragment_detail_product" >
         <action
             android:id="@+id/action_productDetailFragment_to_titleScreenFragment"
-            app:destination="@id/menuHome" />
+            app:destination="@id/titleFragment" />
         <argument android:name="productUid" />
     </fragment>
     <fragment
-        android:id="@+id/menuLogin"
+        android:id="@+id/loginFragment"
         android:name="com.example.engagecommerce.ui.login.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login" >
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_menuLogin_to_menuRegister"
-            app:destination="@id/menuRegister" />
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/menuRegister"
+        android:id="@+id/registerFragment"
         android:name="com.example.engagecommerce.ui.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_menuRegister_to_menuLogin"
-            app:destination="@id/menuLogin" />
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/menuCart"
+        android:id="@+id/cartFragment"
         android:name="com.example.engagecommerce.ui.transaction.cart.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_menuCart_to_checkoutFragment"
-            app:destination="@id/menuCheckout" />
+            app:destination="@id/checkoutFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/menuCheckout"
+        android:id="@+id/checkoutFragment"
         android:name="com.example.engagecommerce.ui.transaction.checkout.CheckoutFragment"
         android:label="fragment_checkout"
         tools:layout="@layout/fragment_checkout" >
         <argument android:name="cartValue" />
     </fragment>
     <fragment
-        android:id="@+id/menuProfile"
+        android:id="@+id/profileFragment"
         android:name="com.example.engagecommerce.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/menuOrders"
+        android:id="@+id/ordersFragment"
         android:name="com.example.engagecommerce.ui.order.OrdersFragment"
-        android:label="OrdersFragment" />
+        android:label="fragment_orders" />
 </navigation>

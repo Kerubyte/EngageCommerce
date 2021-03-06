@@ -35,7 +35,8 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
             container,
             false
         )
-
+        setAnimation()
+        
         cartValueBundle = CheckoutFragmentArgs
             .fromBundle(requireArguments())
             .cartValue
