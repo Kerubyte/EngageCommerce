@@ -1,7 +1,6 @@
 package com.example.engagecommerce.ui.login
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentLoginBinding
 import com.example.engagecommerce.repo.FirebaseAuthentication
 import com.example.engagecommerce.utils.Utils
-import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.SlideDistanceProvider
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 
@@ -35,7 +32,6 @@ class LoginFragment : RootFragment(), View.OnClickListener {
         )
         setAnimation()
 
-        //Get Repository ViewModel to provide Firebase Auth
         viewModelAuth = FirebaseAuthentication()
 
         viewModelAuth.navigate.observe(viewLifecycleOwner, {
@@ -51,7 +47,6 @@ class LoginFragment : RootFragment(), View.OnClickListener {
         return binding.root
     }
 
-    // Handle all of the clicks in the fragment
     override fun onClick(v: View?) {
         when (v) {
             binding.buttonLogin ->
@@ -64,7 +59,6 @@ class LoginFragment : RootFragment(), View.OnClickListener {
         }
     }
 
-    // Login user
     private fun loginUser(email: String, password: String) {
         if (!Utils.validateFirstAndLastName(email, password)) {
             binding.editLoginEmail.error = "Required"

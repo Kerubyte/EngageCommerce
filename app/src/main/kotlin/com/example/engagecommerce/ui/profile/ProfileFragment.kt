@@ -33,7 +33,6 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
         )
         setAnimation()
 
-        // Observe Live Data to restart Activity on logout
         profileViewModel.auth.navigate.observe(viewLifecycleOwner, {
             if (it) {
                 profileViewModel.auth.onDoneNavigating()
@@ -41,7 +40,6 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
             }
         })
 
-        // Observe current user to bind data to the view
         profileViewModel.user?.observe(viewLifecycleOwner, { user ->
             bindUserData(user)
         })
@@ -51,7 +49,6 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
         return binding.root
     }
 
-    // Handle all of the clicks in the fragment
     override fun onClick(view: View?) {
         when (view) {
             binding.buttonSignOut -> {

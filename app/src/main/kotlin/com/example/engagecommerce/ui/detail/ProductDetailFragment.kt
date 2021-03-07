@@ -57,14 +57,13 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductDetailViewModel::class.java)
 
-        // Set observer to attach product data to the view
+
         viewModel.product.observe(viewLifecycleOwner, {
             bindProductData(it)
             viewModel.sendProductEvent(it, ProductEventType.DETAIL)
             product = viewModel.product.value!!
         })
 
-        // Listener to observe changes in current user and check for Product in cart
         snapshotListenerRegistration = viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
             error?.let {
                 Log.d("snapshotProduct", it.message.toString())
@@ -88,7 +87,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         snapshotListenerRegistration?.remove()
     }
 
-    // Handle clicks in the fragment
     override fun onClick(view: View?) {
         when (view) {
             binding.buttonAddToCart ->
@@ -109,7 +107,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         }
     }
 
-    // Populate view with Product data
     private fun bindProductData(product: Product) {
         binding.textProductNameDetail.text = product.name
         binding.textProductDescriptionDetail.text = product.description
@@ -120,7 +117,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             .into(image)
     }
 
-    // Check if viewed product is already in cart
     private fun checkForProductInCart(currentUser: User): Boolean {
         val cart = currentUser.cart
         val productUid = ProductDetailFragmentArgs.fromBundle(requireArguments()).productUid
@@ -129,7 +125,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         else true
     }
 
-    // Enable or Disable 'add to cart' button
     private fun setButtonState(state: Boolean) {
         val button = binding.buttonAddToCart
         button.isEnabled = state

@@ -61,12 +61,10 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
         })
     }
 
-    // Run  navigation function on adapter item click
     override fun onProductClick(product: Product, position: Int) {
         openProductDetails(product.uid!!)
     }
 
-    // Navigate to product detail fragment
     private fun openProductDetails(productUid: String) {
         findNavController().navigate(
             TitleScreenFragmentDirections

@@ -67,7 +67,6 @@ class CartFragment : RootFragment(), OnProductClick, View.OnClickListener {
         }
     }
 
-    // Remove product from cart on 'remove icon' click
     override fun onProductClick(product: Product, position: Int) {
         cartViewModel.removeFromCart(product)
         adapter.removeFromCart(product, position)
@@ -75,7 +74,6 @@ class CartFragment : RootFragment(), OnProductClick, View.OnClickListener {
         updateCart()
     }
 
-    // Bind cart quantity and value to view
     private fun updateCart() {
         val productsInCartList = adapter.cartList
         val cartValue = cartViewModel.calculateCartValue(productsInCartList)
@@ -90,7 +88,6 @@ class CartFragment : RootFragment(), OnProductClick, View.OnClickListener {
     }
 
     private fun checkIfCartIsEmpty(list: ArrayList<Product>) {
-
         if (!list.isNullOrEmpty()) setButtonState(true) else setButtonState(false)
     }
 

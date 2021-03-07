@@ -21,7 +21,6 @@ class ProductDetailViewModel(productUid: String) : ViewModel() {
 
         val myParams: HashMap<String, Any> = HashMap()
 
-        // Add attributes and values
         myParams["name"] = product.name.toString()
         myParams["price"] = product.price.toString()
         myParams["Image_URL"] = product.imageUrl.toString()

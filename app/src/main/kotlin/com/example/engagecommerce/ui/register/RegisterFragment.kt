@@ -47,7 +47,6 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
         return binding.root
     }
 
-    // Handle all of the clicks in the fragment
     override fun onClick(v: View) {
         when (v) {
             binding.buttonRegister -> {
@@ -64,7 +63,6 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
         }
     }
 
-    // Create User
     private fun createUser(email: String, password: String, firstName: String, lastName: String) {
 
         if (!Utils.validateEmailAndPassword(email, password)) {

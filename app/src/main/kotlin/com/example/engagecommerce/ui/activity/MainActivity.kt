@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         auth = Firebase.auth
         viewModel = MainViewModel()
 
-        // Drawer Menu
         navigationView = binding.layoutNavigationMenu
 
         navController = Navigation.findNavController(
@@ -57,9 +56,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onStart() {
+        super.onStart()
         setNavigationMenuContent()
 
-        // Listener to observe changes in current user and update Cart Size view
         snapshotListenerRegistration =
             viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
                 error?.let {
@@ -76,12 +75,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.user?.observe(this, { user ->
             updateDrawerHeader(user)
         })
-        super.onStart()
     }
 
     override fun onStop() {
-        snapshotListenerRegistration?.remove()
         super.onStop()
+        snapshotListenerRegistration?.remove()
     }
 
     override fun onBackPressed() {
@@ -92,7 +90,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    // Handle Toolbar interactions
     override fun onClick(v: View?) {
         when (v) {
             binding.imageMenuAction ->

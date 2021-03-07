@@ -7,6 +7,4 @@ class OrdersViewModel : ViewModel() {
 
     private val repository = FirebaseCloud()
     val orders = repository.getOrders()
-
-
 }

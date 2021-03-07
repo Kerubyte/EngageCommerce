@@ -12,7 +12,6 @@ object Utils {
     val locale: Locale = Locale.UK
     val formatPrice: NumberFormat = NumberFormat.getCurrencyInstance(locale)
 
-    // Validate if the required inputs are not empty and correctly formatted
     fun validateEmailAndPassword(email: String, password: String): Boolean {
         var valid = true
 
