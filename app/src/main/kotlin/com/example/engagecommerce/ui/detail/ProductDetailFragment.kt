@@ -32,7 +32,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
     private lateinit var binding: FragmentDetailProductBinding
     private lateinit var repository: FirebaseCloud
     private lateinit var auth: FirebaseAuth
-    private lateinit var product: Product
     private var snapshotListenerRegistration: ListenerRegistration? = null
 
     override fun onCreateView(
@@ -57,11 +56,9 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductDetailViewModel::class.java)
 
-
         viewModel.product.observe(viewLifecycleOwner, {
             bindProductData(it)
-            viewModel.sendProductEvent(it, ProductEventType.DETAIL)
-            product = viewModel.product.value!!
+            viewModel.sendProductEvent(ProductEventType.DETAIL)
         })
 
         snapshotListenerRegistration = viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
@@ -71,14 +68,12 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             }
             querySnapshot?.let {
                 val user = it.toObject<User>()
-                val state = checkForProductInCart(user!!)
-                setButtonState(state)
+                val state = viewModel.checkForProductInCart(user?.cart)
+                enableAddToCartButton(state)
             }
         }
-
         binding.buttonAddToCart.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
-
         return binding.root
     }
 
@@ -93,16 +88,10 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
                 if (auth.currentUser == null) {
                     navigateToLogin()
                 } else {
-                    viewModel.addToCart(
-                        ProductDetailFragmentArgs
-                            .fromBundle(requireArguments())
-                            .productUid
-                    )
+                    viewModel.addToCart()
                     viewModel.sendProductEvent(
-                        product,
                         ProductEventType.ADD_TO_CART
                     )
-                    setButtonState(false)
                 }
         }
     }
@@ -117,15 +106,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             .into(image)
     }
 
-    private fun checkForProductInCart(currentUser: User): Boolean {
-        val cart = currentUser.cart
-        val productUid = ProductDetailFragmentArgs.fromBundle(requireArguments()).productUid
-
-        return if (cart != null) productUid !in cart
-        else true
-    }
-
-    private fun setButtonState(state: Boolean) {
+    private fun enableAddToCartButton(state: Boolean) {
         val button = binding.buttonAddToCart
         button.isEnabled = state
         if (state) button.text = getString(R.string.button_add_to_cart_text)
