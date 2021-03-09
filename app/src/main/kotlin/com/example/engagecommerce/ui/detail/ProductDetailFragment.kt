@@ -1,7 +1,6 @@
 package com.example.engagecommerce.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,11 @@ import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.data.Product
-import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentDetailProductBinding
 import com.example.engagecommerce.repo.FirebaseCloud
 import com.example.engagecommerce.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.user.sdk.UserCom
 import com.user.sdk.events.ProductEventType
@@ -32,7 +28,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
     private lateinit var binding: FragmentDetailProductBinding
     private lateinit var repository: FirebaseCloud
     private lateinit var auth: FirebaseAuth
-    private var snapshotListenerRegistration: ListenerRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,17 +56,10 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
             viewModel.sendProductEvent(ProductEventType.DETAIL)
         })
 
-        snapshotListenerRegistration = viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
-            error?.let {
-                Log.d("snapshotProduct", it.message.toString())
-                return@addSnapshotListener
-            }
-            querySnapshot?.let {
-                val user = it.toObject<User>()
-                val state = viewModel.checkForProductInCart(user?.cart)
-                enableAddToCartButton(state)
-            }
-        }
+        viewModel.productInCart.observe(viewLifecycleOwner, {
+            enableAddToCartButton(it)
+        })
+
         binding.buttonAddToCart.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
         return binding.root
@@ -79,7 +67,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
 
     override fun onStop() {
         super.onStop()
-        snapshotListenerRegistration?.remove()
+        viewModel.snapshotListenerRegistration?.remove()
     }
 
     override fun onClick(view: View?) {

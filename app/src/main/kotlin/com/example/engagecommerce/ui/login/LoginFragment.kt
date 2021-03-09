@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentLoginBinding
-import com.example.engagecommerce.repo.FirebaseAuthentication
 import com.example.engagecommerce.utils.Utils
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
@@ -17,7 +16,7 @@ import com.user.sdk.events.ScreenName
 class LoginFragment : RootFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModelAuth: FirebaseAuthentication
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +31,11 @@ class LoginFragment : RootFragment(), View.OnClickListener {
         )
         setAnimation()
 
-        viewModelAuth = FirebaseAuthentication()
+        loginViewModel = LoginViewModel()
 
-        viewModelAuth.navigate.observe(viewLifecycleOwner, {
+        loginViewModel.navigate.observe(viewLifecycleOwner, {
             if (it) {
-                viewModelAuth.onDoneNavigating()
+                loginViewModel.onDoneNavigating()
                 restartMainActivity()
             }
         })
@@ -60,11 +59,11 @@ class LoginFragment : RootFragment(), View.OnClickListener {
     }
 
     private fun loginUser(email: String, password: String) {
-        if (!Utils.validateFirstAndLastName(email, password)) {
+        if (!Utils.validateEmailAndPassword(email, password)) {
             binding.editLoginEmail.error = "Required"
             binding.editLoginPassword.error = "Required"
             return
         }
-        viewModelAuth.loginUser(email, password)
+        loginViewModel.loginUser(email, password)
     }
 }

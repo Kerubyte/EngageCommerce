@@ -27,12 +27,10 @@ class FirebaseAuthentication {
         }
     }
 
-    // Live Data for navigation
     private val _navigate = MutableLiveData<Boolean>()
     val navigate: LiveData<Boolean>
         get() = _navigate
 
-    // Create User Account in Firebase Auth and add new User to Cloud Storage
     fun createAccount(email: String, password: String, firstName: String, lastName: String) {
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -61,7 +59,6 @@ class FirebaseAuthentication {
             }
     }
 
-    // Log In User
     fun loginUser(email: String, password: String) {
 
         auth.signInWithEmailAndPassword(email, password)
@@ -72,6 +69,7 @@ class FirebaseAuthentication {
 
                 UserCom.getInstance()
                     .register(customer, objectCustomerCallback)
+
                 _navigate.value = true
             }
             .addOnFailureListener { exc ->
@@ -79,14 +77,12 @@ class FirebaseAuthentication {
             }
     }
 
-    // Sign out user
     fun signOut() {
         Firebase.auth.signOut()
         UserCom.getInstance().logout()
         _navigate.value = true
     }
 
-    // Finish Navigation
     fun onDoneNavigating() {
         _navigate.value = false
     }
