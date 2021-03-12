@@ -46,7 +46,7 @@
                 android:backgroundTintMode="src_over">
 
                 <ImageView
-                    android:id="@+id/image_product_image_detaills"
+                    android:id="@+id/image_product_image_details"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="8dp"
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/muli"
                     android:paddingStart="16dp"
@@ -85,7 +85,7 @@
                     android:textColor="@color/primaryTextColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_delivery_date_value" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_product_price_description_detail" />
 
                 <TextView
                     android:id="@+id/text_product_price_description_detail"
@@ -98,7 +98,7 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_product_image_detaills" />
+                    app:layout_constraintTop_toBottomOf="@+id/image_product_image_details" />
 
                 <TextView
                     android:id="@+id/text_product_price_detail"
@@ -112,25 +112,6 @@
                     app:layout_constraintStart_toEndOf="@+id/text_product_price_description_detail"
                     app:layout_constraintTop_toTopOf="@+id/text_product_price_description_detail" />
 
-                <TextView
-                    android:id="@+id/text_arrives_at"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/muli"
-                    android:text="@string/text_delivery_date"
-                    android:textColor="@color/primaryTextColor"
-                    app:layout_constraintStart_toStartOf="@+id/text_product_price_description_detail"
-                    app:layout_constraintTop_toBottomOf="@+id/text_product_price_description_detail" />
-
-                <TextView
-                    android:id="@+id/text_delivery_date_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_arrives_at"
-                    app:layout_constraintStart_toEndOf="@+id/text_arrives_at"
-                    app:layout_constraintTop_toTopOf="@+id/text_arrives_at" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

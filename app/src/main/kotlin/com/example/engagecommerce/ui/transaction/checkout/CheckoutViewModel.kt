@@ -4,20 +4,17 @@ import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import com.example.engagecommerce.repo.FirebaseCloud
 
-class CheckoutViewModel(cartValue: String) : ViewModel() {
+class CheckoutViewModel(private val cartValue: String) : ViewModel() {
 
     private val repository = FirebaseCloud()
-
     val user = repository.getUserData()
 
     fun clearUserCart() {
         repository.clearUserCart()
     }
 
-    fun createOrderFromCart(list: List<String>?, value: String) {
-        if (list != null) {
-            val timeNow = Calendar.getInstance().time.toString()
-            repository.createNewOrder(list, value, timeNow)
-        }
+    fun createOrderFromCart() {
+        val timeNow = Calendar.getInstance().time.toString()
+        user?.value?.cart?.let { repository.createNewOrder(it, cartValue, timeNow) }
     }
 }

@@ -165,13 +165,11 @@ class FirebaseCloud {
         order["time"] = timeNow
         order["value"] = value
 
-        if (auth.currentUser != null) {
             cloud.collection("orders")
                 .document(auth.currentUser?.uid!!)
                 .collection("orders")
                 .document(timeNow)
                 .set(order)
-        }
     }
 
     fun getOrders(): LiveData<List<Order>> {

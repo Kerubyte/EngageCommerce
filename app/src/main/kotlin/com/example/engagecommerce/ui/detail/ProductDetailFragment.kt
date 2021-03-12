@@ -88,7 +88,7 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         binding.textProductNameDetail.text = product.name
         binding.textProductDescriptionDetail.text = product.description
         binding.textProductPriceDetail.text = Utils.formatPrice.format(product.price)
-        val image = binding.imageProductImageDetaills
+        val image = binding.imageProductImageDetails
         Glide.with(requireView())
             .load(product.imageUrl)
             .into(image)

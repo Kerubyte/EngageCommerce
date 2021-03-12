@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
@@ -21,8 +20,6 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
     private lateinit var binding: FragmentCheckoutBinding
     private lateinit var viewModel: CheckoutViewModel
     private lateinit var viewModelFactory: CheckoutViewModelFactory
-    private lateinit var user: LiveData<User>
-    private lateinit var cartValueBundle: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +33,8 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
             false
         )
         setAnimation()
-        
-        cartValueBundle = CheckoutFragmentArgs
+
+        val cartValueBundle = CheckoutFragmentArgs
             .fromBundle(requireArguments())
             .cartValue
 
@@ -50,19 +47,15 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
         })
 
         binding.textTotalAmountToPay.text = cartValueBundle
-        user = viewModel.user!!
-
         binding.buttonOrder.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
-
         return binding.root
     }
 
     override fun onClick(view: View?) {
         when (view) {
             binding.buttonOrder -> {
-                val userCart = user.value?.cart
-                viewModel.createOrderFromCart(userCart, cartValueBundle)
+                viewModel.createOrderFromCart()
                 viewModel.clearUserCart()
                 restartMainActivity()
             }
@@ -71,7 +64,6 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
 
     private fun bindUserData(user: User) {
         val locale = Utils.locale
-
         binding.textFirstNameValue.text = user.firstName?.capitalize(locale)
         binding.textLastNameValue.text = user.lastName?.capitalize(locale)
     }

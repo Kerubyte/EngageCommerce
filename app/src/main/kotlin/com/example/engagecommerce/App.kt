@@ -17,5 +17,4 @@ class App : Application() {
             .trackAllActivities(true)
             .build()
     }
-
 }
