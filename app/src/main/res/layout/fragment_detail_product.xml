@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.engagecommerce.ui.detail.ProductDetailViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/Layout_product_detail"
         android:layout_width="match_parent"
@@ -65,6 +71,7 @@
                     android:fontFamily="@font/muli"
                     android:textAlignment="viewStart"
                     android:textColor="@color/primaryTextColor"
+                    android:text="@{viewModel.currentProduct.name}"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +90,7 @@
                     android:paddingEnd="16dp"
                     android:textAlignment="center"
                     android:textColor="@color/primaryTextColor"
+                    android:text="@{viewModel.currentProduct.description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_product_price_description_detail" />
@@ -107,6 +115,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/muli"
                     android:textColor="@color/secondaryDarkColor"
+                    android:text="@{viewModel.currentProduct.price.toString()}"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/text_product_price_description_detail"
                     app:layout_constraintStart_toEndOf="@+id/text_product_price_description_detail"

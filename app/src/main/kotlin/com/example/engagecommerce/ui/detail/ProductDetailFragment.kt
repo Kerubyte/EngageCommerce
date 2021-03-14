@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
-import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.databinding.FragmentDetailProductBinding
 import com.example.engagecommerce.repo.FirebaseCloud
-import com.example.engagecommerce.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -51,10 +48,8 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductDetailViewModel::class.java)
 
-        viewModel.product.observe(viewLifecycleOwner, {
-            bindProductData(it)
-            viewModel.sendProductEvent(ProductEventType.DETAIL)
-        })
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.productInCart.observe(viewLifecycleOwner, {
             enableAddToCartButton(it)
@@ -82,16 +77,6 @@ class ProductDetailFragment : RootFragment(), View.OnClickListener {
                     )
                 }
         }
-    }
-
-    private fun bindProductData(product: Product) {
-        binding.textProductNameDetail.text = product.name
-        binding.textProductDescriptionDetail.text = product.description
-        binding.textProductPriceDetail.text = Utils.formatPrice.format(product.price)
-        val image = binding.imageProductImageDetails
-        Glide.with(requireView())
-            .load(product.imageUrl)
-            .into(image)
     }
 
     private fun enableAddToCartButton(state: Boolean) {

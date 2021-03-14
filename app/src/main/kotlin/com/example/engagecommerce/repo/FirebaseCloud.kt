@@ -20,6 +20,10 @@ class FirebaseCloud {
     val currentUser: LiveData<User>
         get() = _currentUser
 
+    private val _currentProduct = MutableLiveData<Product>()
+    val currentProduct: LiveData<Product>
+        get() = _currentProduct
+
     fun getCurrentUser(): DocumentReference? {
         if (auth.currentUser != null) {
             return cloud.collection("users")
@@ -31,6 +35,7 @@ class FirebaseCloud {
     fun getUserData(): LiveData<User>? {
 
         val cloudResult = MutableLiveData<User>()
+
         if (auth.currentUser != null) {
             val uid = auth.currentUser?.uid
 
@@ -38,10 +43,8 @@ class FirebaseCloud {
                 .document(uid!!)
                 .get()
                 .addOnSuccessListener {
-                    if (auth.currentUser != null) {
-                        val user = it.toObject(User::class.java)
-                        cloudResult.postValue(user!!)
-                    }
+                    val user = it.toObject(User::class.java)
+                    cloudResult.postValue(user!!)
                 }
                 .addOnFailureListener {
                     Log.d("repo", it.message.toString())
@@ -74,8 +77,8 @@ class FirebaseCloud {
         cloud.collection("products")
             .get()
             .addOnSuccessListener {
-                val product = it.toObjects(Product::class.java)
-                cloudResult.postValue(product)
+                val products = it.toObjects(Product::class.java)
+                cloudResult.postValue(products)
             }
             .addOnFailureListener {
                 Log.d("getProducts", it.message.toString())
@@ -93,6 +96,7 @@ class FirebaseCloud {
             .addOnSuccessListener {
                 val product = it.toObject(Product::class.java)
                 cloudResult.postValue(product!!)
+                _currentProduct.postValue(product!!)
             }
             .addOnFailureListener {
                 Log.d("getSingleProduct", it.message.toString())
@@ -165,11 +169,11 @@ class FirebaseCloud {
         order["time"] = timeNow
         order["value"] = value
 
-            cloud.collection("orders")
-                .document(auth.currentUser?.uid!!)
-                .collection("orders")
-                .document(timeNow)
-                .set(order)
+        cloud.collection("orders")
+            .document(auth.currentUser?.uid!!)
+            .collection("orders")
+            .document(timeNow)
+            .set(order)
     }
 
     fun getOrders(): LiveData<List<Order>> {
