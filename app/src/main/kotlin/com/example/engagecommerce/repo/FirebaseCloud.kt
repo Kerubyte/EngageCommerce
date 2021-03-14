@@ -45,6 +45,7 @@ class FirebaseCloud {
                 .addOnSuccessListener {
                     val user = it.toObject(User::class.java)
                     cloudResult.postValue(user!!)
+                    _currentUser.postValue(user!!)
                 }
                 .addOnFailureListener {
                     Log.d("repo", it.message.toString())

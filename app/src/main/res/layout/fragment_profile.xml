@@ -2,68 +2,87 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/frameLayout2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/image_profile_action"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/rick"
-        app:riv_oval="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+    <data>
+        <variable
+            name="profileViewModel"
+            type="com.example.engagecommerce.ui.profile.ProfileViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/text_first_name_value_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/muli"
-        android:text="Dawid"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/image_profile_action"
-        app:layout_constraintStart_toStartOf="@+id/image_profile_action"
-        app:layout_constraintTop_toBottomOf="@+id/image_profile_action" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
-        android:id="@+id/text_email_value_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/muli"
-        android:text="sdej@user.com"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/text_first_name_value_profile"
-        app:layout_constraintStart_toStartOf="@+id/text_first_name_value_profile"
-        app:layout_constraintTop_toBottomOf="@+id/text_first_name_value_profile" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image_profile_action"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/rick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true"
+            tools:srcCompat="@tools:sample/avatars" />
 
-    <Button
-        android:id="@+id/button_sign_out"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/button_background"
-        android:fontFamily="@font/muli"
-        android:text="@string/button_sign_out_text"
-        android:textAlignment="center"
-        android:textColor="@color/primaryTextColor"
-        app:icon="@drawable/ic_log_out"
-        app:iconTint="@color/secondaryDarkColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@color/secondaryColor" />
+        <TextView
+            android:id="@+id/text_first_name_value_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/muli"
+            android:text="@{profileViewModel.currentUser.firstName}"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/image_profile_action"
+            app:layout_constraintTop_toBottomOf="@+id/image_profile_action" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_last_name_value_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:fontFamily="@font/muli"
+            android:text="@{profileViewModel.currentUser.lastName}"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/text_email_value_profile"
+            app:layout_constraintStart_toEndOf="@+id/text_first_name_value_profile"
+            app:layout_constraintTop_toTopOf="@+id/text_first_name_value_profile" />
+
+        <TextView
+            android:id="@+id/text_email_value_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:text="@{profileViewModel.currentUser.email}"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/image_profile_action"
+            app:layout_constraintStart_toStartOf="@+id/image_profile_action"
+            app:layout_constraintTop_toBottomOf="@+id/text_first_name_value_profile" />
+
+        <Button
+            android:id="@+id/button_sign_out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/muli"
+            android:text="@string/button_sign_out_text"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            app:icon="@drawable/ic_log_out"
+            app:iconTint="@color/secondaryDarkColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/secondaryColor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

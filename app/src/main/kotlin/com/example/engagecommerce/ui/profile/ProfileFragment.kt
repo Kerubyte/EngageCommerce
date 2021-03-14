@@ -8,12 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
-import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.FragmentProfileBinding
-import com.example.engagecommerce.utils.Utils
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
-import java.util.*
 
 @ScreenName(name = "Profile")
 class ProfileFragment : RootFragment(), View.OnClickListener {
@@ -33,17 +30,15 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
         )
         setAnimation()
 
-        profileViewModel.auth.navigate.observe(viewLifecycleOwner, {
+        profileViewModel.navigate.observe(viewLifecycleOwner, {
             if (it) {
-                profileViewModel.auth.onDoneNavigating()
+                profileViewModel.onDoneNavigating()
                 restartMainActivity()
             }
         })
 
-        profileViewModel.user?.observe(viewLifecycleOwner, { user ->
-            bindUserData(user)
-        })
-
+        binding.profileViewModel = profileViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.buttonSignOut.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
         return binding.root
@@ -52,17 +47,8 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view) {
             binding.buttonSignOut -> {
-                profileViewModel.auth.signOut()
+                profileViewModel.signOut()
             }
         }
-    }
-
-    private fun bindUserData(user: User) {
-        val locale = Utils.locale
-
-        val firstName = user.firstName?.capitalize(locale)
-        val lastName = user.lastName?.capitalize(locale)
-        binding.textFirstNameValueProfile.text = "$firstName $lastName"
-        binding.textEmailValueProfile.text = user.email?.capitalize(locale)
     }
 }
