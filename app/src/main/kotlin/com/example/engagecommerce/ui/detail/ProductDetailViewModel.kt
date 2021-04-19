@@ -4,37 +4,64 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.engagecommerce.data.Product
+import androidx.lifecycle.map
+import com.example.engagecommerce.data.ProductEntity
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.repo.FirebaseCloud
+import com.example.engagecommerce.utils.Utils
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.user.sdk.UserCom
 import com.user.sdk.events.ProductEventType
+import java.util.*
 
 class ProductDetailViewModel(private val productUid: String) : ViewModel() {
 
+    private val auth = Firebase.auth
     private val repository = FirebaseCloud()
     private val currentUser = repository.getCurrentUser()
 
-    init {
-        repository.getSingleProduct(productUid)
-    }
+    private val _isProductInCart = MutableLiveData<Boolean>()
+    val isProductInCart: LiveData<Boolean>
+        get() = _isProductInCart
 
-    private val _productInCart = MutableLiveData<Boolean>()
-    val productInCart: LiveData<Boolean>
-        get() = _productInCart
+    private val _navigate = MutableLiveData<Boolean>()
+    val navigate: LiveData<Boolean>
+        get() = _navigate
 
-    val currentProduct: LiveData<Product>
-        get() = repository.currentProduct
-
-    val snapshotListenerRegistration = currentUser?.addSnapshotListener { querySnapshot, error ->
-        error?.let {
-            Log.d("snapshotProduct", it.message.toString())
-            return@addSnapshotListener
+    val currentProduct: LiveData<ProductEntity>
+        get() = repository.currentProduct.map {
+            ProductEntity(
+                it.uid,
+                it.name,
+                it.brand,
+                Utils.formatPrice.format(it.price),
+                it.imageUrl,
+                it.delivery,
+                it.category,
+                it.description
+            )
         }
-        querySnapshot?.let {
-            val user = it.toObject<User>()
-            _productInCart.value = checkForProductInCart(user?.cart)
+
+    private val snapshotListenerRegistration =
+        currentUser?.addSnapshotListener { querySnapshot, error ->
+            error?.let {
+                Log.d("snapshotProduct", it.toString())
+                return@addSnapshotListener
+            }
+            querySnapshot?.let {
+                val user = it.toObject<User>()
+                _isProductInCart.value = checkForProductInCart(user?.cart)
+            }
+        }
+
+    fun handleAddToCartClick() {
+        if (auth.currentUser == null) {
+            navigateToLogin()
+            onDoneNavigating()
+        } else {
+            addToCart()
         }
     }
 
@@ -43,22 +70,51 @@ class ProductDetailViewModel(private val productUid: String) : ViewModel() {
         else true
     }
 
-    fun addToCart() {
+    private fun addToCart() {
         repository.addToCart(productUid)
+        sendProductEvent(ProductEventType.ADD_TO_CART)
     }
 
-    fun sendProductEvent(eventType: ProductEventType) {
+    private fun sendProductEvent(eventType: ProductEventType) {
 
-        val myParams: HashMap<String, Any> = HashMap()
-
-        myParams["name"] = currentProduct.value?.name.toString()
-        myParams["price"] = currentProduct.value?.price.toString()
-        myParams["Image_URL"] = currentProduct.value?.imageUrl.toString()
+        val productAttrs = mapOf<String, Any?>(
+            "name" to currentProduct.value?.name,
+            "price" to currentProduct.value?.price,
+            "Image_URL" to currentProduct.value?.imageUrl
+        )
 
         UserCom.getInstance().sendProductEvent(
             productUid,
             eventType,
-            myParams
+            productAttrs
         )
+    }
+
+    private fun getSingleProduct() {
+        repository.getSingleProduct(productUid)
+    }
+
+    private fun navigateToLogin() {
+        _navigate.value = true
+    }
+
+    private fun onDoneNavigating() {
+        _navigate.value = false
+    }
+
+    private fun isCurrentUser() {
+        if (currentUser == null) _isProductInCart.value = true
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        snapshotListenerRegistration?.remove()
+    }
+
+    init {
+        getSingleProduct()
+        onDoneNavigating()
+        isCurrentUser()
+        sendProductEvent(ProductEventType.DETAIL)
     }
 }
