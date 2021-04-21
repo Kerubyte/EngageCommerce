@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
 import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentDetailProductBinding
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ScreenName(name = "Detail")
 class ProductDetailFragment : RootFragment() {
 
-    private lateinit var viewModel: ProductDetailViewModel
-    private lateinit var viewModelFactory: ProductDetailViewModelFactory
     private lateinit var binding: FragmentDetailProductBinding
+    private val viewModel: ProductDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,14 +31,6 @@ class ProductDetailFragment : RootFragment() {
             false
         )
         setAnimation()
-
-        viewModelFactory = ProductDetailViewModelFactory(
-            ProductDetailFragmentArgs
-                .fromBundle(requireArguments())
-                .productUid
-        )
-        viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(ProductDetailViewModel::class.java)
 
         viewModel.navigate.observe(viewLifecycleOwner, {
             if (it) navigateToLogin()

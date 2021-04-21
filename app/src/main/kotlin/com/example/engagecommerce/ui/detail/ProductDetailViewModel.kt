@@ -1,23 +1,29 @@
 package com.example.engagecommerce.ui.detail
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import androidx.lifecycle.*
 import com.example.engagecommerce.data.ProductEntity
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.repo.FirebaseCloud
-import com.example.engagecommerce.utils.Utils
+import com.example.engagecommerce.utils.PriceFormatter
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.user.sdk.UserCom
 import com.user.sdk.events.ProductEventType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
+import javax.inject.Inject
 
-class ProductDetailViewModel(private val productUid: String) : ViewModel() {
+@HiltViewModel
+class ProductDetailViewModel
+@Inject
+constructor(
+    savedStateHandle: SavedStateHandle,
+    private val priceFormatter: PriceFormatter
+) : ViewModel() {
 
+    private val productUid = savedStateHandle.get<String>("productUid")
     private val auth = Firebase.auth
     private val repository = FirebaseCloud()
     private val currentUser = repository.getCurrentUser()
@@ -36,7 +42,7 @@ class ProductDetailViewModel(private val productUid: String) : ViewModel() {
                 it.uid,
                 it.name,
                 it.brand,
-                Utils.formatPrice.format(it.price),
+                it.price?.let { price -> priceFormatter.formatPrice(price) },
                 it.imageUrl,
                 it.delivery,
                 it.category,
@@ -71,7 +77,9 @@ class ProductDetailViewModel(private val productUid: String) : ViewModel() {
     }
 
     private fun addToCart() {
-        repository.addToCart(productUid)
+        if (productUid != null) {
+            repository.addToCart(productUid)
+        }
         sendProductEvent(ProductEventType.ADD_TO_CART)
     }
 
@@ -83,15 +91,19 @@ class ProductDetailViewModel(private val productUid: String) : ViewModel() {
             "Image_URL" to currentProduct.value?.imageUrl
         )
 
-        UserCom.getInstance().sendProductEvent(
-            productUid,
-            eventType,
-            productAttrs
-        )
+        if (productUid != null) {
+            UserCom.getInstance().sendProductEvent(
+                productUid,
+                eventType,
+                productAttrs
+            )
+        }
     }
 
     private fun getSingleProduct() {
-        repository.getSingleProduct(productUid)
+        if (productUid != null) {
+            repository.getSingleProduct(productUid)
+        }
     }
 
     private fun navigateToLogin() {
