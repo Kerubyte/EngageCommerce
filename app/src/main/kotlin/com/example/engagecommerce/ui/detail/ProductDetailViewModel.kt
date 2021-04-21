@@ -20,12 +20,12 @@ class ProductDetailViewModel
 @Inject
 constructor(
     savedStateHandle: SavedStateHandle,
-    private val priceFormatter: PriceFormatter
+    private val priceFormatter: PriceFormatter,
+    private val repository: FirebaseCloud
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
     private val auth = Firebase.auth
-    private val repository = FirebaseCloud()
     private val currentUser = repository.getCurrentUser()
 
     private val _isProductInCart = MutableLiveData<Boolean>()

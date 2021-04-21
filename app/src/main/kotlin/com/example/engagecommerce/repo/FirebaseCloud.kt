@@ -10,11 +10,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.inject.Inject
 
-class FirebaseCloud {
+class FirebaseCloud
+@Inject
+constructor(
+    private val firestore: FirebaseFirestore
+) {
 
     private val auth = FirebaseAuth.getInstance()
-    private val cloud = FirebaseFirestore.getInstance()
+    //private val firestore = FirebaseFirestore.getInstance()
 
     private val _currentUser = MutableLiveData<User>()
     val currentUser: LiveData<User>
@@ -26,7 +31,7 @@ class FirebaseCloud {
 
     fun getCurrentUser(): DocumentReference? {
         if (auth.currentUser != null) {
-            return cloud.collection("users")
+            return firestore.collection("users")
                 .document(auth.currentUser!!.uid)
         }
         return null
@@ -34,29 +39,29 @@ class FirebaseCloud {
 
     fun getUserData(): LiveData<User>? {
 
-        val cloudResult = MutableLiveData<User>()
+        val firestoreResult = MutableLiveData<User>()
 
         if (auth.currentUser != null) {
             val uid = auth.currentUser?.uid
 
-            cloud.collection("users")
+            firestore.collection("users")
                 .document(uid!!)
                 .get()
                 .addOnSuccessListener {
                     val user = it.toObject(User::class.java)
-                    cloudResult.postValue(user!!)
+                    firestoreResult.postValue(user!!)
                     _currentUser.postValue(user!!)
                 }
                 .addOnFailureListener {
                     Log.d("repo", it.message.toString())
                 }
-            return cloudResult
+            return firestoreResult
         }
         return null
     }
 
     fun createNewUser(user: User) {
-        cloud.collection("users")
+        firestore.collection("users")
             .document(user.uid!!)
             .set(user)
             .addOnSuccessListener {
@@ -73,43 +78,43 @@ class FirebaseCloud {
 
     fun getProducts(): LiveData<List<Product>> {
 
-        val cloudResult = MutableLiveData<List<Product>>()
+        val firestoreResult = MutableLiveData<List<Product>>()
 
-        cloud.collection("products")
+        firestore.collection("products")
             .get()
             .addOnSuccessListener {
                 val products = it.toObjects(Product::class.java)
-                cloudResult.postValue(products)
+                firestoreResult.postValue(products)
             }
             .addOnFailureListener {
                 Log.d("getProducts", it.message.toString())
             }
-        return cloudResult
+        return firestoreResult
     }
 
     fun getSingleProduct(uid: String): LiveData<Product> {
 
-        val cloudResult = MutableLiveData<Product>()
+        val firestoreResult = MutableLiveData<Product>()
 
-        cloud.collection("products")
+        firestore.collection("products")
             .document(uid)
             .get()
             .addOnSuccessListener {
                 val product = it.toObject(Product::class.java)
-                cloudResult.postValue(product!!)
+                firestoreResult.postValue(product!!)
                 _currentProduct.postValue(product!!)
             }
             .addOnFailureListener {
                 Log.d("getSingleProduct", it.message.toString())
             }
-        return cloudResult
+        return firestoreResult
 
     }
 
     fun addToCart(productUid: String) {
 
         if (auth.currentUser != null) {
-            cloud.collection("users")
+            firestore.collection("users")
                 .document(auth.currentUser?.uid!!)
                 .update("cart", FieldValue.arrayUnion(productUid))
                 .addOnSuccessListener {
@@ -122,7 +127,7 @@ class FirebaseCloud {
     }
 
     fun removeFromCart(product: Product) {
-        cloud.collection("users")
+        firestore.collection("users")
             .document(auth.currentUser?.uid!!)
             .update("cart", FieldValue.arrayRemove(product.uid))
             .addOnSuccessListener {
@@ -135,26 +140,26 @@ class FirebaseCloud {
 
     fun getProductsFromCart(list: List<String>?): LiveData<List<Product>> {
 
-        val cloudResult = MutableLiveData<List<Product>>()
+        val firestoreResult = MutableLiveData<List<Product>>()
 
         if (!list.isNullOrEmpty()) {
-            cloud.collection("products")
+            firestore.collection("products")
                 .whereIn("uid", list)
                 .get()
                 .addOnSuccessListener {
                     val cartList = it.toObjects(Product::class.java)
-                    cloudResult.postValue(cartList)
+                    firestoreResult.postValue(cartList)
                 }
                 .addOnFailureListener {
                     Log.d("getCart", it.message.toString())
                 }
         }
-        return cloudResult
+        return firestoreResult
     }
 
     fun clearUserCart() {
 
-        cloud.collection("users")
+        firestore.collection("users")
             .document(auth.currentUser!!.uid)
             .update(
                 mapOf(
@@ -170,7 +175,7 @@ class FirebaseCloud {
         order["time"] = timeNow
         order["value"] = value
 
-        cloud.collection("orders")
+        firestore.collection("orders")
             .document(auth.currentUser?.uid!!)
             .collection("orders")
             .document(timeNow)
@@ -179,40 +184,40 @@ class FirebaseCloud {
 
     fun getOrders(): LiveData<List<Order>> {
 
-        val cloudResult = MutableLiveData<List<Order>>()
+        val firestoreResult = MutableLiveData<List<Order>>()
 
-        cloud.collection("orders")
+        firestore.collection("orders")
             .document(auth.currentUser!!.uid)
             .collection("orders")
             .get()
             .addOnSuccessListener {
                 val order = it.toObjects(Order::class.java)
-                cloudResult.postValue(order)
+                firestoreResult.postValue(order)
             }
             .addOnFailureListener {
                 Log.d("getOrders", it.message.toString())
             }
-        return cloudResult
+        return firestoreResult
     }
 
     fun getProductsFromOrder(list: List<String>?): LiveData<List<Product>> {
 
-        val cloudResult = MutableLiveData<List<Product>>()
+        val firestoreResult = MutableLiveData<List<Product>>()
 
         if (!list.isNullOrEmpty()) {
-            cloud.collection("orders")
+            firestore.collection("orders")
                 .document(auth.currentUser!!.uid)
                 .collection("orders")
                 .whereIn("uid", list)
                 .get()
                 .addOnSuccessListener {
                     val cartList = it.toObjects(Product::class.java)
-                    cloudResult.postValue(cartList)
+                    firestoreResult.postValue(cartList)
                 }
                 .addOnFailureListener {
                     Log.d("getProductsFromOrder", it.message.toString())
                 }
         }
-        return cloudResult
+        return firestoreResult
     }
 }
