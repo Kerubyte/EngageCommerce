@@ -6,9 +6,8 @@ import com.example.engagecommerce.data.ProductEntity
 import com.example.engagecommerce.data.User
 import com.example.engagecommerce.repo.FirebaseCloud
 import com.example.engagecommerce.utils.PriceFormatter
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.user.sdk.UserCom
 import com.user.sdk.events.ProductEventType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,11 +20,11 @@ class ProductDetailViewModel
 constructor(
     savedStateHandle: SavedStateHandle,
     private val priceFormatter: PriceFormatter,
-    private val repository: FirebaseCloud
+    private val repository: FirebaseCloud,
+    private val auth: FirebaseAuth
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
-    private val auth = Firebase.auth
     private val currentUser = repository.getCurrentUser()
 
     private val _isProductInCart = MutableLiveData<Boolean>()

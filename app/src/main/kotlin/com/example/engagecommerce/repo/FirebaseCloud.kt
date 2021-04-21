@@ -50,7 +50,7 @@ constructor(
                 .addOnSuccessListener {
                     val user = it.toObject(User::class.java)
                     firestoreResult.postValue(user!!)
-                    _currentUser.postValue(user!!)
+                    _currentUser.postValue(user)
                 }
                 .addOnFailureListener {
                     Log.d("repo", it.message.toString())
@@ -102,7 +102,7 @@ constructor(
             .addOnSuccessListener {
                 val product = it.toObject(Product::class.java)
                 firestoreResult.postValue(product!!)
-                _currentProduct.postValue(product!!)
+                _currentProduct.postValue(product)
             }
             .addOnFailureListener {
                 Log.d("getSingleProduct", it.message.toString())
