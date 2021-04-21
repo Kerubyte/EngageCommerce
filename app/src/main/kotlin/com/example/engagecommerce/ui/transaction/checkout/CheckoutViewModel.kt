@@ -9,12 +9,18 @@ class CheckoutViewModel(private val cartValue: String) : ViewModel() {
     private val repository = FirebaseCloud()
     val user = repository.getUserData()
 
-    fun clearUserCart() {
+    private fun clearUserCart() {
         repository.clearUserCart()
     }
 
-    fun createOrderFromCart() {
+    private fun createOrderFromCart() {
         val timeNow = Calendar.getInstance().time.toString()
         user?.value?.cart?.let { repository.createNewOrder(it, cartValue, timeNow) }
+    }
+
+    fun placeOrder() {
+        createOrderFromCart()
+        clearUserCart()
+
     }
 }

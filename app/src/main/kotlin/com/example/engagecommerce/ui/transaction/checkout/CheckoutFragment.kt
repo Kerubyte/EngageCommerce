@@ -55,8 +55,7 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view) {
             binding.buttonOrder -> {
-                viewModel.createOrderFromCart()
-                viewModel.clearUserCart()
+                viewModel.placeOrder()
                 restartMainActivity()
             }
         }
