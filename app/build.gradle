@@ -100,7 +100,9 @@ dependencies {
 
     // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:2.33-beta"
-    kapt "com.google.dagger:hilt-android-compiler:2.33-beta"
+    kapt "com.google.dagger:hilt-compiler:2.33-beta"
+
+    implementation "com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2"
 
     // Marketing Automation sdk
     implementation 'com.user:android-sdk:1.2.2'

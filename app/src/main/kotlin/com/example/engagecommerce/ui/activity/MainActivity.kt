@@ -19,8 +19,9 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.user.sdk.events.ScreenName
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.drawer_header_layout.view.*
-
+@AndroidEntryPoint
 @ScreenName(name = "Activity")
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
     private var snapshotListenerRegistration: ListenerRegistration? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

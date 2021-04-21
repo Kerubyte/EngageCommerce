@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">EngageCommerce</string>
+    <string name="price_format">$%d.00</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="preload_button">preload button</string>
     <string name="navigation_button">navigation_button</string>

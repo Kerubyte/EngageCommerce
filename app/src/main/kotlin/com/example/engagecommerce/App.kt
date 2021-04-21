@@ -3,7 +3,9 @@ package com.example.engagecommerce
 import android.app.Application
 import com.example.engagecommerce.utils.Keys
 import com.user.sdk.UserCom
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application() {
 
     override fun onCreate() {
