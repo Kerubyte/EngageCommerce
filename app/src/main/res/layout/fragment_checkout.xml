@@ -7,7 +7,7 @@
         android:id="@+id/layout_checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.transaction.CheckoutFragment">
+        tools:context=".presentation.ui.transaction.CheckoutFragment">
 
         <TextView
             android:id="@+id/text_deliver_to"

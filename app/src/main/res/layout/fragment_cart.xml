@@ -6,7 +6,7 @@
     android:id="@+id/layout_cart_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.transaction.cart.CartFragment">
+    tools:context=".presentation.ui.transaction.cart.CartFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cart"

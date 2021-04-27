@@ -7,7 +7,7 @@
         android:id="@+id/layout_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.register.RegisterFragment">
+        tools:context=".presentation.ui.register.RegisterFragment">
 
         <TextView
             android:id="@+id/text_register_header"

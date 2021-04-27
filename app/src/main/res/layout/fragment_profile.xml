@@ -6,14 +6,14 @@
     <data>
         <variable
             name="profileViewModel"
-            type="com.example.engagecommerce.ui.profile.ProfileViewModel" />
+            type="com.example.engagecommerce.presentation.ui.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.profile.ProfileFragment">
+        tools:context=".presentation.ui.profile.ProfileFragment">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/image_profile_action"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/muli"
-            android:text="@{profileViewModel.currentUser.firstName}"
+            android:text="@{profileViewModel.currentUserEntity.firstName}"
             android:textColor="@color/secondaryTextColor"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/image_profile_action"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
             android:fontFamily="@font/muli"
-            android:text="@{profileViewModel.currentUser.lastName}"
+            android:text="@{profileViewModel.currentUserEntity.lastName}"
             android:textColor="@color/primaryTextColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/text_email_value_profile"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/muli"
-            android:text="@{profileViewModel.currentUser.email}"
+            android:text="@{profileViewModel.currentUserEntity.email}"
             android:textColor="@color/secondaryTextColor"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/image_profile_action"

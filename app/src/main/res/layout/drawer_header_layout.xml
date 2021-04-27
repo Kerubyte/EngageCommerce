@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/muli"
-            android:text="@string/header_first_name_placeholder"
+            android:text="John"
             android:textColor="@color/primaryTextColor"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/image_profile_action"

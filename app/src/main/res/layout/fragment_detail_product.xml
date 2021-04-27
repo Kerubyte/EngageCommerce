@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.engagecommerce.ui.detail.ProductDetailViewModel" />
+            type="com.example.engagecommerce.presentation.ui.detail.ProductDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,7 +117,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/muli"
                     android:textColor="@color/secondaryDarkColor"
-                    android:text="@{viewModel.currentProduct.price}"
+                    android:text="@{viewModel.currentProduct.formattedPrice}"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/text_product_price_description_detail"
                     app:layout_constraintStart_toEndOf="@+id/text_product_price_description_detail"
