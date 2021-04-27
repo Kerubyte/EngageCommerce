@@ -1,4 +1,4 @@
-package com.example.engagecommerce.adapter
+package com.example.engagecommerce.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.engagecommerce.R
-import com.example.engagecommerce.data.Order
+import com.example.engagecommerce.domain.model.Order
 
 class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 

@@ -1,4 +1,4 @@
-package com.example.engagecommerce.adapter
+package com.example.engagecommerce.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
-import com.example.engagecommerce.data.Product
-import com.example.engagecommerce.utils.Utils
+import com.example.engagecommerce.domain.model.Product
 
 class ProductAdapter(private val listener: OnProductClick) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
@@ -46,9 +45,9 @@ class ProductAdapter(private val listener: OnProductClick) :
         val deliveryOption = holder.itemView.findViewById<TextView>(R.id.text_free_delivery)
 
         name.text = productsList[holder.adapterPosition].name
-        deliveryOption.isVisible = productsList[holder.adapterPosition].delivery
-        price.text = Utils.formatPrice.format(productsList[holder.adapterPosition].price!!)
+        price.text = productsList[holder.adapterPosition].formattedPrice
         brand.text = productsList[holder.adapterPosition].brand
+        deliveryOption.isVisible = productsList[holder.adapterPosition].delivery
         Glide.with(holder.itemView)
             .load(productsList[holder.adapterPosition].imageUrl)
             .into(image)
