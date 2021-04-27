@@ -1,4 +1,4 @@
-package com.example.engagecommerce.di
+package com.example.engagecommerce.infrastructure.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -10,11 +10,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object FirebaseFirestoreModule {
+object FirebaseDatabaseModule {
 
     @Singleton
     @Provides
-    fun provideFirebaseFirestore(): FirebaseFirestore {
-        return FirebaseFirestore.getInstance()
-    }
+    fun provideFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 }

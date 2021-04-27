@@ -1,4 +1,4 @@
-package com.example.engagecommerce.di
+package com.example.engagecommerce.infrastructure.di
 
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -14,7 +14,6 @@ object FirebaseAuthModule {
 
     @Singleton
     @Provides
-    fun provideFirebaseAuthentication(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
-    }
+    fun provideFirebaseAuthentication(): FirebaseAuth = FirebaseAuth.getInstance()
+
 }
