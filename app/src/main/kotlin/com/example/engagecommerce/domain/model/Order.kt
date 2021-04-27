@@ -1,4 +1,4 @@
-package com.example.engagecommerce.data
+package com.example.engagecommerce.domain.model
 
 data class Order(
     val value: String? = null,

@@ -1,6 +1,6 @@
-package com.example.engagecommerce.data
+package com.example.engagecommerce.data.entity
 
-data class User(
+data class UserEntity(
     val uid: String? = null,
     val firstName: String? = null,
     val lastName: String? = null,
