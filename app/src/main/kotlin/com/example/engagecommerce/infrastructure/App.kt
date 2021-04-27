@@ -1,7 +1,7 @@
-package com.example.engagecommerce
+package com.example.engagecommerce.infrastructure
 
 import android.app.Application
-import com.example.engagecommerce.utils.Keys
+import com.example.engagecommerce.application.util.Keys
 import com.user.sdk.UserCom
 import dagger.hilt.android.HiltAndroidApp
 
