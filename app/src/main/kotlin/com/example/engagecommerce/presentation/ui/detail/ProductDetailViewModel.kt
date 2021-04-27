@@ -1,11 +1,11 @@
-package com.example.engagecommerce.ui.detail
+package com.example.engagecommerce.presentation.ui.detail
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.engagecommerce.data.ProductEntity
-import com.example.engagecommerce.data.User
-import com.example.engagecommerce.repo.FirebaseCloud
-import com.example.engagecommerce.utils.PriceFormatter
+import com.example.engagecommerce.data.database.ProductRepository
+import com.example.engagecommerce.data.database.UserRepository
+import com.example.engagecommerce.data.entity.UserEntity
+import com.example.engagecommerce.domain.model.Product
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.toObject
 import com.user.sdk.UserCom
@@ -19,13 +19,14 @@ class ProductDetailViewModel
 @Inject
 constructor(
     savedStateHandle: SavedStateHandle,
-    private val priceFormatter: PriceFormatter,
-    private val repository: FirebaseCloud,
-    private val auth: FirebaseAuth
+    private val repository: ProductRepository,
+    private val userRepository: UserRepository,
+    private val auth: FirebaseAuth,
+    private val userCom: UserCom
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
-    private val currentUser = repository.getCurrentUser()
+    private val currentUser = userRepository.getCurrentUser()
 
     private val _isProductInCart = MutableLiveData<Boolean>()
     val isProductInCart: LiveData<Boolean>
@@ -35,19 +36,8 @@ constructor(
     val navigate: LiveData<Boolean>
         get() = _navigate
 
-    val currentProduct: LiveData<ProductEntity>
-        get() = repository.currentProduct.map {
-            ProductEntity(
-                it.uid,
-                it.name,
-                it.brand,
-                it.price?.let { price -> priceFormatter.formatPrice(price) },
-                it.imageUrl,
-                it.delivery,
-                it.category,
-                it.description
-            )
-        }
+    val currentProduct: LiveData<Product>
+        get() = repository.currentProduct
 
     private val snapshotListenerRegistration =
         currentUser?.addSnapshotListener { querySnapshot, error ->
@@ -56,7 +46,7 @@ constructor(
                 return@addSnapshotListener
             }
             querySnapshot?.let {
-                val user = it.toObject<User>()
+                val user = it.toObject<UserEntity>()
                 _isProductInCart.value = checkForProductInCart(user?.cart)
             }
         }
@@ -77,9 +67,9 @@ constructor(
 
     private fun addToCart() {
         if (productUid != null) {
-            repository.addToCart(productUid)
+            userRepository.addToCart(productUid)
         }
-        sendProductEvent(ProductEventType.ADD_TO_CART)
+       sendProductEvent(ProductEventType.ADD_TO_CART)
     }
 
     private fun sendProductEvent(eventType: ProductEventType) {
@@ -91,7 +81,7 @@ constructor(
         )
 
         if (productUid != null) {
-            UserCom.getInstance().sendProductEvent(
+            userCom.sendProductEvent(
                 productUid,
                 eventType,
                 productAttrs

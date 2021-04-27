@@ -1,4 +1,4 @@
-package com.example.engagecommerce.ui.title
+package com.example.engagecommerce.presentation.ui.title
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,24 +9,22 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.engagecommerce.R
-import com.example.engagecommerce.RootFragment
-import com.example.engagecommerce.adapter.OnProductClick
-import com.example.engagecommerce.adapter.ProductAdapter
-import com.example.engagecommerce.data.Product
 import com.example.engagecommerce.databinding.FragmentTitleScreenBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.engagecommerce.domain.model.Product
+import com.example.engagecommerce.infrastructure.RootFragment
+import com.example.engagecommerce.presentation.adapters.OnProductClick
+import com.example.engagecommerce.presentation.adapters.ProductAdapter
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ScreenName(name = "Home")
 class TitleScreenFragment : RootFragment(), OnProductClick {
 
     private val titleScreenViewModel: TitleScreenViewModel by viewModels()
     private val productAdapter = ProductAdapter(this)
     private lateinit var binding: FragmentTitleScreenBinding
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +37,6 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
             false
         )
         setAnimation()
-        auth = Firebase.auth
 
         UserCom.getInstance().trackScreen(this)
         return binding.root
@@ -52,17 +49,14 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = productAdapter
         }
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         titleScreenViewModel.products.observe(viewLifecycleOwner, { list ->
             productAdapter.setProducts(list)
         })
     }
 
     override fun onProductClick(product: Product, position: Int) {
-        openProductDetails(product.uid!!)
+        openProductDetails(product.uid)
     }
 
     private fun openProductDetails(productUid: String) {

@@ -1,8 +1,7 @@
-package com.example.engagecommerce.ui.activity
+package com.example.engagecommerce.presentation.ui.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -10,28 +9,22 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.engagecommerce.R
-import com.example.engagecommerce.data.User
 import com.example.engagecommerce.databinding.ActivityMainBinding
+import com.example.engagecommerce.databinding.DrawerHeaderLayoutBinding
+import com.example.engagecommerce.domain.model.User
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.drawer_header_layout.view.*
+
 @AndroidEntryPoint
 @ScreenName(name = "Activity")
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
-    private lateinit var auth: FirebaseAuth
-    private var snapshotListenerRegistration: ListenerRegistration? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +34,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 R.layout.activity_main
             )
 
-        auth = Firebase.auth
-        viewModel = MainViewModel()
-
         navigationView = binding.layoutNavigationMenu
 
         navController = Navigation.findNavController(
@@ -52,36 +42,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         NavigationUI.setupWithNavController(navigationView, navController)
 
-        binding.imageMenuAction.setOnClickListener(this)
-        binding.imageProfileAction.setOnClickListener(this)
-        binding.imageCartAction.setOnClickListener(this)
+        val bbb: DrawerHeaderLayoutBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.drawer_header_layout,
+            binding.layoutNavigationMenu,
+            false
+        )
+
+        binding.layoutNavigationMenu.addHeaderView(bbb.root)
+
+        binding.activity = this
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        var isUserLogged = viewModel.isUserLoggedIn()
     }
 
     override fun onStart() {
         super.onStart()
         setNavigationMenuContent()
-
-        snapshotListenerRegistration =
-            viewModel.currentUser?.addSnapshotListener { querySnapshot, error ->
-                error?.let {
-                    Log.d("snapshotMain", it.message.toString())
-                    return@addSnapshotListener
-                }
-                querySnapshot?.let {
-
-                    val currentUser = it.toObject<User>()
-                    updateCartSize(currentUser!!)
-                }
-            }
-
-        viewModel.user?.observe(this, { user ->
+        viewModel.currentUser?.observe(this) { user ->
             updateDrawerHeader(user)
-        })
-    }
-
-    override fun onStop() {
-        super.onStop()
-        snapshotListenerRegistration?.remove()
+        }
     }
 
     override fun onBackPressed() {
@@ -92,29 +74,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View?) {
-        when (v) {
-            binding.imageMenuAction ->
-                openDrawerMenu()
-            binding.imageProfileAction ->
-                if (auth.currentUser != null) navigateToProfile()
-                else navigateToLogin()
-            binding.imageCartAction ->
-                if (auth.currentUser != null) navigateToCart()
-                else navigateToLogin()
-        }
+    fun onProfileClick() {
+        if (viewModel.isUserLoggedIn()) navigateToProfile()
+        else navigateToLogin()
     }
 
-    private fun openDrawerMenu() {
+    fun onCartClick() {
+        if (viewModel.isUserLoggedIn()) navigateToCart()
+        else navigateToLogin()
+    }
+
+    fun openDrawerMenu() {
         binding.layoutDrawer.openDrawer(GravityCompat.START)
-    }
-
-    private fun closeDrawerMenu() {
-        binding.layoutDrawer.closeDrawer(GravityCompat.START)
-    }
-
-    private fun isDrawerOpen(): Boolean {
-        return binding.layoutDrawer.isDrawerOpen(GravityCompat.START)
     }
 
     private fun navigateToProfile() {
@@ -129,8 +100,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         navController.navigate(R.id.loginFragment)
     }
 
+    private fun closeDrawerMenu() {
+        binding.layoutDrawer.closeDrawer(GravityCompat.START)
+    }
+
+    private fun isDrawerOpen(): Boolean {
+        return binding.layoutDrawer.isDrawerOpen(GravityCompat.START)
+    }
+
     private fun setNavigationMenuContent() {
-        if (auth.currentUser != null) {
+        if (viewModel.isUserLoggedIn()) {
             navigationView.menu.setGroupVisible(R.id.unLoggedGroup, false)
             navigationView.menu.setGroupVisible(R.id.loggedInGroup, true)
         } else {
@@ -139,18 +118,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun updateCartSize(user: User) {
-        val cartSize = user.cart?.size
-
-        if (user.cart.isNullOrEmpty()) {
-            binding.textCartQuantityMain.text = "0"
-        } else {
-            binding.textCartQuantityMain.text = cartSize.toString()
-        }
-    }
-
     private fun updateDrawerHeader(user: User) {
-        if (auth.currentUser != null) {
+        if (viewModel.isUserLoggedIn()) {
             binding.layoutDrawer.userDataHeader.text_first_name_value_header.text = user.firstName
             binding.layoutDrawer.userDataHeader.text_last_name_value_header.text = user.lastName
             binding.layoutDrawer.userDataHeader.text_email_value_header.text = user.email

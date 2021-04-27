@@ -1,26 +1,29 @@
-package com.example.engagecommerce.ui.transaction.cart
+package com.example.engagecommerce.presentation.ui.transaction.cart
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.engagecommerce.R
-import com.example.engagecommerce.RootFragment
-import com.example.engagecommerce.adapter.CartAdapter
-import com.example.engagecommerce.adapter.OnProductClick
-import com.example.engagecommerce.data.Product
+import com.example.engagecommerce.application.util.Utils
 import com.example.engagecommerce.databinding.FragmentCartBinding
-import com.example.engagecommerce.utils.Utils
+import com.example.engagecommerce.domain.model.Product
+import com.example.engagecommerce.infrastructure.RootFragment
+import com.example.engagecommerce.presentation.adapters.CartAdapter
+import com.example.engagecommerce.presentation.adapters.OnProductClick
 import com.user.sdk.UserCom
 import com.user.sdk.events.ProductEventType
 import com.user.sdk.events.ScreenName
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ScreenName(name = "Cart")
 class CartFragment : RootFragment(), OnProductClick, View.OnClickListener {
 
-    private lateinit var cartViewModel: CartFragmentViewModel
+    private val cartViewModel: CartFragmentViewModel by viewModels()
     private lateinit var binding: FragmentCartBinding
     private val adapter = CartAdapter(this)
 
@@ -36,10 +39,8 @@ class CartFragment : RootFragment(), OnProductClick, View.OnClickListener {
         )
         setAnimation()
 
-        cartViewModel = CartFragmentViewModel()
         binding.buttonToCheckout.setOnClickListener(this)
         UserCom.getInstance().trackScreen(this)
-
         return binding.root
     }
 

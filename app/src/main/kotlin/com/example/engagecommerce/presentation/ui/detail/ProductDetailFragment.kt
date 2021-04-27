@@ -1,4 +1,4 @@
-package com.example.engagecommerce.ui.detail
+package com.example.engagecommerce.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
-import com.example.engagecommerce.RootFragment
 import com.example.engagecommerce.databinding.FragmentDetailProductBinding
+import com.example.engagecommerce.infrastructure.RootFragment
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint

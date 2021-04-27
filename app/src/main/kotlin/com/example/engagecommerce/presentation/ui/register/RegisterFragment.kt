@@ -1,24 +1,24 @@
-package com.example.engagecommerce.ui.register
+package com.example.engagecommerce.presentation.ui.register
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
-import com.example.engagecommerce.RootFragment
+import com.example.engagecommerce.application.util.Utils
 import com.example.engagecommerce.databinding.FragmentRegisterBinding
-import com.example.engagecommerce.utils.Utils
-import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.SlideDistanceProvider
+import com.example.engagecommerce.infrastructure.RootFragment
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ScreenName(name = "Register")
 class RegisterFragment : RootFragment(), View.OnClickListener {
 
-    private lateinit var viewModel: RegisterViewModel
+    private val viewModel: RegisterViewModel by viewModels()
     private lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
@@ -32,7 +32,6 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
             false
         )
         setAnimation()
-        viewModel = RegisterViewModel()
 
         viewModel.auth.navigate.observe(viewLifecycleOwner, {
             if (it) {
