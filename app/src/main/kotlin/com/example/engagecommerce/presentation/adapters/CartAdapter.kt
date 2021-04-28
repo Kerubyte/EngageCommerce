@@ -1,4 +1,4 @@
-package com.example.engagecommerce.adapter
+package com.example.engagecommerce.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.engagecommerce.R
-import com.example.engagecommerce.data.Product
-import com.example.engagecommerce.utils.Utils
+import com.example.engagecommerce.domain.model.Product
 
 class CartAdapter(private val listener: OnProductClick) :
     RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -22,8 +21,8 @@ class CartAdapter(private val listener: OnProductClick) :
         notifyDataSetChanged()
     }
 
-    fun removeFromCart(product: Product, position: Int) {
-        cartList.remove(product)
+    fun removeFromCart(productEntity: Product, position: Int) {
+        cartList.remove(productEntity)
         notifyItemRemoved(position)
     }
 
@@ -48,7 +47,7 @@ class CartAdapter(private val listener: OnProductClick) :
         val image = holder.itemView.findViewById<ImageView>(R.id.image_product_image_cart)
 
         name.text = cartList[holder.adapterPosition].name
-        price.text = Utils.formatPrice.format(cartList[holder.adapterPosition].price)
+        price.text = cartList[holder.adapterPosition].formattedPrice
         Glide.with(holder.itemView)
             .load(cartList[holder.adapterPosition].imageUrl)
             .into(image)
