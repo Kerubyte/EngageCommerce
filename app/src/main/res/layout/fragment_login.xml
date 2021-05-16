@@ -7,9 +7,6 @@
         <variable
             name="loginFragment"
             type="com.example.engagecommerce.presentation.ui.login.LoginFragment" />
-        <variable
-            name="loginViewModel"
-            type="com.example.engagecommerce.presentation.ui.login.LoginViewModel" />
     </data>
 
 
@@ -133,7 +130,7 @@
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/muli"
-
+                android:onClick="@{() -> loginFragment.loginUser()}"
                 android:text="@string/login_button"
                 android:textAlignment="center"
                 android:textColor="@color/primaryTextColor"
@@ -163,6 +160,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginBottom="32dp"
                 android:fontFamily="@font/muli"
+                android:onClick="@{() -> loginFragment.navigateToRegister()}"
                 android:text="@string/text_sign_up"
                 android:textColor="@color/secondaryDarkColor"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,5 @@
-package com.example.engagecommerce.utils
+package com.example.engagecommerce.application.util
 
-import android.text.TextUtils
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
@@ -8,30 +7,32 @@ import java.util.*
 
 object Utils {
 
-    val locale: Locale = Locale.UK
+    private val locale: Locale = Locale.UK
     val formatPrice: NumberFormat = NumberFormat.getCurrencyInstance(locale)
 
     fun validateEmailAndPassword(email: String, password: String): Boolean {
+
         var valid = true
 
-        if (TextUtils.isEmpty(email)) {
-            valid = false
+        if (email.isNotEmpty()) {
+            valid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
 
-        if (TextUtils.isEmpty(password) && password.length <= 6) {
+        if (password.length < 6) {
             valid = false
         }
         return valid
     }
 
     fun validateFirstAndLastName(firstName: String, lastName: String): Boolean {
+
         var valid = true
 
-        if (TextUtils.isEmpty(firstName)) {
+        if (firstName.length < 3) {
             valid = false
         }
 
-        if (TextUtils.isEmpty(lastName)) {
+        if (lastName.length < 3) {
             valid = false
         }
         return valid

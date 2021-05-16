@@ -10,7 +10,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.engagecommerce.R
 import com.example.engagecommerce.databinding.ActivityMainBinding
-import com.example.engagecommerce.databinding.DrawerHeaderLayoutBinding
 import com.example.engagecommerce.domain.model.User
 import com.google.android.material.navigation.NavigationView
 import com.user.sdk.events.ScreenName
@@ -35,35 +34,15 @@ class MainActivity : AppCompatActivity() {
             )
 
         navigationView = binding.layoutNavigationMenu
-
         navController = Navigation.findNavController(
             this, R.id.navHostFragment
         )
 
         NavigationUI.setupWithNavController(navigationView, navController)
 
-        val bbb: DrawerHeaderLayoutBinding = DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.drawer_header_layout,
-            binding.layoutNavigationMenu,
-            false
-        )
-
-        binding.layoutNavigationMenu.addHeaderView(bbb.root)
-
-        binding.activity = this
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
-        var isUserLogged = viewModel.isUserLoggedIn()
-    }
-
-    override fun onStart() {
-        super.onStart()
+        setBindings()
+        subscribeObservers()
         setNavigationMenuContent()
-        viewModel.currentUser?.observe(this) { user ->
-            updateDrawerHeader(user)
-        }
     }
 
     override fun onBackPressed() {
@@ -124,5 +103,17 @@ class MainActivity : AppCompatActivity() {
             binding.layoutDrawer.userDataHeader.text_last_name_value_header.text = user.lastName
             binding.layoutDrawer.userDataHeader.text_email_value_header.text = user.email
         }
+    }
+
+    private fun subscribeObservers() {
+        viewModel.currentUser?.observe(this) { user ->
+            updateDrawerHeader(user)
+        }
+    }
+
+    private fun setBindings() {
+        binding.activity = this
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 }

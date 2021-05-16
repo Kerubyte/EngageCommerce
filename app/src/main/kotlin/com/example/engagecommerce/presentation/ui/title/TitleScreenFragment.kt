@@ -14,7 +14,6 @@ import com.example.engagecommerce.domain.model.Product
 import com.example.engagecommerce.infrastructure.RootFragment
 import com.example.engagecommerce.presentation.adapters.OnProductClick
 import com.example.engagecommerce.presentation.adapters.ProductAdapter
-import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,22 +36,15 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
             false
         )
         setAnimation()
+        trackScreen(this)
 
-        UserCom.getInstance().trackScreen(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.recyclerTitleScreen.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = productAdapter
-        }
-
-        titleScreenViewModel.products.observe(viewLifecycleOwner, { list ->
-            productAdapter.setProducts(list)
-        })
+        setupRecyclerView()
+        subscribeObservers()
     }
 
     override fun onProductClick(product: Product, position: Int) {
@@ -64,6 +56,18 @@ class TitleScreenFragment : RootFragment(), OnProductClick {
             TitleScreenFragmentDirections
                 .actionTitleScreenFragmentToProductDetailFragment(productUid)
         )
+    }
 
+    private fun setupRecyclerView() {
+        binding.recyclerTitleScreen.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = productAdapter
+        }
+    }
+
+    private fun subscribeObservers() {
+        titleScreenViewModel.products.observe(viewLifecycleOwner, { list ->
+            productAdapter.setProducts(list)
+        })
     }
 }

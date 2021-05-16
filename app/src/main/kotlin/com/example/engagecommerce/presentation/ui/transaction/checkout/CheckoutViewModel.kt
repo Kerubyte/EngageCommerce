@@ -1,12 +1,10 @@
-package com.example.engagecommerce.ui.transaction.checkout
+package com.example.engagecommerce.presentation.ui.transaction.checkout
 
-import android.icu.util.Calendar
-import androidx.lifecycle.ViewModel
-import com.example.engagecommerce.repo.FirebaseCloud
-
+/*
+@HiltViewModel
 class CheckoutViewModel(private val cartValue: String) : ViewModel() {
 
-    private val repository = FirebaseCloud()
+    //private val repository = FirebaseCloud(FirebaseFirestore.getInstance())
     val user = repository.getUserData()
 
     private fun clearUserCart() {
@@ -23,4 +21,4 @@ class CheckoutViewModel(private val cartValue: String) : ViewModel() {
         clearUserCart()
 
     }
-}
+}*/

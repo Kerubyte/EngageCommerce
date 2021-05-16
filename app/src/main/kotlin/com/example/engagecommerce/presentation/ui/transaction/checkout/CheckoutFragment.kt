@@ -1,19 +1,8 @@
-package com.example.engagecommerce.ui.transaction.checkout
+package com.example.engagecommerce.presentation.ui.transaction.checkout
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import com.example.engagecommerce.R
-import com.example.engagecommerce.RootFragment
-import com.example.engagecommerce.data.User
-import com.example.engagecommerce.databinding.FragmentCheckoutBinding
-import com.example.engagecommerce.utils.Utils
-import com.user.sdk.UserCom
-import com.user.sdk.events.ScreenName
+/*
 
+@AndroidEntryPoint
 @ScreenName(name = "Checkout")
 class CheckoutFragment : RootFragment(), View.OnClickListener {
 
@@ -61,9 +50,9 @@ class CheckoutFragment : RootFragment(), View.OnClickListener {
         }
     }
 
-    private fun bindUserData(user: User) {
+    private fun bindUserData(userEntity: UserEntity) {
         val locale = Utils.locale
-        binding.textFirstNameValue.text = user.firstName?.capitalize(locale)
-        binding.textLastNameValue.text = user.lastName?.capitalize(locale)
+        binding.textFirstNameValue.text = userEntity.firstName?.capitalize(locale)
+        binding.textLastNameValue.text = userEntity.lastName?.capitalize(locale)
     }
-}
+}*/

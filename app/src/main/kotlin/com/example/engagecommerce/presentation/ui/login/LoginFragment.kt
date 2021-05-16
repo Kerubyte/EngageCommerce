@@ -9,13 +9,12 @@ import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
 import com.example.engagecommerce.databinding.FragmentLoginBinding
 import com.example.engagecommerce.infrastructure.RootFragment
-import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ScreenName(name = "Login")
-class LoginFragment : RootFragment(), View.OnClickListener {
+class LoginFragment : RootFragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
@@ -32,40 +31,31 @@ class LoginFragment : RootFragment(), View.OnClickListener {
             false
         )
         setAnimation()
+        setBindings()
+        subscribeObservers()
+        trackScreen(this)
 
+        return binding.root
+    }
+
+    fun loginUser() {
+        loginViewModel.loginUser(
+            binding.editLoginEmail.text.trim().toString(),
+            binding.editLoginPassword.text.trim().toString()
+        )
+    }
+
+    private fun subscribeObservers() {
         loginViewModel.navigate.observe(viewLifecycleOwner, {
             if (it) {
                 loginViewModel.onDoneNavigating()
                 restartMainActivity()
             }
         })
-
-        binding.buttonLogin.setOnClickListener(this)
-
-        UserCom.getInstance().trackScreen(this)
-        binding.loginViewModel = loginViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
     }
-    override fun onClick(v: View?) {
-        when (v) {
-            binding.buttonLogin ->
-                loginViewModel.loginUser(
-                    binding.editLoginEmail.text.trim().toString(),
-                    binding.editLoginPassword.text.trim().toString()
 
-                )
-            binding.textSignUpAction ->
-                navigateToRegister()
-        }
-    }/*
-
-    private fun loginUser(email: String, password: String) {
-        if (!Utils.validateEmailAndPassword(email, password)) {
-            val errorMessage = "Invalid Email or Password"
-            notify(errorMessage)
-            return
-        }
-        loginViewModel.loginUser2(email, password)
-    }*/
+    private fun setBindings() {
+        binding.loginFragment = this
+        binding.lifecycleOwner = viewLifecycleOwner
+    }
 }

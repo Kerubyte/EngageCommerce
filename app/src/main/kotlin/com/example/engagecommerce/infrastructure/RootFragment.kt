@@ -1,16 +1,24 @@
-package com.example.engagecommerce
+package com.example.engagecommerce.infrastructure
 
 import android.content.Intent
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.engagecommerce.ui.activity.MainActivity
-import com.example.engagecommerce.ui.transaction.cart.CartFragmentDirections
+import com.example.engagecommerce.R
+import com.example.engagecommerce.presentation.ui.activity.MainActivity
+import com.example.engagecommerce.presentation.ui.transaction.cart.CartFragmentDirections
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.SlideDistanceProvider
+import com.user.sdk.UserCom
+import javax.inject.Inject
 
 abstract class RootFragment : Fragment() {
+
+    @Inject
+    lateinit var userCom: UserCom
+
 
     fun restartMainActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java).apply {
@@ -48,4 +56,11 @@ abstract class RootFragment : Fragment() {
             secondaryAnimatorProvider = SlideDistanceProvider(Gravity.START)
         }
     }
+
+    fun trackScreen(fragment: Fragment) {
+        userCom.trackScreen(fragment)
+    }
+
+    internal fun notify(message: String) =
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
 }

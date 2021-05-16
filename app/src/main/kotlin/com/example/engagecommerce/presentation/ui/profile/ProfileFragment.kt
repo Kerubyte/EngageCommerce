@@ -9,13 +9,12 @@ import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
 import com.example.engagecommerce.databinding.FragmentProfileBinding
 import com.example.engagecommerce.infrastructure.RootFragment
-import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ScreenName(name = "Profile")
-class ProfileFragment : RootFragment(), View.OnClickListener {
+class ProfileFragment : RootFragment() {
 
     private val profileViewModel by viewModels<ProfileViewModel>()
     private lateinit var binding: FragmentProfileBinding
@@ -31,26 +30,23 @@ class ProfileFragment : RootFragment(), View.OnClickListener {
             false
         )
         setAnimation()
+        setBindings()
+        subscribeObservers()
+        trackScreen(this)
 
+        return binding.root
+    }
+
+    private fun subscribeObservers() {
         profileViewModel.navigate.observe(viewLifecycleOwner, {
             if (it) {
                 profileViewModel.onDoneNavigating()
                 restartMainActivity()
             }
         })
-
+    }
+    private fun setBindings() {
         binding.profileViewModel = profileViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.buttonSignOut.setOnClickListener(this)
-        UserCom.getInstance().trackScreen(this)
-        return binding.root
-    }
-
-    override fun onClick(view: View?) {
-        when (view) {
-            binding.buttonSignOut -> {
-                profileViewModel.signOut()
-            }
-        }
     }
 }

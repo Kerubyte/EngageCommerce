@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="registerFragment"
+            type="com.example.engagecommerce.presentation.ui.register.RegisterFragment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_register"
         android:layout_width="match_parent"
@@ -159,6 +165,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/button_background"
             android:fontFamily="@font/muli"
+            android:onClick="@{() -> registerFragment.createUser()}"
             android:text="Register"
             android:textColor="@color/primaryTextColor"
             app:icon="@drawable/ic_person_add"
@@ -216,6 +223,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginBottom="32dp"
             android:fontFamily="@font/muli"
+            android:onClick="@{() -> registerFragment.navigateToLogin()}"
             android:text="@string/sign_in_action_text"
             android:textColor="@color/secondaryDarkColor"
             app:layout_constraintBottom_toBottomOf="parent"

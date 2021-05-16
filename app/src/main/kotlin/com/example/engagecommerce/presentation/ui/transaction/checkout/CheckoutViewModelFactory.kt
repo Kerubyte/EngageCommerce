@@ -1,7 +1,6 @@
-package com.example.engagecommerce.ui.transaction.checkout
+package com.example.engagecommerce.presentation.ui.transaction.checkout
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+/*
 
 class CheckoutViewModelFactory(private val cartValue: String) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -13,4 +12,4 @@ class CheckoutViewModelFactory(private val cartValue: String) : ViewModelProvide
     }
 
 
-}
+}*/

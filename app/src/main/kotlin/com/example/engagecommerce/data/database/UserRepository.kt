@@ -42,6 +42,9 @@ class UserRepository
         return null
     }
 
+    val currentUser = MutableLiveData<User>()
+
+
     override fun getUserData(): LiveData<User>? {
         val responseResult = MutableLiveData<User>()
 
@@ -55,6 +58,7 @@ class UserRepository
                     val userEntity = it.toObject(UserEntity::class.java)
                     val user = inputUserMapper.mapFromEntity(userEntity!!)
                     responseResult.value = user
+                    currentUser.postValue(user)
                 }
             return responseResult
         }
@@ -96,7 +100,7 @@ class UserRepository
                 Log.d("cart", "Removed from Cart")
             }
             .addOnFailureListener {
-                Log.d("cart", it.toString())
+                Log.d("cartError", it.localizedMessage)
             }
     }
 
@@ -110,7 +114,12 @@ class UserRepository
             )
     }
 
-    override fun createAccount(email: String, password: String, firstName: String, lastName: String) {
+    override fun createAccount(
+        email: String,
+        password: String,
+        firstName: String,
+        lastName: String
+    ) {
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {

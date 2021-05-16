@@ -19,6 +19,4 @@ constructor(
         val productUid = repository.getSingleProduct(product.uid.toString())
         return productUid.value.toString()
     }
-
-
 }

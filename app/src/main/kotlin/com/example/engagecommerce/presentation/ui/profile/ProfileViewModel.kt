@@ -17,8 +17,8 @@ constructor(
     val navigate: LiveData<Boolean>
         get() = userRepository.navigate
 
-    val currentUserEntity: LiveData<User>?
-        get() = userRepository.getUserData()
+    val currentUserEntity: LiveData<User>
+        get() = userRepository.currentUser
 
     fun onDoneNavigating() {
         userRepository.onDoneNavigating()

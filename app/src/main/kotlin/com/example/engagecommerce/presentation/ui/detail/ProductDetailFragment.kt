@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import com.example.engagecommerce.R
 import com.example.engagecommerce.databinding.FragmentDetailProductBinding
 import com.example.engagecommerce.infrastructure.RootFragment
-import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,14 +30,21 @@ class ProductDetailFragment : RootFragment() {
             false
         )
         setAnimation()
+        setBidings()
+        subscribeObservers()
+        trackScreen(this)
 
+        return binding.root
+    }
+
+    private fun subscribeObservers() {
         viewModel.navigate.observe(viewLifecycleOwner, {
             if (it) navigateToLogin()
         })
+    }
 
+    private fun setBidings() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        UserCom.getInstance().trackScreen(this)
-        return binding.root
     }
 }

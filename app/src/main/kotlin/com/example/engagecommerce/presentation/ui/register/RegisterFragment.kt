@@ -10,13 +10,12 @@ import com.example.engagecommerce.R
 import com.example.engagecommerce.application.util.Utils
 import com.example.engagecommerce.databinding.FragmentRegisterBinding
 import com.example.engagecommerce.infrastructure.RootFragment
-import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ScreenName(name = "Register")
-class RegisterFragment : RootFragment(), View.OnClickListener {
+class RegisterFragment : RootFragment() {
 
     private val viewModel: RegisterViewModel by viewModels()
     private lateinit var binding: FragmentRegisterBinding
@@ -32,41 +31,23 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
             false
         )
         setAnimation()
+        setBindings()
+        subscribeObservers()
+        trackScreen(this)
 
-        viewModel.auth.navigate.observe(viewLifecycleOwner, {
-            if (it) {
-                viewModel.auth.onDoneNavigating()
-                restartMainActivity()
-            }
-        })
-
-        binding.buttonRegister.setOnClickListener(this)
-        binding.textSignInAction.setOnClickListener(this)
-        UserCom.getInstance().trackScreen(this)
         return binding.root
     }
 
-    override fun onClick(v: View) {
-        when (v) {
-            binding.buttonRegister -> {
-                createUser(
-                    binding.editEmailRegister.text.trim().toString(),
-                    binding.editPasswordRegister.text.trim().toString(),
-                    binding.editFirstName.text.trim().toString(),
-                    binding.editLastName.text.trim().toString()
-                )
-            }
-            binding.textSignInAction -> {
-                navigateToLogin()
-            }
-        }
-    }
+    fun createUser() {
 
-    private fun createUser(email: String, password: String, firstName: String, lastName: String) {
+        val email = binding.editEmailRegister.text.trim().toString()
+        val password = binding.editPasswordRegister.text.trim().toString()
+        val firstName = binding.editFirstName.text.trim().toString()
+        val lastName = binding.editLastName.text.trim().toString()
 
         if (!Utils.validateEmailAndPassword(email, password)) {
             binding.editEmailRegister.error = "Required"
-            binding.editPasswordRegister.error = "Require at least 6 characters"
+            binding.editPasswordRegister.error = "Requires at least 6 characters"
             return
         }
         if (!Utils.validateFirstAndLastName(firstName, lastName)) {
@@ -74,6 +55,20 @@ class RegisterFragment : RootFragment(), View.OnClickListener {
             binding.editLastName.error = "Required"
             return
         }
-        viewModel.auth.createAccount(email, password, firstName, lastName)
+        viewModel.createUser(email, password, firstName, lastName)
+    }
+
+    private fun subscribeObservers() {
+        viewModel.navigate.observe(viewLifecycleOwner, {
+            if (it) {
+                viewModel.onDoneNavigating()
+                restartMainActivity()
+            }
+        })
+    }
+
+    private fun setBindings() {
+        binding.registerFragment = this
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 }
