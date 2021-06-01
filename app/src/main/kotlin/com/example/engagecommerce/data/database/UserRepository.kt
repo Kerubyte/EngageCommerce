@@ -34,6 +34,14 @@ class UserRepository
     val navigate: LiveData<Boolean>
         get() = _navigate
 
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User>
+        get() = _currentUser
+
+    private val _userCartState: MutableLiveData<UserCart> = MutableLiveData()
+    val userCartState: LiveData<UserCart>
+        get() = _userCartState
+
     override fun getCurrentUser(): DocumentReference? {
         if (auth.currentUser != null) {
             return firestore.collection("users")
@@ -42,8 +50,25 @@ class UserRepository
         return null
     }
 
-    val currentUser = MutableLiveData<User>()
+    fun getUserCart() {
 
+        if (auth.currentUser != null) {
+            val uid = auth.currentUser?.uid
+
+            firestore.collection("users")
+                .document(uid!!)
+                .get()
+                .addOnSuccessListener {
+                    val userEntity = it.toObject(UserEntity::class.java)
+                    val user = inputUserMapper.mapFromEntity(userEntity!!)
+                    if (user.cart.isNullOrEmpty()) {
+                        _userCartState.postValue(UserCart.Empty)
+                    } else {
+                        _userCartState.postValue(UserCart.NotEmpty(user.cart))
+                    }
+                }
+        }
+    }
 
     override fun getUserData(): LiveData<User>? {
         val responseResult = MutableLiveData<User>()
@@ -58,7 +83,7 @@ class UserRepository
                     val userEntity = it.toObject(UserEntity::class.java)
                     val user = inputUserMapper.mapFromEntity(userEntity!!)
                     responseResult.value = user
-                    currentUser.postValue(user)
+                    _currentUser.postValue(user)
                 }
             return responseResult
         }
@@ -80,10 +105,10 @@ class UserRepository
             }
     }
 
-    override fun addToCart(productUid: String) {
+    override fun addToCart(product: Product) {
         firestore.collection("users")
             .document(auth.currentUser?.uid!!)
-            .update("cart", FieldValue.arrayUnion(productUid))
+            .update("cart", FieldValue.arrayUnion(product))
             .addOnSuccessListener {
                 Log.d("cart", "Added to Cart")
             }
@@ -95,7 +120,7 @@ class UserRepository
     override fun removeFromCart(product: Product) {
         firestore.collection("users")
             .document(auth.currentUser?.uid!!)
-            .update("cart",FieldValue.arrayRemove(product.uid))
+            .update("cart", FieldValue.arrayRemove(product))
             .addOnSuccessListener {
                 Log.d("cart", "Removed from Cart")
             }
@@ -173,6 +198,13 @@ class UserRepository
 
     override fun onDoneNavigating() {
         _navigate.value = false
+    }
+
+    sealed class UserCart {
+
+        object Empty : UserCart()
+        data class NotEmpty(val list: List<Product>) : UserCart()
+        object Error : UserCart()
     }
 
     init {

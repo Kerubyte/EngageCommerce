@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cartViewModel"
+            type="com.example.engagecommerce.presentation.ui.transaction.cart.CartFragmentViewModel" />
+    </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_cart_main"
     android:layout_width="match_parent"
@@ -59,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/muli"
-        android:text="@string/default_cart_quantity_value"
+        android:text="@{cartViewModel.cartQuantity}"
         android:textColor="@color/secondaryDarkColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/text_cart_total_value"
@@ -72,7 +79,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/muli"
         android:textColor="@color/secondaryDarkColor"
-        android:text="@string/default_cart_total_value"
+        android:text="@{cartViewModel.cartValue}"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/button_to_checkout"
         app:layout_constraintTop_toBottomOf="@+id/text_cart_quantity_value" />
@@ -86,6 +93,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
+        android:enabled="@{cartViewModel.isCartEmpty()}"
         android:fontFamily="@font/muli"
         android:text="@string/checkout_button"
         android:textAlignment="center"
@@ -95,8 +103,8 @@
         app:iconTint="@color/secondaryDarkColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:enabled="false"
         app:strokeColor="#FFB300" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
