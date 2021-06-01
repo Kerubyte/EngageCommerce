@@ -17,7 +17,6 @@ constructor() : NullableProductEntityMapper<ProductEntity, Product> {
             price = model.price,
             category = model.category,
             description = model.description,
-            details = model.details,
             imageUrl = model.imageUrl,
             delivery = model.delivery
         )

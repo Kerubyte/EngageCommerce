@@ -9,6 +9,6 @@ interface FirebaseDatabase {
 
     fun getSingleProduct(uid: String): LiveData<Product>
 
-    fun getProductsFromCart(list: List<String>?): LiveData<List<Product>>
+    fun getProductsFromCart(list: List<Product>?): LiveData<List<Product>>
 
 }

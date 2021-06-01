@@ -21,8 +21,8 @@ class CartAdapter(private val listener: OnProductClick) :
         notifyDataSetChanged()
     }
 
-    fun removeFromCart(productEntity: Product, position: Int) {
-        cartList.remove(productEntity)
+    fun removeFromCart(product: Product, position: Int) {
+        cartList.remove(product)
         notifyItemRemoved(position)
     }
 

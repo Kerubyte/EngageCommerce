@@ -24,7 +24,6 @@ constructor(
             formattedPrice = entity?.price?.let { priceFormatter.formatPrice(it) }.orEmpty(),
             category = entity?.category.orEmpty(),
             description = entity?.description.orEmpty(),
-            details = entity?.details.orEmpty(),
             imageUrl = entity?.imageUrl.orEmpty(),
             delivery = entity?.delivery ?: false
         )

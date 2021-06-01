@@ -17,7 +17,7 @@ constructor() : NullableUserEntityMapper<UserEntity?, User> {
             firstName = entity?.firstName.orEmpty(),
             lastName = entity?.lastName.orEmpty(),
             email = entity?.email.orEmpty(),
-            cart = entity?.cart ?: listOf("hejaaa")
+            cart = entity?.cart.orEmpty()
         )
     }
 }

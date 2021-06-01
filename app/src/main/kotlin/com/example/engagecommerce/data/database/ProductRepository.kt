@@ -57,7 +57,7 @@ class ProductRepository
         return responseResult
     }
 
-    override fun getProductsFromCart(list: List<String>?): LiveData<List<Product>> {
+    override fun getProductsFromCart(list: List<Product>?): LiveData<List<Product>> {
 
         val firestoreResult = MutableLiveData<List<Product>>()
 
