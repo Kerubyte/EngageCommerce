@@ -47,7 +47,7 @@ constructor(
             }
             querySnapshot?.let {
                 val user = it.toObject<UserEntity>()
-                _isProductInCart.value = checkForProductInCart(user?.cart)
+                _isProductInCart.postValue(checkForProductInCart(user?.cart))
             }
         }
 
@@ -60,16 +60,14 @@ constructor(
         }
     }
 
-    private fun checkForProductInCart(userCart: List<String>?): Boolean {
+    private fun checkForProductInCart(userCart: List<Product>?): Boolean {
         return if (userCart != null) productUid !in userCart
         else true
     }
 
     private fun addToCart() {
-        if (productUid != null) {
-            userRepository.addToCart(productUid)
-        }
-       sendProductEvent(ProductEventType.ADD_TO_CART)
+        currentProduct.value?.let { userRepository.addToCart(it) }
+        sendProductEvent(ProductEventType.ADD_TO_CART)
     }
 
     private fun sendProductEvent(eventType: ProductEventType) {
