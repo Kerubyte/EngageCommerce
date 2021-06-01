@@ -13,7 +13,7 @@ interface UserDatabase {
 
     fun createNewUser(user: User)
 
-    fun addToCart(productUid: String)
+    fun addToCart(product: Product)
 
     fun removeFromCart(product: Product)
 
