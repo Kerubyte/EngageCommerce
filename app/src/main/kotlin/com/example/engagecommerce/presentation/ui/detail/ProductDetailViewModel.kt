@@ -1,7 +1,10 @@
 package com.example.engagecommerce.presentation.ui.detail
 
 import android.util.Log
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
+import com.bumptech.glide.Glide
 import com.example.engagecommerce.data.database.ProductRepository
 import com.example.engagecommerce.data.database.UserRepository
 import com.example.engagecommerce.data.entity.UserEntity
@@ -47,7 +50,7 @@ constructor(
             }
             querySnapshot?.let {
                 val user = it.toObject<UserEntity>()
-                _isProductInCart.postValue(checkForProductInCart(user?.cart))
+                _isProductInCart.value = checkForProductInCart(user?.cart)
             }
         }
 
@@ -108,6 +111,16 @@ constructor(
     override fun onCleared() {
         super.onCleared()
         snapshotListenerRegistration?.remove()
+    }
+
+    // TODO refactor
+    companion object {
+
+        @JvmStatic
+        @BindingAdapter("imageUrl")
+        fun loadImage(view: ImageView, url: String?) {
+            Glide.with(view.context).load(url).into(view)
+        }
     }
 
     init {

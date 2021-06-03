@@ -38,7 +38,7 @@ constructor(
                 val userEntity = it.toObject<UserEntity>()
                 val currentUser = userEntityMapper.mapFromEntity(userEntity)
                 val cartSizeValue = provideCartSize(currentUser)
-                _cartSize.postValue(cartSizeValue)
+                _cartSize.value = cartSizeValue
             }
         }
 

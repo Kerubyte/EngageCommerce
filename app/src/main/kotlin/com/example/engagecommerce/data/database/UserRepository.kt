@@ -62,9 +62,9 @@ class UserRepository
                     val userEntity = it.toObject(UserEntity::class.java)
                     val user = inputUserMapper.mapFromEntity(userEntity!!)
                     if (user.cart.isNullOrEmpty()) {
-                        _userCartState.postValue(UserCart.Empty)
+                        _userCartState.value = UserCart.Empty
                     } else {
-                        _userCartState.postValue(UserCart.NotEmpty(user.cart))
+                        _userCartState.value = UserCart.NotEmpty(user.cart)
                     }
                 }
         }
@@ -83,7 +83,7 @@ class UserRepository
                     val userEntity = it.toObject(UserEntity::class.java)
                     val user = inputUserMapper.mapFromEntity(userEntity!!)
                     responseResult.value = user
-                    _currentUser.postValue(user)
+                    _currentUser.value = user
                 }
             return responseResult
         }

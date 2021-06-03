@@ -18,7 +18,6 @@ class ProductRepository
 
     val currentProduct = MutableLiveData<Product>()
 
-
     override fun getProducts(): LiveData<List<Product>> {
 
         val responseResult = MutableLiveData<List<Product>>()
@@ -48,8 +47,8 @@ class ProductRepository
                 val product = productEntity?.let { entity ->
                     inputProductMapper.mapFromEntity(entity)
                 }
-                responseResult.postValue(product!!)
-                currentProduct.postValue(product!!)
+                responseResult.value = product!!
+                currentProduct.value = product!!
             }
             .addOnFailureListener { e ->
                 Log.d("getSingleProduct", e.toString())
@@ -67,9 +66,8 @@ class ProductRepository
                 .get()
                 .addOnSuccessListener {
                     val cartEntityList = it.toObjects(ProductEntity::class.java)
-
                     val cartList = inputProductMapper.mapFromEntityList(cartEntityList)
-                    firestoreResult.postValue(cartList)
+                    firestoreResult.value = cartList
                 }
                 .addOnFailureListener {
                     Log.d("getCart", it.toString())

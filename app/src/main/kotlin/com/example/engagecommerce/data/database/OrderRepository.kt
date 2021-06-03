@@ -39,7 +39,7 @@ constructor(
             .get()
             .addOnSuccessListener {
                 val order = it.toObjects(Order::class.java)
-                result.postValue(order)
+                result.value = order
             }
             .addOnFailureListener {
                 Log.d("getOrders", it.message.toString())
@@ -58,7 +58,7 @@ constructor(
                 .get()
                 .addOnSuccessListener {
                     val cartList = it.toObjects(ProductEntity::class.java)
-                    result.postValue(cartList)
+                    result.value = cartList
                 }
                 .addOnFailureListener {
                     Log.d("getProductsFromOrder", it.message.toString())

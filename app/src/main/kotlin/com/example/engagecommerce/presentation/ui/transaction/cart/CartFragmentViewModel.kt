@@ -19,8 +19,6 @@ constructor(
     private val priceFormatter: PriceFormatter
 ) : ViewModel() {
 
-    private val user = userRepository.currentUser
-
     private val _cartValue = MutableLiveData<String>()
     val cartValue: LiveData<String>
         get() = _cartValue
@@ -32,6 +30,8 @@ constructor(
     private val _isCartEmpty = MutableLiveData<Boolean>()
     val isCartEmpty: LiveData<Boolean>
         get() = _isCartEmpty
+
+    private val user = userRepository.currentUser
 
     val userCart = user.map {
         it.cart
@@ -48,20 +48,18 @@ constructor(
     }
 
     private fun handleEmptyCart() {
-        _cartValue.postValue(priceFormatter.formatPrice(0))
-        _cartQuantity.postValue("0")
-        _isCartEmpty.postValue(false)
+        _cartValue.value = priceFormatter.formatPrice(0)
+        _cartQuantity.value = "0"
+        _isCartEmpty.value = false
     }
 
     private fun handlePopulatedCart(list: List<Product>) {
 
-        val cartValue = list.map {
-            it.price
-        }.sum()
+        val cartValue = list.map { it.price }.sum()
 
-        _cartValue.postValue(cartValue.let { priceFormatter.formatPrice(it) })
-        _cartQuantity.postValue(userCart.value?.size.toString())
-        _isCartEmpty.postValue(true)
+        _cartValue.value = priceFormatter.formatPrice(cartValue)
+        _cartQuantity.value = userCart.value?.size.toString()
+        _isCartEmpty.value = true
     }
 
     private fun handleCartError() {
