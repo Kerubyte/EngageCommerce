@@ -27,15 +27,13 @@ constructor(
     val cartQuantity: LiveData<String>
         get() = _cartQuantity
 
-    private val _isCartEmpty = MutableLiveData<Boolean>()
-    val isCartEmpty: LiveData<Boolean>
-        get() = _isCartEmpty
+    private val _isCartNotEmpty = MutableLiveData<Boolean>()
+    val isCartNotEmpty: LiveData<Boolean>
+        get() = _isCartNotEmpty
 
     private val user = userRepository.currentUser
 
-    val userCart = user.map {
-        it.cart
-    }
+    val userCart = user.map { it.cart }
 
     private fun subscribeObserver() {
         userRepository.userCartState.observeForever {
@@ -49,8 +47,8 @@ constructor(
 
     private fun handleEmptyCart() {
         _cartValue.value = priceFormatter.formatPrice(0)
-        _cartQuantity.value = "0"
-        _isCartEmpty.value = false
+        _cartQuantity.value = userCart.value?.size.toString()
+        _isCartNotEmpty.value = false
     }
 
     private fun handlePopulatedCart(list: List<Product>) {
@@ -59,7 +57,7 @@ constructor(
 
         _cartValue.value = priceFormatter.formatPrice(cartValue)
         _cartQuantity.value = userCart.value?.size.toString()
-        _isCartEmpty.value = true
+        _isCartNotEmpty.value = true
     }
 
     private fun handleCartError() {

@@ -59,19 +59,7 @@ class CartFragment : RootFragment(), OnProductClick {
     override fun onProductClick(product: Product, position: Int) {
         cartViewModel.handleRemoveFromCart(product)
         cartAdapter.removeFromCart(product, position)
-
-       // updateCart()
     }
-/*
-    private fun updateCart() {
-        val productsInCartList = cartAdapter.cartList
-        enableButtonIfCartIsNotEmpty(productsInCartList)
-    }
-
-    private fun enableButtonIfCartIsNotEmpty(list: List<Product>) {
-        val button = binding.buttonToCheckout
-        button.isEnabled = !list.isNullOrEmpty()
-    }*/
 
     private fun setBidings() {
         binding.cartViewModel = cartViewModel
