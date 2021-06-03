@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.engagecommerce.application.repo.UserDatabase
+import com.example.engagecommerce.application.util.Constants.COLLECTION_USERS
 import com.example.engagecommerce.data.database.mappers.NullableInputUserEntityMapper
 import com.example.engagecommerce.data.database.mappers.NullableOutputUserEntityMapper
 import com.example.engagecommerce.data.entity.UserEntity
@@ -44,7 +45,7 @@ class UserRepository
 
     override fun getCurrentUser(): DocumentReference? {
         if (auth.currentUser != null) {
-            return firestore.collection("users")
+            return firestore.collection(COLLECTION_USERS)
                 .document(auth.currentUser!!.uid)
         }
         return null
@@ -55,7 +56,7 @@ class UserRepository
         if (auth.currentUser != null) {
             val uid = auth.currentUser?.uid
 
-            firestore.collection("users")
+            firestore.collection(COLLECTION_USERS)
                 .document(uid!!)
                 .get()
                 .addOnSuccessListener {
@@ -76,7 +77,7 @@ class UserRepository
         if (auth.currentUser != null) {
             val uid = auth.currentUser?.uid
 
-            firestore.collection("users")
+            firestore.collection(COLLECTION_USERS)
                 .document(uid!!)
                 .get()
                 .addOnSuccessListener {
@@ -93,7 +94,7 @@ class UserRepository
     override fun createNewUser(user: User) {
         val userEntity = outputUserMapper.mapToEntity(user)
 
-        firestore.collection("users")
+        firestore.collection(COLLECTION_USERS)
             .document(user.uid)
             .set(userEntity)
             .addOnSuccessListener {
@@ -106,7 +107,7 @@ class UserRepository
     }
 
     override fun addToCart(product: Product) {
-        firestore.collection("users")
+        firestore.collection(COLLECTION_USERS)
             .document(auth.currentUser?.uid!!)
             .update("cart", FieldValue.arrayUnion(product))
             .addOnSuccessListener {
@@ -118,7 +119,7 @@ class UserRepository
     }
 
     override fun removeFromCart(product: Product) {
-        firestore.collection("users")
+        firestore.collection(COLLECTION_USERS)
             .document(auth.currentUser?.uid!!)
             .update("cart", FieldValue.arrayRemove(product))
             .addOnSuccessListener {
@@ -130,7 +131,7 @@ class UserRepository
     }
 
     override fun clearUserCart() {
-        firestore.collection("users")
+        firestore.collection(COLLECTION_USERS)
             .document(auth.currentUser?.uid!!)
             .update(
                 mapOf(

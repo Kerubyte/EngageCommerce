@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.engagecommerce.application.repo.OrderDatabase
+import com.example.engagecommerce.application.util.Constants.COLLECTION_ORDERS
 import com.example.engagecommerce.data.entity.ProductEntity
 import com.example.engagecommerce.domain.model.Order
 import com.google.firebase.auth.FirebaseAuth
@@ -23,9 +24,9 @@ constructor(
         order["time"] = timeNow
         order["value"] = value
 
-        repository.collection("orders")
+        repository.collection(COLLECTION_ORDERS)
             .document(auth.currentUser?.uid!!)
-            .collection("orders")
+            .collection(COLLECTION_ORDERS)
             .document(timeNow)
             .set(order)
     }
@@ -33,9 +34,9 @@ constructor(
     override fun getOrders(): LiveData<List<Order>> {
         val result = MutableLiveData<List<Order>>()
 
-        repository.collection("orders")
+        repository.collection(COLLECTION_ORDERS)
             .document(auth.currentUser!!.uid)
-            .collection("orders")
+            .collection(COLLECTION_ORDERS)
             .get()
             .addOnSuccessListener {
                 val order = it.toObjects(Order::class.java)
@@ -51,9 +52,9 @@ constructor(
         val result = MutableLiveData<List<ProductEntity>>()
 
         if (!list.isNullOrEmpty()) {
-            repository.collection("orders")
+            repository.collection(COLLECTION_ORDERS)
                 .document(auth.currentUser!!.uid)
-                .collection("orders")
+                .collection(COLLECTION_ORDERS)
                 .whereIn("uid", list)
                 .get()
                 .addOnSuccessListener {

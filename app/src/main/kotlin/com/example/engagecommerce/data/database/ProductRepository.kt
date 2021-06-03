@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.engagecommerce.application.repo.FirebaseDatabase
+import com.example.engagecommerce.application.util.Constants.COLLECTION_PRODUCTS
 import com.example.engagecommerce.data.database.mappers.NullableInputProductEntityMapper
 import com.example.engagecommerce.data.entity.ProductEntity
 import com.example.engagecommerce.domain.model.Product
@@ -22,7 +23,7 @@ class ProductRepository
 
         val responseResult = MutableLiveData<List<Product>>()
 
-        firestore.collection("products")
+        firestore.collection(COLLECTION_PRODUCTS)
             .get()
             .addOnSuccessListener {
                 val productEntities = it.toObjects(ProductEntity::class.java)
@@ -39,7 +40,7 @@ class ProductRepository
 
         val responseResult = MutableLiveData<Product>()
 
-        firestore.collection("products")
+        firestore.collection(COLLECTION_PRODUCTS)
             .document(uid)
             .get()
             .addOnSuccessListener {
@@ -61,7 +62,7 @@ class ProductRepository
         val firestoreResult = MutableLiveData<List<Product>>()
 
         if (!list.isNullOrEmpty()) {
-            firestore.collection("products")
+            firestore.collection(COLLECTION_PRODUCTS)
                 .whereIn("uid", list)
                 .get()
                 .addOnSuccessListener {
