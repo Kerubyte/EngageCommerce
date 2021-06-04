@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.engagecommerce.application.repo.UserDatabase
+import com.example.engagecommerce.application.state.UserCartState
 import com.example.engagecommerce.application.util.Constants.COLLECTION_USERS
 import com.example.engagecommerce.data.database.mappers.NullableInputUserEntityMapper
 import com.example.engagecommerce.data.database.mappers.NullableOutputUserEntityMapper
@@ -39,8 +40,8 @@ class UserRepository
     val currentUser: LiveData<User>
         get() = _currentUser
 
-    private val _userCartState: MutableLiveData<UserCart> = MutableLiveData()
-    val userCartState: LiveData<UserCart>
+    private val _userCartState: MutableLiveData<UserCartState.UserCart> = MutableLiveData()
+    val userCartState: LiveData<UserCartState.UserCart>
         get() = _userCartState
 
     override fun getCurrentUser(): DocumentReference? {
@@ -49,26 +50,6 @@ class UserRepository
                 .document(auth.currentUser!!.uid)
         }
         return null
-    }
-
-    fun getUserCart() {
-
-        if (auth.currentUser != null) {
-            val uid = auth.currentUser?.uid
-
-            firestore.collection(COLLECTION_USERS)
-                .document(uid!!)
-                .get()
-                .addOnSuccessListener {
-                    val userEntity = it.toObject(UserEntity::class.java)
-                    val user = inputUserMapper.mapFromEntity(userEntity!!)
-                    if (user.cart.isNullOrEmpty()) {
-                        _userCartState.value = UserCart.Empty
-                    } else {
-                        _userCartState.value = UserCart.NotEmpty(user.cart)
-                    }
-                }
-        }
     }
 
     override fun getUserData(): LiveData<User>? {
@@ -91,19 +72,27 @@ class UserRepository
         return null
     }
 
-    override fun createNewUser(user: User) {
-        val userEntity = outputUserMapper.mapToEntity(user)
+    override fun getUserCart() {
 
-        firestore.collection(COLLECTION_USERS)
-            .document(user.uid)
-            .set(userEntity)
-            .addOnSuccessListener {
-                Log.d("createUser", "success")
-            }
-            .addOnFailureListener { e ->
+        if (auth.currentUser != null) {
+            val uid = auth.currentUser?.uid
 
-                Log.d("createUser", e.toString())
-            }
+            firestore.collection(COLLECTION_USERS)
+                .document(uid!!)
+                .get()
+                .addOnSuccessListener {
+                    val userEntity = it.toObject(UserEntity::class.java)
+                    val user = inputUserMapper.mapFromEntity(userEntity!!)
+                    if (user.cart.isNullOrEmpty()) {
+                        _userCartState.value = UserCartState.UserCart.Empty
+                    } else {
+                        _userCartState.value = UserCartState.UserCart.NotEmpty(user.cart)
+                    }
+                }
+                .addOnFailureListener {
+                    _userCartState.value = UserCartState.UserCart.Error
+                }
+        }
     }
 
     override fun addToCart(product: Product) {
@@ -138,6 +127,21 @@ class UserRepository
                     "cart" to FieldValue.delete()
                 )
             )
+    }
+
+    override fun createNewUser(user: User) {
+        val userEntity = outputUserMapper.mapToEntity(user)
+
+        firestore.collection(COLLECTION_USERS)
+            .document(user.uid)
+            .set(userEntity)
+            .addOnSuccessListener {
+                Log.d("createUser", "success")
+            }
+            .addOnFailureListener { e ->
+
+                Log.d("createUser", e.toString())
+            }
     }
 
     override fun createAccount(
@@ -199,13 +203,6 @@ class UserRepository
 
     override fun onDoneNavigating() {
         _navigate.value = false
-    }
-
-    sealed class UserCart {
-
-        object Empty : UserCart()
-        data class NotEmpty(val list: List<Product>) : UserCart()
-        object Error : UserCart()
     }
 
     init {

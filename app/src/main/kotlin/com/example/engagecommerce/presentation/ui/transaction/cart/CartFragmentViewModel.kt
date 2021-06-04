@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.example.engagecommerce.application.state.UserCartState
 import com.example.engagecommerce.application.util.PriceFormatter
 import com.example.engagecommerce.data.database.UserRepository
 import com.example.engagecommerce.domain.model.Product
@@ -38,9 +39,9 @@ constructor(
     private fun subscribeObserver() {
         userRepository.userCartState.observeForever {
             when (it) {
-                is UserRepository.UserCart.Empty -> handleEmptyCart()
-                is UserRepository.UserCart.NotEmpty -> handlePopulatedCart(it.list)
-                is UserRepository.UserCart.Error -> handleCartError()
+                is UserCartState.UserCart.Empty -> handleEmptyCart()
+                is UserCartState.UserCart.NotEmpty -> handlePopulatedCart(it.list)
+                is UserCartState.UserCart.Error -> handleCartError()
             }
         }
     }

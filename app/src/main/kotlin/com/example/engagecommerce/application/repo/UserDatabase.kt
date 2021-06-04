@@ -11,13 +11,15 @@ interface UserDatabase {
 
     fun getUserData(): LiveData<User>?
 
-    fun createNewUser(user: User)
+    fun getUserCart()
 
     fun addToCart(product: Product)
 
     fun removeFromCart(product: Product)
 
     fun clearUserCart()
+
+    fun createNewUser(user: User)
 
     fun createAccount(email: String, password: String, firstName: String, lastName: String)
 
