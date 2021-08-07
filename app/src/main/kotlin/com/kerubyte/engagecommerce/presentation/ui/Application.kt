@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.ui
+package com.kerubyte.engagecommerce.presentation.ui
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
