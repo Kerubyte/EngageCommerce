@@ -1,5 +1,6 @@
 package com.kerubyte.engagecommerce.application.utils.mapper
 
+import com.kerubyte.engagecommerce.application.utils.PriceFormatter
 import com.kerubyte.engagecommerce.domain.model.database.DatabaseProduct
 import com.kerubyte.engagecommerce.domain.model.local.Product
 import javax.inject.Inject
@@ -9,7 +10,9 @@ interface NullableDatabaseProductMapper<Entity, Model> : DatabaseProductMapper<E
 
 class NullableInputDatabaseProductMapper
     @Inject
-    constructor() : NullableDatabaseProductMapper<DatabaseProduct?, Product> {
+    constructor(
+        private val priceFormatter: PriceFormatter
+    ) : NullableDatabaseProductMapper<DatabaseProduct?, Product> {
 
         fun mapFromDatabase(entity: DatabaseProduct?): Product =
             Product(
@@ -17,7 +20,7 @@ class NullableInputDatabaseProductMapper
                 name = entity?.name.orEmpty(),
                 brand = entity?.brand.orEmpty(),
                 price = entity?.price ?: 0.00,
-                formattedPrice = entity?.price.toString(),
+                formattedPrice = priceFormatter.formatPrice(entity?.price),
                 category = entity?.category.orEmpty(),
                 description = entity?.description.orEmpty(),
                 imageUrl = entity?.imageUrl.orEmpty(),
