@@ -8,7 +8,9 @@ import androidx.navigation.Navigation
 import com.google.android.material.navigation.NavigationView
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
