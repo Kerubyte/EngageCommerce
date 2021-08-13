@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.application.utils.Status
@@ -36,6 +37,7 @@ class TitleFragment : RootFragment() {
         setAnimation()
         setupObserver()
         setUpRecycler()
+        setOnItemClickListener()
 
         return binding.root
     }
@@ -66,6 +68,19 @@ class TitleFragment : RootFragment() {
                 }
             }
         })
+    }
+
+    private fun setOnItemClickListener() {
+        titleAdapter.setOnItemClickListener { product ->
+            openProductDetails(product.uid)
+        }
+    }
+
+    private fun openProductDetails(productUid: String) {
+        findNavController().navigate(
+            TitleFragmentDirections
+                .actionTitleFragmentToProductDetailFragment(productUid)
+        )
     }
 
     private fun hideProgressBar() {

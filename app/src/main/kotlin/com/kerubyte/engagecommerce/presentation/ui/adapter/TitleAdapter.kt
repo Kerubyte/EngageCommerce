@@ -37,11 +37,21 @@ class TitleAdapter : RecyclerView.Adapter<TitleAdapter.ViewHolder>() {
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    inner class ViewHolder(val binding: RecyclerTitleItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: RecyclerTitleItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Product) {
             binding.item = item
+            binding.root.setOnClickListener {
+                onItemClickListener?.let { it(item) }
+            }
             binding.executePendingBindings()
         }
+    }
+
+    private var onItemClickListener: ((Product) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Product) -> Unit) {
+        onItemClickListener = listener
     }
 }
