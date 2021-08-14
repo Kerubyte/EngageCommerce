@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="mainActivity"
+            type="com.kerubyte.engagecommerce.presentation.ui.activity.MainActivity" />
+
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/layout_drawer"
         android:layout_width="match_parent"
@@ -19,10 +26,54 @@
             android:id="@+id/layout_actionbar_root"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/black"
+            android:background="@color/primaryColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_open_drawer_action"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="10dp"
+                android:onClick="@{() -> mainActivity.openDrawerMenu()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_hamburger" />
+
+            <ImageView
+                android:id="@+id/image_open_profile_action"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_open_cart_action"
+                app:layout_constraintEnd_toStartOf="@+id/image_open_cart_action"
+                app:layout_constraintTop_toTopOf="@+id/image_open_cart_action"
+                app:srcCompat="@drawable/ic_person" />
+
+            <ImageView
+                android:id="@+id/image_open_cart_action"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_cart" />
+
+            <TextView
+                android:id="@+id/text_user_cart_items_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="0"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_open_cart_action"
+                app:layout_constraintEnd_toEndOf="@+id/image_open_cart_action"
+                app:layout_constraintHorizontal_bias="0.55"
+                app:layout_constraintStart_toStartOf="@+id/image_open_cart_action"
+                app:layout_constraintTop_toTopOf="@+id/image_open_cart_action" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -34,8 +85,10 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_actionbar_root"
+            app:layout_constraintVertical_bias="1.0"
             app:navGraph="@navigation/navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

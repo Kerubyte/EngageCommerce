@@ -2,9 +2,11 @@ package com.kerubyte.engagecommerce.presentation.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
@@ -30,5 +32,17 @@ class MainActivity : AppCompatActivity() {
             this,
             R.id.nav_host_fragment
         )
+        NavigationUI.setupWithNavController(navigationView, navController)
+
+        setBindings()
+    }
+
+    fun openDrawerMenu() {
+        binding.layoutDrawer.openDrawer(GravityCompat.START)
+    }
+
+    private fun setBindings() {
+        binding.mainActivity = this
+        binding.lifecycleOwner = this
     }
 }
