@@ -7,4 +7,6 @@ interface ProductRepository {
 
     suspend fun getAllProducts(): Resource<List<Product>>
 
+    suspend fun getSingleProduct(productUid: String): Resource<Product>
+
 }
