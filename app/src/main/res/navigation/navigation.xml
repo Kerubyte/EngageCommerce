@@ -20,4 +20,8 @@
             android:name="productUid"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragment"
+        android:label="RegisterFragment" />
 </navigation>
