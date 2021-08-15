@@ -5,7 +5,7 @@ import com.kerubyte.engagecommerce.domain.model.database.DatabaseProduct
 import com.kerubyte.engagecommerce.domain.model.local.Product
 import javax.inject.Inject
 
-interface NullableDatabaseProductMapper<Entity, Model> : DatabaseProductMapper<Entity?, Model>
+interface NullableDatabaseProductMapper<Entity, Model> : DatabaseMapper<Entity?, Model>
 
 
 class NullableInputDatabaseProductMapper
