@@ -1,8 +1,8 @@
-package com.kerubyte.engagecommerce.application.utils.mapper
+package com.kerubyte.engagecommerce.data.mapper
 
-import com.kerubyte.engagecommerce.application.utils.PriceFormatter
-import com.kerubyte.engagecommerce.domain.model.database.DatabaseProduct
-import com.kerubyte.engagecommerce.domain.model.local.Product
+import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
+import com.kerubyte.engagecommerce.data.entity.DatabaseProduct
+import com.kerubyte.engagecommerce.domain.model.Product
 import javax.inject.Inject
 
 interface NullableDatabaseProductMapper<Entity, Model> : DatabaseMapper<Entity?, Model>

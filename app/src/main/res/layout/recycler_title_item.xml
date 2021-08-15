@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.kerubyte.engagecommerce.domain.model.local.Product" />
+            type="com.kerubyte.engagecommerce.domain.model.Product" />
 
     </data>
 

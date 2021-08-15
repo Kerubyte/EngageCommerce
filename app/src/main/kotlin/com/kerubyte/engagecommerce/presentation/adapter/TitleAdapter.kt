@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.presentation.ui.adapter
+package com.kerubyte.engagecommerce.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kerubyte.engagecommerce.databinding.RecyclerTitleItemBinding
-import com.kerubyte.engagecommerce.domain.model.local.Product
+import com.kerubyte.engagecommerce.domain.model.Product
 
 class TitleAdapter : RecyclerView.Adapter<TitleAdapter.ViewHolder>() {
 

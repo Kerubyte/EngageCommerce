@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.application.utils
+package com.kerubyte.engagecommerce.infrastructure.util
 
 import android.icu.text.NumberFormat
 

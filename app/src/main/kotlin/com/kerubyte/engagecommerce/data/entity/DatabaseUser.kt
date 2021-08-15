@@ -1,6 +1,6 @@
-package com.kerubyte.engagecommerce.domain.model.database
+package com.kerubyte.engagecommerce.data.entity
 
-import com.kerubyte.engagecommerce.domain.model.local.Product
+import com.kerubyte.engagecommerce.domain.model.Product
 
 data class DatabaseUser(
     val uid: String? = null,

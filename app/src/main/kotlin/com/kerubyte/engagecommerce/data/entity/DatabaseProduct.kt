@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.domain.model.database
+package com.kerubyte.engagecommerce.data.entity
 
 data class DatabaseProduct(
     val uid: String? = null,

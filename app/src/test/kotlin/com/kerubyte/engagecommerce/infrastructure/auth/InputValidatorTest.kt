@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.application.utils.auth
+package com.kerubyte.engagecommerce.infrastructure.auth
 
 import com.google.common.truth.Truth
 import org.junit.Test

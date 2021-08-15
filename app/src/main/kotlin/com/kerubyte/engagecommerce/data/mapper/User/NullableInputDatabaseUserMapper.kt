@@ -1,8 +1,8 @@
-package com.kerubyte.engagecommerce.application.utils.mapper.User
+package com.kerubyte.engagecommerce.data.mapper.User
 
-import com.kerubyte.engagecommerce.application.utils.mapper.DatabaseMapper
-import com.kerubyte.engagecommerce.domain.model.database.DatabaseUser
-import com.kerubyte.engagecommerce.domain.model.local.User
+import com.kerubyte.engagecommerce.data.mapper.DatabaseMapper
+import com.kerubyte.engagecommerce.data.entity.DatabaseUser
+import com.kerubyte.engagecommerce.domain.model.User
 
 interface NullableDatabaseUserMapper<Entity, Model> : DatabaseMapper<Entity?, Model>
 

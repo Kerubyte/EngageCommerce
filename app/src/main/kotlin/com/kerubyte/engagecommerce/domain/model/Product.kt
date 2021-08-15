@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.domain.model.local
+package com.kerubyte.engagecommerce.domain.model
 
 data class Product(
     val uid: String = "",

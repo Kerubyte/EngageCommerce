@@ -2,13 +2,13 @@ package com.kerubyte.engagecommerce.data.remote
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kerubyte.engagecommerce.application.repo.UserRepository
-import com.kerubyte.engagecommerce.application.utils.Constants.COLLECTION_USERS
-import com.kerubyte.engagecommerce.application.utils.Resource
-import com.kerubyte.engagecommerce.application.utils.Status
-import com.kerubyte.engagecommerce.application.utils.mapper.User.NullableInputDatabaseUserMapper
-import com.kerubyte.engagecommerce.domain.model.database.DatabaseUser
-import com.kerubyte.engagecommerce.domain.model.local.User
+import com.kerubyte.engagecommerce.domain.repo.UserRepository
+import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_USERS
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.data.mapper.User.NullableInputDatabaseUserMapper
+import com.kerubyte.engagecommerce.data.entity.DatabaseUser
+import com.kerubyte.engagecommerce.domain.model.User
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

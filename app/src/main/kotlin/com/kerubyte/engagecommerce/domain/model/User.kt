@@ -1,4 +1,6 @@
-package com.kerubyte.engagecommerce.domain.model.local
+package com.kerubyte.engagecommerce.domain.model
+
+import com.kerubyte.engagecommerce.domain.model.Product
 
 data class User(
     val uid: String,
