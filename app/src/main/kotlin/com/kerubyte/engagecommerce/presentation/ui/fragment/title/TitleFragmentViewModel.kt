@@ -1,9 +1,12 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.title
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kerubyte.engagecommerce.application.repo.ProductRepository
 import com.kerubyte.engagecommerce.application.utils.Resource
 import com.kerubyte.engagecommerce.application.utils.Status
-import com.kerubyte.engagecommerce.data.remote.ProductRepositoryImpl
 import com.kerubyte.engagecommerce.domain.model.local.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +16,7 @@ import javax.inject.Inject
 class TitleFragmentViewModel
 @Inject
 constructor(
-    private val productRepository: ProductRepositoryImpl
+    private val productRepository: ProductRepository
 ) : ViewModel() {
 
     private val _products = MutableLiveData<Resource<List<Product>>>()

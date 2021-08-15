@@ -1,7 +1,6 @@
 package com.kerubyte.engagecommerce.infrastructure.di
 
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.kerubyte.engagecommerce.application.utils.PriceFormatter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,9 +9,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class FirestoreModule {
+object UtilModule {
 
     @Singleton
     @Provides
-    fun provideFirestore() = Firebase.firestore
+    fun providePriceFormatter(): PriceFormatter = PriceFormatter()
 }

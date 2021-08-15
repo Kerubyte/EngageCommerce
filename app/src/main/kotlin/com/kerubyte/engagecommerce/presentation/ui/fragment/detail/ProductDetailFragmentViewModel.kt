@@ -1,10 +1,9 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.detail
 
-import android.util.Log
 import androidx.lifecycle.*
+import com.kerubyte.engagecommerce.application.repo.ProductRepository
 import com.kerubyte.engagecommerce.application.utils.Resource
 import com.kerubyte.engagecommerce.application.utils.Status
-import com.kerubyte.engagecommerce.data.remote.ProductRepositoryImpl
 import com.kerubyte.engagecommerce.domain.model.local.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ class ProductDetailFragmentViewModel
 @Inject
 constructor(
     savedStateHandle: SavedStateHandle,
-    private val productRepository: ProductRepositoryImpl
+    private val productRepository: ProductRepository
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
