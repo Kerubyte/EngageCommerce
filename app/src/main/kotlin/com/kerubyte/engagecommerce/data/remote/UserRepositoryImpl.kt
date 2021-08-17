@@ -54,6 +54,18 @@ constructor(
         }
     }
 
+    override suspend fun loginUser(email: String, password: String): Resource<Status> {
+
+        return try {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                .await()
+            Resource(Status.SUCCESS, null, null)
+
+        } catch (exc: Exception) {
+            Resource(Status.ERROR, null, exc.message)
+        }
+    }
+
     override suspend fun getUserData(): Resource<User> {
 
         val currentUserUid = firebaseAuth.currentUser?.uid

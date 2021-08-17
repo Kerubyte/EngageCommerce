@@ -6,4 +6,5 @@
     <string name="text_email_input_label">Email</string>
     <string name="text_password_input_label">Password</string>
     <string name="menu_register">Register</string>
+    <string name="menu_login">Login</string>
 </resources>

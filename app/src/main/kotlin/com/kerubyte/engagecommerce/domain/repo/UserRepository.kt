@@ -13,5 +13,7 @@ interface UserRepository {
         lastName: String
     ): Resource<Status>
 
+    suspend fun loginUser(email: String, password: String): Resource<Status>
+
     suspend fun getUserData(): Resource<User>
 }
