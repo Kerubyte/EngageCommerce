@@ -1,6 +1,7 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentRegisterBinding
+import com.kerubyte.engagecommerce.infrastructure.util.Status
 import com.kerubyte.engagecommerce.presentation.ui.RootFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,13 +25,46 @@ class RegisterFragment : RootFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(
-            layoutInflater,
+            inflater,
             R.layout.fragment_register,
             container,
             false
         )
 
+        setAnimation()
+        setBindings()
+        setupObserver()
 
         return binding.root
+    }
+
+
+    private fun setupObserver() {
+
+        registerViewModel.accountCreated.observe(viewLifecycleOwner, {
+
+            when (it.status) {
+
+                Status.SUCCESS -> restartMainActivity()
+                Status.ERROR -> Log.d("registro", "eror!")
+                Status.LOADING -> Log.d("registro", "loado!")
+
+            }
+        })
+    }
+
+    fun createUserAccount() {
+
+        val email = binding.textEmailInput.text.toString()
+        val password = binding.textPasswordInput.text.toString()
+        val firstName = binding.textFirstNameInput.text.toString()
+        val lastName = binding.textLastNameInput.text.toString()
+
+        registerViewModel.createUserAccount(email, password, firstName, lastName)
+    }
+
+    private fun setBindings() {
+        binding.registerFragment = this
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 }

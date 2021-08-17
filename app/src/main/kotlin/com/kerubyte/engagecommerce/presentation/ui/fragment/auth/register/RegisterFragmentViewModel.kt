@@ -22,12 +22,14 @@ constructor(
     val accountCreated: LiveData<Resource<Status>>
         get() = _accountCreated
 
-    fun CreateUserAccount(
+    fun createUserAccount(
         email: String,
         password: String,
         firstName: String,
         lastName: String
     ) {
+
+        _accountCreated.value = Resource(Status.LOADING, null, null)
 
         viewModelScope.launch {
             val result = userRepository.createAccount(email, password, firstName, lastName)
