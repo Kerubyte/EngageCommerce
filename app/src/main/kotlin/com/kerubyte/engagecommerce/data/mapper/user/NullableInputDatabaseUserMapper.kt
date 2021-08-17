@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.data.mapper.User
+package com.kerubyte.engagecommerce.data.mapper.user
 
 import com.kerubyte.engagecommerce.data.mapper.DatabaseMapper
 import com.kerubyte.engagecommerce.data.entity.DatabaseUser
@@ -7,7 +7,7 @@ import com.kerubyte.engagecommerce.domain.model.User
 interface NullableDatabaseUserMapper<Entity, Model> : DatabaseMapper<Entity?, Model>
 
 
-class NullableInputDatabaseUserMapper : NullableDatabaseUserMapper<DatabaseUser, User> {
+class NullableInputDatabaseUserMapper : DatabaseMapper<DatabaseUser?, User> {
 
     fun mapFromDatabase(entity: DatabaseUser?): User {
         return User(
