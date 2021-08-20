@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="mainViewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.activity.ActivityMainViewModel" />
+        <variable
             name="mainActivity"
             type="com.kerubyte.engagecommerce.presentation.ui.activity.MainActivity" />
 
@@ -47,6 +50,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="24dp"
+                android:onClick="@{() -> mainActivity.onProfileClick()}"
                 app:layout_constraintBottom_toBottomOf="@+id/image_open_cart_action"
                 app:layout_constraintEnd_toStartOf="@+id/image_open_cart_action"
                 app:layout_constraintTop_toTopOf="@+id/image_open_cart_action"
@@ -57,6 +61,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"
+                android:onClick="@{() -> mainActivity.onCartClick()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
