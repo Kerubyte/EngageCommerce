@@ -1,13 +1,13 @@
 package com.kerubyte.engagecommerce.data.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kerubyte.engagecommerce.data.entity.DatabaseProduct
+import com.kerubyte.engagecommerce.data.mapper.NullableInputDatabaseProductMapper
+import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.repo.ProductRepository
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_PRODUCTS
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
-import com.kerubyte.engagecommerce.data.mapper.NullableInputDatabaseProductMapper
-import com.kerubyte.engagecommerce.data.entity.DatabaseProduct
-import com.kerubyte.engagecommerce.domain.model.Product
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -28,7 +28,8 @@ constructor(
             Resource(
                 Status.SUCCESS,
                 inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts),
-                null)
+                null
+            )
         } catch (exc: Exception) {
             Resource(Status.ERROR, null, exc.message)
         }
@@ -46,6 +47,26 @@ constructor(
             Resource(
                 Status.SUCCESS,
                 inputDatabaseProductMapper.mapFromDatabase(databaseProduct),
+                null
+            )
+        } catch (exc: Exception) {
+            Resource(Status.ERROR, null, exc.message)
+        }
+    }
+
+    override suspend fun getProductsFromCart(cartList: List<String>): Resource<List<Product>> {
+
+        return try {
+
+            val documentSnapshot = firestore.collection(COLLECTION_PRODUCTS)
+                .whereIn("uid", cartList)
+                .get()
+                .await()
+            val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
+            val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
+            Resource(
+                Status.SUCCESS,
+                userCart,
                 null
             )
         } catch (exc: Exception) {

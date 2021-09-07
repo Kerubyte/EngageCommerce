@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToCart() {
-        //navController.navigate(R.id.cartFragment)
+        navController.navigate(R.id.cartFragment)
     }
 
     private fun navigateToProfile() {

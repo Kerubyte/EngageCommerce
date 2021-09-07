@@ -9,4 +9,5 @@ interface ProductRepository {
 
     suspend fun getSingleProduct(productUid: String): Resource<Product>
 
+    suspend fun getProductsFromCart(cartList: List<String>): Resource<List<Product>>
 }

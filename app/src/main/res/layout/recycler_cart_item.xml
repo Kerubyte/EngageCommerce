@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.kerubyte.engagecommerce.domain.model.Product" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/view_card_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_cart_item_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_view">
+
+            <ImageView
+                android:id="@+id/image_cart_item_image"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/text_cart_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{item.name}"
+                app:layout_constraintStart_toEndOf="@+id/image_cart_item_image"
+                app:layout_constraintTop_toTopOf="@+id/image_cart_item_image" />
+
+            <TextView
+                android:id="@+id/text_cart_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{item.formattedPrice}"
+                app:layout_constraintStart_toEndOf="@+id/image_cart_item_image"
+                app:layout_constraintTop_toBottomOf="@+id/text_cart_item_name" />
+
+            <TextView
+                android:id="@+id/text_cart_item_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{item.brand}"
+                app:layout_constraintStart_toEndOf="@+id/image_cart_item_image"
+                app:layout_constraintTop_toBottomOf="@+id/text_cart_item_price" />
+
+            <TextView
+                android:id="@+id/text_cart_item_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="FREE"
+                app:layout_constraintStart_toEndOf="@+id/image_cart_item_image"
+                app:layout_constraintTop_toBottomOf="@+id/text_cart_item_brand" />
+
+            <ImageButton
+                android:id="@+id/button_remove_from_cart"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/primaryColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_cart_remove" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

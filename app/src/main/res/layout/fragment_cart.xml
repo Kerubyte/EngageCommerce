@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.cart.CartFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_cart_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.transaction.cart.CartFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_cart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider_cart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider_cart"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="150dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@+id/button_to_checkout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_cart_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/muli"
+            android:text="todo"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/text_cart_total"
+            app:layout_constraintStart_toStartOf="@+id/text_cart_total" />
+
+        <TextView
+            android:id="@+id/text_cart_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="18dp"
+            android:fontFamily="@font/muli"
+            android:text="todo"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/button_to_checkout"
+            app:layout_constraintEnd_toStartOf="@+id/text_cart_total_value" />
+
+        <TextView
+            android:id="@+id/text_cart_quantity_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/muli"
+            android:text="@{viewModel.userCartSize}"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/text_cart_total_value"
+            app:layout_constraintTop_toBottomOf="@id/divider_cart" />
+
+        <TextView
+            android:id="@+id/text_cart_total_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/muli"
+            android:textColor="@color/secondaryDarkColor"
+            android:text="@{viewModel.userCartValue}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/button_to_checkout"
+            app:layout_constraintTop_toBottomOf="@+id/text_cart_quantity_value" />
+
+        <Button
+            android:id="@+id/button_to_checkout"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:enabled="@{viewModel.areProductsInCart}"
+            android:fontFamily="@font/muli"
+            android:text="todo"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="14sp"
+            app:iconTint="@color/secondaryDarkColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="#FFB300" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

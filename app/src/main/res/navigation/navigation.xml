@@ -36,4 +36,8 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>

@@ -9,7 +9,6 @@ import com.kerubyte.engagecommerce.data.mapper.user.NullableOutputDatabaseUserMa
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.domain.repo.UserRepository
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_USERS
-import com.kerubyte.engagecommerce.infrastructure.state.CartState
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
 import kotlinx.coroutines.tasks.await
@@ -108,27 +107,21 @@ constructor(
         return Resource(Status.ERROR, null, "User not logged in")
     }
 
-    override suspend fun getUserCart(): CartState {
+    override suspend fun removeFromCart(productUid: String): Resource<Status> {
 
         currentUserUid?.let { uid ->
 
             return try {
-                val documentSnapshot = firestore.collection(COLLECTION_USERS)
-                    .document(uid)
-                    .get()
-                    .await()
-                val result = documentSnapshot.toObject(DatabaseUser::class.java)
-                val user = inputDatabaseUserMapper.mapFromDatabase(result)
-                if (user.cart.isNullOrEmpty()) {
-                    CartState.Empty
-                } else {
-                    CartState.NotEmpty(user.cart)
-                }
-            } catch (exc: Exception) {
-                CartState.Error
-            }
 
+                firestore.collection(COLLECTION_USERS)
+                    .document(uid)
+                    .update("cart", FieldValue.arrayRemove(productUid))
+                    .await()
+                Resource(Status.SUCCESS, null, null)
+            } catch (exc: Exception) {
+                Resource(Status.ERROR, null, exc.message)
+            }
         }
-        return CartState.Error
+        return Resource(Status.ERROR, null, "user not logged in")
     }
 }
