@@ -2,17 +2,21 @@ package com.kerubyte.engagecommerce.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kerubyte.engagecommerce.databinding.RecyclerTitleItemBinding
 import com.kerubyte.engagecommerce.domain.model.Product
+import com.kerubyte.engagecommerce.infrastructure.util.BindingAdapter.loadImage
 
 class TitleAdapter : RecyclerView.Adapter<TitleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TitleAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = RecyclerTitleItemBinding.inflate(inflater)
+        val binding = RecyclerTitleItemBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -42,6 +46,7 @@ class TitleAdapter : RecyclerView.Adapter<TitleAdapter.ViewHolder>() {
 
         fun bind(item: Product) {
             binding.item = item
+            loadImage(binding.imageTitleItemImage, item.imageUrl)
             binding.root.setOnClickListener {
                 onItemClickListener?.let { it(item) }
             }
