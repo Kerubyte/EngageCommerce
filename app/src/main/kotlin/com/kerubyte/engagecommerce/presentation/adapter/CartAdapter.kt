@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kerubyte.engagecommerce.databinding.RecyclerCartItemBinding
 import com.kerubyte.engagecommerce.domain.model.Product
+import com.kerubyte.engagecommerce.infrastructure.util.BindingAdapter.loadImage
 
 class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = RecyclerCartItemBinding.inflate(inflater)
+        val binding = RecyclerCartItemBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -42,6 +43,7 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
         fun bind(item: Product) {
             binding.item = item
+            loadImage(binding.imageCartItemImage, item.imageUrl)
             binding.buttonRemoveFromCart.setOnClickListener {
                 onItemClickListener?.let { it(item) }
             }
