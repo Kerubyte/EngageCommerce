@@ -14,17 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_add_to_cart"
-            android:layout_width="wrap_content"
+            style="@style/primaryButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:onClick="@{() -> viewModel.handleAddToCartClick()}"
-            android:text="@{viewModel.isNotInCart().toString()}"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
             android:enabled="@{viewModel.isNotInCart()}"
+            android:onClick="@{() -> viewModel.handleAddToCartClick()}"
+            android:text="@{viewModel.isNotInCart() ? @string/button_add_to_cart_enabled : @string/button_add_to_cart_disabled}"
+            android:textAllCaps="true"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/button_state_selector"
+            app:icon="@drawable/ic_cart_add"
+            app:iconTint="@color/primaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ScrollView
             android:id="@+id/layout_product_content"
@@ -43,9 +54,12 @@
 
                 <TextView
                     android:id="@+id/text_product_name"
+                    style="@style/primaryTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@{viewModel.currentProduct.data.name}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -53,9 +67,11 @@
 
                 <ImageView
                     android:id="@+id/image_product_image"
+                    imageUrl="@{viewModel.currentProduct.data.imageUrl}"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/product_detail_hero_image_desc"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_product_name"
@@ -64,18 +80,26 @@
 
                 <TextView
                     android:id="@+id/text_product_price"
+                    style="@style/primaryTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:text="@{viewModel.currentProduct.data.formattedPrice}"
+                    android:textColor="@color/primaryAccentColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_product_image" />
 
                 <TextView
                     android:id="@+id/text_product_description"
-                    android:layout_width="wrap_content"
+                    style="@style/primaryTextStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@{viewModel.currentProduct.data.description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

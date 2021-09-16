@@ -7,4 +7,26 @@
     <string name="text_password_input_label">Password</string>
     <string name="menu_register">Register</string>
     <string name="menu_login">Login</string>
+    <string name="text_title_item_brand_label">by</string>
+    <string name="title_item_image_desc">Product Image</string>
+    <string name="product_detail_hero_image_desc">Main Product Image</string>
+    <string name="button_add_to_cart_enabled">Add to Cart</string>
+    <string name="button_add_to_cart_disabled">In Cart</string>
+    <string name="text_total_value_label">Total</string>
+    <string name="button_to_checkout">Checkout</string>
+    <string name="text_cart_item_brand_label">by</string>
+    <string name="header_bio_login">Welcome Back</string>
+    <string name="subheader_bio_login">Sign in with your email and password to continue</string>
+    <string name="header_bio_register">Join Us</string>
+    <string name="subheader_bio_register">Sign in with your data to continue</string>
+    <string name="button_login">Sign In</string>
+    <string name="button_register">Sign Up</string>
+    <string name="text_first_name_error">First name needs at least 3 characters</string>
+    <string name="text_last_name_error">Last name needs at least 3 characters</string>
+    <string name="text_email_error">Email is not in a correct format</string>
+    <string name="text_password_error">Password needs at least 6 characters</string>
+    <string name="go_to_register_label">Not registered yet?</string>
+    <string name="go_to_register_action">Sign Up</string>
+    <string name="go_to_login_label">Already registered?</string>
+    <string name="go_to_login_action">Sign In</string>
 </resources>

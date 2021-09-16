@@ -4,69 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.kerubyte.engagecommerce.domain.model.Product" />
-
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/view_card_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_view"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardElevation="@dimen/custom_card_elevation"
+        app:cardMaxElevation="@dimen/custom_card_elevation"
+        app:contentPaddingBottom="6dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_title_item_root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="6dp">
 
             <ImageView
                 android:id="@+id/image_title_item_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:background="@drawable/bg_image"
+                android:contentDescription="@string/title_item_image_desc"
+                app:imageUrl="@{item.imageUrl}"
+                app:layout_constraintStart_toStartOf="@+id/layout_title_item_root"
+                app:layout_constraintTop_toTopOf="@+id/layout_title_item_root"
+                tools:srcCompat="@drawable/miele_cm_5510_silence" />
 
             <TextView
                 android:id="@+id/text_title_item_name"
-                android:layout_width="wrap_content"
+                style="@style/primaryTextStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@{item.name}"
+                android:textAppearance="@style/primaryTextStyle"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_title_item_image"
-                app:layout_constraintTop_toTopOf="@+id/image_title_item_image" />
+                app:layout_constraintTop_toTopOf="@+id/image_title_item_image"
+                tools:text="Chefman 6-in-1 Espresso Machine Powerful 15-Bar Pump" />
 
             <TextView
-                android:id="@+id/text_title_item_price"
+                android:id="@+id/text_title_item_brand_label"
+                style="@style/primaryTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@{item.formattedPrice}"
+                android:layout_marginTop="4dp"
+                android:text="@string/text_title_item_brand_label"
+                android:textAppearance="@style/primaryTextStyle"
+                android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/image_title_item_image"
                 app:layout_constraintTop_toBottomOf="@+id/text_title_item_name" />
 
             <TextView
                 android:id="@+id/text_title_item_brand"
+                style="@style/primaryTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="3dp"
                 android:text="@{item.brand}"
-                app:layout_constraintStart_toEndOf="@+id/image_title_item_image"
-                app:layout_constraintTop_toBottomOf="@+id/text_title_item_price" />
+                android:textAppearance="@style/primaryTextStyle"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/text_title_item_brand_label"
+                app:layout_constraintTop_toTopOf="@+id/text_title_item_brand_label"
+                tools:text="Chefman" />
 
             <TextView
-                android:id="@+id/text_title_item_delivery"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_title_item_price"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="FREE"
+                android:fontFamily="@font/muli"
+                android:text="@{item.formattedPrice}"
+                android:textAppearance="@style/primaryTextStyle"
+                android:textColor="@color/primaryAccentColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/image_title_item_image"
-                app:layout_constraintTop_toBottomOf="@+id/text_title_item_brand" />
+                app:layout_constraintTop_toBottomOf="@+id/text_title_item_brand_label"
+                tools:text="$749.00" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

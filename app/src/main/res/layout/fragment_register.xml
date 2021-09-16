@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="registerFragment"
             type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragment" />
@@ -15,255 +16,276 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/text_input_first_name"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_input"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_text_password"
-            tools:ignore="SpeakableTextPresentCheck" />
-
         <TextView
-            android:id="@+id/textView9"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:background="@color/primaryColor"
-            android:text="First Name"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/text_input_first_name"
-            app:layout_constraintStart_toStartOf="@+id/text_input_first_name"
-            app:layout_constraintTop_toTopOf="@+id/text_input_first_name" />
-
-        <TextView
-            android:id="@+id/text_"
+            android:id="@+id/text_register_header"
             style="@style/primaryTextStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="TextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/header_bio_register"
+            android:textAlignment="center"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_description_detail"
+            android:id="@+id/text_register_subheader"
             style="@style/primaryTextStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="TextView"
-            app:layout_constraintStart_toStartOf="@+id/text_"
-            app:layout_constraintTop_toBottomOf="@+id/text_" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_text_first_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="top"
-            app:boxBackgroundMode="filled"
-            app:boxCollapsedPaddingTop="0dp"
-            app:boxStrokeColor="@color/transparent"
-            app:boxStrokeWidth="0dp"
-            app:errorEnabled="true"
+            android:text="@string/subheader_bio_register"
+            android:textAlignment="center"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_description_detail">
+            app:layout_constraintTop_toBottomOf="@+id/text_register_header" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_first_name_input"
-                style="@style/primaryTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bg_input"
-                android:drawableEnd="@drawable/ic_person"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_text_last_name"
+        <EditText
+            android:id="@+id/input_first_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundMode="filled"
-            app:boxCollapsedPaddingTop="0dp"
-            app:boxStrokeColor="@color/transparent"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_person"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_text_first_name">
+            app:layout_constraintTop_toBottomOf="@+id/text_register_subheader"
+            tools:ignore="SpeakableTextPresentCheck" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_last_name_input"
-                style="@style/primaryTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bg_input"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_text_email"
+        <EditText
+            android:id="@+id/input_last_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundMode="filled"
-            app:boxCollapsedPaddingTop="0dp"
-            app:boxStrokeColor="@color/transparent"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_person"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_text_last_name">
+            app:layout_constraintTop_toBottomOf="@+id/text_first_name_input_error" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_email_input"
-                style="@style/primaryTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bg_input"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_text_password"
+        <EditText
+            android:id="@+id/input_email"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundMode="filled"
-            app:boxCollapsedPaddingTop="0dp"
-            app:boxStrokeColor="@color/transparent"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_envelope"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout_text_email">
+            app:layout_constraintTop_toBottomOf="@+id/text_last_name_input_error" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_password_input"
-                style="@style/primaryTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bg_input"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <Button
-            android:id="@+id/button_register_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Button"
-            app:layout_constraintBottom_toTopOf="@+id/text_go_to_login_label"
-            android:onClick="@{() -> registerFragment.createUserAccount()}"
+        <EditText
+            android:id="@+id/input_password"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_lock"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_email_input_error" />
 
         <TextView
             android:id="@+id/text_first_name_input_label"
             style="@style/primaryTextStyle"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="30dp"
             android:layout_weight="1"
             android:background="@color/primaryColor"
             android:text="@string/text_first_name_input_label"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/input_layout_text_first_name"
-            app:layout_constraintStart_toStartOf="@+id/input_layout_text_first_name"
-            app:layout_constraintTop_toTopOf="@+id/input_layout_text_first_name" />
+            app:layout_constraintBottom_toTopOf="@+id/input_first_name"
+            app:layout_constraintStart_toStartOf="@+id/input_first_name"
+            app:layout_constraintTop_toTopOf="@+id/input_first_name" />
 
         <TextView
             android:id="@+id/text_last_name_input_label"
             style="@style/primaryTextStyle"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="30dp"
             android:background="@color/primaryColor"
             android:text="@string/text_last_name_input_label"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/input_layout_text_last_name"
-            app:layout_constraintStart_toStartOf="@+id/input_layout_text_last_name"
-            app:layout_constraintTop_toTopOf="@+id/input_layout_text_last_name" />
+            app:layout_constraintBottom_toTopOf="@+id/input_last_name"
+            app:layout_constraintStart_toStartOf="@+id/input_last_name"
+            app:layout_constraintTop_toTopOf="@+id/input_last_name" />
 
         <TextView
             android:id="@+id/text_email_input_label"
             style="@style/primaryTextStyle"
-            android:layout_width="90dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="30dp"
             android:background="@color/primaryColor"
             android:text="@string/text_email_input_label"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/input_layout_text_email"
-            app:layout_constraintStart_toStartOf="@+id/input_layout_text_email"
-            app:layout_constraintTop_toTopOf="@+id/input_layout_text_email" />
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/input_email"
+            app:layout_constraintStart_toStartOf="@+id/input_email"
+            app:layout_constraintTop_toTopOf="@+id/input_email" />
 
         <TextView
             android:id="@+id/text_password_input_label"
             style="@style/primaryTextStyle"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="30dp"
             android:background="@color/primaryColor"
             android:text="@string/text_password_input_label"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/input_layout_text_password"
-            app:layout_constraintStart_toStartOf="@+id/input_layout_text_password"
-            app:layout_constraintTop_toTopOf="@+id/input_layout_text_password" />
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/input_password"
+            app:layout_constraintStart_toStartOf="@+id/input_password"
+            app:layout_constraintTop_toTopOf="@+id/input_password" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_register_user"
+            style="@style/primaryButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="60dp"
+            android:paddingEnd="42dp"
+            android:text="@string/button_register"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/button_state_selector"
+            app:icon="@drawable/ic_login"
+            app:iconTint="@color/primaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/text_go_to_login_label"
-            style="@style/primaryTextStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/text_go_to_login_action" />
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/go_to_login_label"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_go_to_login_action"
+            app:layout_constraintEnd_toStartOf="@+id/text_go_to_login_action"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/text_go_to_login_action"
-            style="@style/primaryTextStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="125dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="@+id/text_go_to_login_label"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginBottom="16dp"
+            android:text="@string/go_to_login_action"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/primaryAccentColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_go_to_login_label" />
 
         <TextView
             android:id="@+id/text_first_name_input_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            app:layout_constraintStart_toStartOf="@+id/text_input_first_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_first_name" />
+            android:layout_marginTop="4dp"
+            android:text="@string/text_first_name_error"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:visibility="@{true}"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/input_first_name"
+            app:layout_constraintTop_toBottomOf="@+id/input_first_name" />
+
+        <TextView
+            android:id="@+id/text_last_name_input_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/text_last_name_error"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:visibility="@{true}"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/input_last_name"
+            app:layout_constraintTop_toBottomOf="@+id/input_last_name" />
+
+        <TextView
+            android:id="@+id/text_email_input_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/text_email_error"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:visibility="@{true}"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/input_email"
+            app:layout_constraintTop_toBottomOf="@+id/input_email" />
+
+        <TextView
+            android:id="@+id/text_password_input_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/text_password_error"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="10sp"
+            android:visibility="@{true}"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/input_password"
+            app:layout_constraintTop_toBottomOf="@+id/input_password" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

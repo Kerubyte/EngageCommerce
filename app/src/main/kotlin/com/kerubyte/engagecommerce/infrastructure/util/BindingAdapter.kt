@@ -1,5 +1,6 @@
 package com.kerubyte.engagecommerce.infrastructure.util
 
+import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -13,5 +14,11 @@ object BindingAdapter {
         url?.let { imageUrl ->
             Glide.with(view.context).load(imageUrl).into(view)
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:visibility")
+    fun setVisible(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,72 +19,174 @@
             android:id="@+id/text_description_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="TextView"
+            android:layout_marginTop="80dp"
+            android:text="@string/header_bio_login"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_description_detail_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/subheader_bio_login"
+            android:textAlignment="center"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_description_title" />
 
         <EditText
             android:id="@+id/input_user_email"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_envelope"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_description_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_description_detail_login" />
+
+        <TextView
+            android:id="@+id/text_email_login_label"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:background="@color/primaryColor"
+            android:text="@string/text_email_input_label"
+            android:textAlignment="center"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/input_user_email"
+            app:layout_constraintStart_toStartOf="@+id/input_user_email"
+            app:layout_constraintTop_toTopOf="@+id/input_user_email" />
+
+        <TextView
+            android:id="@+id/text_email_error_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/text_email_error"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:visibility="@{true}"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/input_user_email"
+            app:layout_constraintTop_toBottomOf="@+id/input_user_email" />
 
         <EditText
             android:id="@+id/input_user_password"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
+            android:background="@drawable/bg_input"
+            android:drawableEnd="@drawable/ic_lock"
             android:ems="10"
             android:inputType="textPassword"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_user_email" />
+            app:layout_constraintTop_toBottomOf="@+id/text_email_error_login" />
 
-        <Button
-            android:id="@+id/button_login_user"
+        <TextView
+            android:id="@+id/text_password_login_label"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:background="@color/primaryColor"
+            android:text="@string/text_password_input_label"
+            android:textAlignment="center"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/input_user_password"
+            app:layout_constraintStart_toStartOf="@+id/input_user_password"
+            app:layout_constraintTop_toTopOf="@+id/input_user_password" />
+
+        <TextView
+            android:id="@+id/text_password_error_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:onClick="@{() -> loginFragment.loginUser()}"
-            android:text="Button"
-            app:layout_constraintBottom_toTopOf="@+id/text_go_to_register_action"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/text_password_error"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:visibility="@{true}"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/input_user_password"
+            app:layout_constraintTop_toBottomOf="@+id/input_user_password" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_login_user"
+            style="@style/primaryButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="60dp"
+            android:paddingEnd="42dp"
+            android:text="@string/button_login"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/button_state_selector"
+            app:icon="@drawable/ic_login"
+            app:iconTint="@color/primaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/text_go_to_register_label"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
             android:layout_marginEnd="4dp"
-            android:text="TextView"
+            android:text="@string/go_to_register_label"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/text_go_to_register_action"
-            app:layout_constraintEnd_toStartOf="@+id/text_go_to_register_action" />
+            app:layout_constraintEnd_toStartOf="@+id/text_go_to_register_action"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/text_go_to_register_action"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="80dp"
             android:layout_marginBottom="16dp"
-            android:text="TextView"
+            android:text="@string/go_to_register_action"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/primaryAccentColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_go_to_register_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
