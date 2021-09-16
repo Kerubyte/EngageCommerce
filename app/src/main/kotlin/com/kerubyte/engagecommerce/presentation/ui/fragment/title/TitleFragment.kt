@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
-import com.kerubyte.engagecommerce.infrastructure.util.Status
 import com.kerubyte.engagecommerce.databinding.FragmentTitleBinding
-import com.kerubyte.engagecommerce.presentation.ui.RootFragment
+import com.kerubyte.engagecommerce.infrastructure.util.Status
 import com.kerubyte.engagecommerce.presentation.adapter.TitleAdapter
+import com.kerubyte.engagecommerce.presentation.ui.RootFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

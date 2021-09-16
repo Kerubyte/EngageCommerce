@@ -55,10 +55,10 @@ class RegisterFragment : RootFragment() {
 
     fun createUserAccount() {
 
-        val email = binding.textEmailInput.text.toString()
-        val password = binding.textPasswordInput.text.toString()
-        val firstName = binding.textFirstNameInput.text.toString()
-        val lastName = binding.textLastNameInput.text.toString()
+        val email = binding.inputEmail.text.toString()
+        val password = binding.inputPassword.text.toString()
+        val firstName = binding.inputFirstName.text.toString()
+        val lastName = binding.inputLastName.text.toString()
 
         registerViewModel.createUserAccount(email, password, firstName, lastName)
     }

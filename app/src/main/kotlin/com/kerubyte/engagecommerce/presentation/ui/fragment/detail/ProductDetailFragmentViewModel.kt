@@ -34,8 +34,8 @@ constructor(
     val navigate: LiveData<Boolean>
         get() = _navigate
 
-    val isNotInCart = Transformations.switchMap(_currentUser) {
-        return@switchMap checkForProductInCart()
+    val isNotInCart = Transformations.map(_currentUser) {
+        it.data?.cart?.let { userCart -> productUid !in userCart } ?: true
     }
 
     private fun getSingleProduct() {
@@ -66,16 +66,6 @@ constructor(
                 userRepository.addToCart(uid)
             }
         }
-    }
-
-    private fun checkForProductInCart(): LiveData<Boolean> {
-
-        val isNotInCart = MutableLiveData<Boolean>()
-
-        currentUser.value?.data?.cart?.let { cart ->
-            isNotInCart.value = productUid !in cart
-        }
-        return isNotInCart
     }
 
     fun handleAddToCartClick() {
