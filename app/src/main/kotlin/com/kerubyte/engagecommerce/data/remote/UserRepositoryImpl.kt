@@ -23,8 +23,6 @@ constructor(
     private val outputDatabaseUserMapper: NullableOutputDatabaseUserMapper
 ) : UserRepository {
 
-    private val currentUserUid = firebaseAuth.currentUser?.uid
-
     override suspend fun createAccount(
         email: String,
         password: String,
@@ -92,6 +90,8 @@ constructor(
 
     override suspend fun addToCart(productUid: String): Resource<Status> {
 
+        val currentUserUid = firebaseAuth.currentUser?.uid
+
         currentUserUid?.let { uid ->
 
             return try {
@@ -109,6 +109,8 @@ constructor(
 
     override suspend fun removeFromCart(productUid: String): Resource<Status> {
 
+        val currentUserUid = firebaseAuth.currentUser?.uid
+
         currentUserUid?.let { uid ->
 
             return try {
@@ -122,6 +124,6 @@ constructor(
                 Resource(Status.ERROR, null, exc.message)
             }
         }
-        return Resource(Status.ERROR, null, "user not logged in")
+        return Resource(Status.ERROR, null, "User not logged in")
     }
 }
