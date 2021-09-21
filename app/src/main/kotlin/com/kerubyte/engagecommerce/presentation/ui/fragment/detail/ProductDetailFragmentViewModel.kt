@@ -5,6 +5,7 @@ import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.domain.repo.ProductRepository
 import com.kerubyte.engagecommerce.domain.repo.UserRepository
+import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,8 +31,8 @@ constructor(
     private val currentUser: LiveData<Resource<User>>
         get() = _currentUser
 
-    private val _navigate = MutableLiveData<Boolean>()
-    val navigate: LiveData<Boolean>
+    private val _navigate = MutableLiveData<Event<Boolean>>()
+    val navigate: LiveData<Event<Boolean>>
         get() = _navigate
 
     val isNotInCart = Transformations.map(_currentUser) {
@@ -73,20 +74,15 @@ constructor(
         currentUser.value?.data?.let {
             addToCart()
             getCurrentUser()
-        } ?: navigateToLogin()
+        } ?: navigate()
     }
 
-    private fun navigateToLogin() {
-        _navigate.value = true
-    }
-
-    private fun onDoneNavigating() {
-        _navigate.value = false
+    private fun navigate() {
+        _navigate.value = Event(true)
     }
 
     init {
         getSingleProduct()
         getCurrentUser()
-        onDoneNavigating()
     }
 }
