@@ -186,6 +186,7 @@
             android:text="@string/button_register"
             android:textAlignment="center"
             android:textAllCaps="true"
+            android:onClick="@{() -> registerFragment.createUserAccount()}"
             android:textAppearance="@style/primaryTextStyle"
             android:textSize="16sp"
             android:textStyle="bold"
