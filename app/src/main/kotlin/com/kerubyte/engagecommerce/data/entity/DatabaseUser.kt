@@ -5,5 +5,6 @@ data class DatabaseUser(
     val firstName: String? = null,
     val lastName: String? = null,
     val email: String? = null,
-    val cart: List<String>? = null
+    val cart: List<String>? = null,
+    val address: Map<String, String>? = null
 )

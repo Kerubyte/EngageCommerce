@@ -5,5 +5,6 @@ data class User(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val cart: List<String>
+    val cart: List<String>,
+    val address: Map<String, String>
 )

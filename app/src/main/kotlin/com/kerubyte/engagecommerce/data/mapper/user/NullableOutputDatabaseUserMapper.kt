@@ -12,7 +12,8 @@ class NullableOutputDatabaseUserMapper : DatabaseMapper<DatabaseUser?, User> {
             firstName = model.firstName,
             lastName = model.lastName,
             email = model.email,
-            cart = model.cart
+            cart = model.cart,
+            address = model.address
         )
     }
 }

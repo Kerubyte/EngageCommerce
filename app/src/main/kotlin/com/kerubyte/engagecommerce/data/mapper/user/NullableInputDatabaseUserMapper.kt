@@ -15,7 +15,8 @@ class NullableInputDatabaseUserMapper : DatabaseMapper<DatabaseUser?, User> {
             firstName = entity?.firstName.orEmpty(),
             lastName = entity?.lastName.orEmpty(),
             email = entity?.email.orEmpty(),
-            cart = entity?.cart.orEmpty()
+            cart = entity?.cart.orEmpty(),
+            address = entity?.address.orEmpty()
         )
     }
 }
