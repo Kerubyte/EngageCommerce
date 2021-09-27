@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/primaryAccentColor</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondaryLightColor</item>
+        <item name="colorSecondary">@color/primaryAccentColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/primaryTextColor</item>
         <!-- Status bar color. -->

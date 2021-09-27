@@ -2,44 +2,378 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <data>
+
+        <variable
+            name="checkoutFragment"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout.CheckoutFragment" />
+
+        <variable
+            name="checkoutViewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout.CheckoutFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler_checkout"
+            app:layout_constraintEnd_toEndOf="@+id/recycler_checkout"
+            app:layout_constraintStart_toStartOf="@+id/recycler_checkout"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_checkout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/scroll_view_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginBottom="32dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ScrollView
+            android:id="@+id/scroll_view_address"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/primaryColor"
+            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_checkout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_deliver_to"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/delivery_label"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_address_street_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="16sp"
+                    android:text='@{checkoutViewModel.userAddress.get("street")}'
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to" />
+
+                <TextView
+                    android:id="@+id/text_address_country_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:text='@{checkoutViewModel.userAddress.get("country")}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_post_code_value" />
+
+                <TextView
+                    android:id="@+id/text_address_post_code_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:text='@{checkoutViewModel.userAddress.get("postCode")}'
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/text_address_city_value"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_street_value" />
+
+                <TextView
+                    android:id="@+id/text_address_city_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="32dp"
+                    android:text='@{checkoutViewModel.userAddress.get("city")}'
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/text_address_post_code_value"
+                    app:layout_constraintTop_toTopOf="@+id/text_address_post_code_value" />
+
+                <ImageButton
+                    android:id="@+id/button_edit_address"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/primaryColor"
+                    android:onClick="@{() -> checkoutFragment.editAddress()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/text_address_country_value"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_country_value"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_country_value"
+                    app:srcCompat="@drawable/ic_edit" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_text_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{checkoutViewModel.isUserAddressProvided()}"
+                    app:constraint_referenced_ids="text_address_street_value,text_address_country_value,text_address_post_code_value,text_address_city_value,button_edit_address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_edit_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="text__address_post_code_label,edit_address_post_code,text__address_city_label,text__address_country_label,edit_address_city,edit_address_country,text__address_street_name_label,edit_address_street_name,button_save_address"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to" />
+
+                <EditText
+                    android:id="@+id/edit_address_street_name"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:text='@{checkoutViewModel.isUserAddressProvided() ? checkoutViewModel.userAddress.get("street") : null}'
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to" />
+
+                <TextView
+                    android:id="@+id/text__address_street_name_label"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_street"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_street_name"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_street_name"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_street_name" />
+
+                <EditText
+                    android:id="@+id/edit_address_country"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    android:text='@{checkoutViewModel.isUserAddressProvided() ? checkoutViewModel.userAddress.get("country") : null}'
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address_post_code"
+                    tools:ignore="TextFields" />
+
+                <TextView
+                    android:id="@+id/text__address_country_label"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_country"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_country"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_country"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_country" />
+
+                <EditText
+                    android:id="@+id/edit_address_city"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text='@{checkoutViewModel.isUserAddressProvided() ? checkoutViewModel.userAddress.get("city") : null}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/edit_address_post_code"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_post_code" />
+
+                <TextView
+                    android:id="@+id/text__address_city_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_city"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_city"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_city"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_city" />
+
+                <EditText
+                    android:id="@+id/edit_address_post_code"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    android:text='@{checkoutViewModel.isUserAddressProvided() ? checkoutViewModel.userAddress.get("postCode") : null}'
+                    app:layout_constraintEnd_toStartOf="@+id/edit_address_city"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address_street_name" />
+
+                <TextView
+                    android:id="@+id/text__address_post_code_label"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_post_code"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_post_code"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_post_code"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_post_code" />
+
+                <ImageButton
+                    android:id="@+id/button_save_address"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/primaryColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_address_country"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_country"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address_country"
+                    app:srcCompat="@drawable/ic_ok_circle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_place_order"
+            style="@style/primaryButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/muli"
+            android:paddingEnd="42dp"
+            android:text="@string/button_place_order"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/button_state_selector"
+            app:icon="@drawable/ic_bag"
+            app:iconTint="@color/primaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_total_label_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_total_value_label"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/text_cart_total_value_checkout"
+            app:layout_constraintEnd_toEndOf="@+id/text_cart_total_value_checkout" />
+
+        <TextView
+            android:id="@+id/text_cart_total_value_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textColor="@color/secondaryDarkColor"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@{checkoutViewModel.cartValue}"
+            app:layout_constraintBottom_toTopOf="@+id/button_place_order"
+            app:layout_constraintEnd_toEndOf="@+id/button_place_order" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="409dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="150dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@+id/button_place_order"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
