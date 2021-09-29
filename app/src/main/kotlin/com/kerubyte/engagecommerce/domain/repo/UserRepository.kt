@@ -20,4 +20,8 @@ interface UserRepository {
     suspend fun addToCart(productUid: String): Resource<Status>
 
     suspend fun removeFromCart(productUid: String): Resource<Status>
+
+    suspend fun clearUserCart(): Resource<Status>
+
+    suspend fun updateAddress(userAddress: Map<String, String>): Resource<Status>
 }

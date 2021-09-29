@@ -40,7 +40,8 @@ constructor(
                 firstName,
                 lastName,
                 email,
-                listOf()
+                listOf(),
+                emptyMap()
             )
             val databaseUser = outputDatabaseUserMapper.mapToEntity(user)
 
@@ -80,6 +81,7 @@ constructor(
                     .await()
                 val response = querySnapshot.toObject(DatabaseUser::class.java)
                 val result = inputDatabaseUserMapper.mapFromDatabase(response)
+
                 Resource(Status.SUCCESS, result, null)
             } catch (exc: Exception) {
                 Resource(Status.ERROR, null, exc.message)
@@ -118,6 +120,46 @@ constructor(
                 firestore.collection(COLLECTION_USERS)
                     .document(uid)
                     .update("cart", FieldValue.arrayRemove(productUid))
+                    .await()
+                Resource(Status.SUCCESS, null, null)
+            } catch (exc: Exception) {
+                Resource(Status.ERROR, null, exc.message)
+            }
+        }
+        return Resource(Status.ERROR, null, "User not logged in")
+    }
+
+    override suspend fun clearUserCart(): Resource<Status> {
+
+        val currentUserUid = firebaseAuth.currentUser?.uid
+
+        currentUserUid?.let { uid ->
+
+            return try {
+
+                firestore.collection(COLLECTION_USERS)
+                    .document(uid)
+                    .update(mapOf("cart" to FieldValue.delete()))
+                    .await()
+                Resource(Status.SUCCESS, null, null)
+            } catch (exc: Exception) {
+                Resource(Status.ERROR, null, exc.message)
+            }
+        }
+        return Resource(Status.ERROR, null, "User not logged in")
+    }
+
+    override suspend fun updateAddress(userAddress: Map<String, String>): Resource<Status> {
+
+        val currentUserUid = firebaseAuth.currentUser?.uid
+
+        currentUserUid?.let { uid ->
+
+            return try {
+
+                firestore.collection(COLLECTION_USERS)
+                    .document(uid)
+                    .update("address", userAddress)
                     .await()
                 Resource(Status.SUCCESS, null, null)
             } catch (exc: Exception) {
