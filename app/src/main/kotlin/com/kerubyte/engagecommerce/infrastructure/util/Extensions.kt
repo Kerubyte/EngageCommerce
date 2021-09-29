@@ -3,7 +3,9 @@ package com.kerubyte.engagecommerce.infrastructure.util
 import android.content.Intent
 import android.view.Gravity
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.SlideDistanceProvider
 import com.kerubyte.engagecommerce.presentation.ui.activity.MainActivity
@@ -13,6 +15,12 @@ fun Fragment.navigate(fragmentId: Int) {
         .navigate(
             fragmentId
         )
+}
+
+fun Fragment.navigateWithArgs(navDirections: NavDirections) {
+    findNavController().navigate(
+        navDirections
+    )
 }
 
 fun Fragment.setAnimation() {
