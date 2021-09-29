@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentCartBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
 import com.kerubyte.engagecommerce.presentation.adapter.CartAdapter
 import com.kerubyte.engagecommerce.presentation.ui.RootFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,6 +69,15 @@ class CartFragment : RootFragment() {
                     //hideProgressBar()
                     //displayErrorLayout()
                 }
+            }
+        })
+
+        viewModel.navigate.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let {
+                val args = binding.textCartTotalValue.text.toString()
+                navigateWithArgs(
+                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(args)
+                )
             }
         })
     }
