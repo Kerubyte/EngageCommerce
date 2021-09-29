@@ -47,5 +47,9 @@
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout.CheckoutFragment"
-        android:label="CheckoutFragment" />
+        android:label="CheckoutFragment" >
+        <argument
+            android:name="cartValue"
+            app:argType="string" />
+    </fragment>
 </navigation>
