@@ -18,12 +18,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/divider_address_top"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler_checkout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/progress_recycler_checkout"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/recycler_checkout"
             app:layout_constraintEnd_toEndOf="@+id/recycler_checkout"
             app:layout_constraintStart_toStartOf="@+id/recycler_checkout"
@@ -51,7 +60,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:background="@color/primaryColor"
-            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintBottom_toTopOf="@+id/divider_address_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,81 +76,105 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="32dp"
                     android:text="@string/delivery_label"
                     android:textAppearance="@style/primaryTextStyle"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/image_address_background"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_address_country_value"
+                    app:layout_constraintEnd_toEndOf="@+id/text_address_street_value"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_post_code_value"
+                    app:layout_constraintTop_toTopOf="@+id/image_location_pin"
+                    app:srcCompat="@drawable/bg_image" />
+
+                <ImageView
+                    android:id="@+id/image_location_pin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to"
+                    app:srcCompat="@drawable/ic_location" />
+
                 <TextView
                     android:id="@+id/text_address_street_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="32dp"
-                    android:textAppearance="@style/primaryTextStyle"
-                    android:textSize="16sp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="90dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
                     android:text='@{checkoutViewModel.userAddress.get("street")}'
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to" />
-
-                <TextView
-                    android:id="@+id/text_address_country_value"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:text='@{checkoutViewModel.userAddress.get("country")}'
                     android:textAppearance="@style/primaryTextStyle"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_address_post_code_value" />
+                    app:layout_constraintStart_toEndOf="@+id/image_location_pin"
+                    app:layout_constraintTop_toTopOf="@+id/image_location_pin" />
 
                 <TextView
                     android:id="@+id/text_address_post_code_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
+                    android:paddingStart="10dp"
                     android:text='@{checkoutViewModel.userAddress.get("postCode")}'
                     android:textAlignment="textStart"
                     android:textAppearance="@style/primaryTextStyle"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/text_address_city_value"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_street_value"
                     app:layout_constraintTop_toBottomOf="@+id/text_address_street_value" />
 
                 <TextView
                     android:id="@+id/text_address_city_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="90dp"
+                    android:paddingEnd="10dp"
                     android:text='@{checkoutViewModel.userAddress.get("city")}'
                     android:textAlignment="textStart"
                     android:textAppearance="@style/primaryTextStyle"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/text_address_post_code_value"
                     app:layout_constraintTop_toTopOf="@+id/text_address_post_code_value" />
 
+                <TextView
+                    android:id="@+id/text_address_country_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="90dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text='@{checkoutViewModel.userAddress.get("country")}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_post_code_value"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_post_code_value" />
+
                 <ImageButton
                     android:id="@+id/button_edit_address"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@color/primaryColor"
-                    android:onClick="@{() -> checkoutFragment.editAddress()}"
+                    android:onClick="@{() -> checkoutFragment.showEditAddress()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/text_address_country_value"
                     app:layout_constraintStart_toStartOf="@+id/text_address_country_value"
@@ -153,7 +186,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="@{checkoutViewModel.isUserAddressProvided()}"
-                    app:constraint_referenced_ids="text_address_street_value,text_address_country_value,text_address_post_code_value,text_address_city_value,button_edit_address"
+                    app:constraint_referenced_ids="text_address_street_value,text_address_country_value,text_address_post_code_value,text_address_city_value,button_edit_address,image_location_pin,image_address_background"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_edit_address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -162,12 +196,13 @@
                     android:id="@+id/group_edit_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="@{!checkoutViewModel.isUserAddressProvided()}"
                     app:constraint_referenced_ids="text__address_post_code_label,edit_address_post_code,text__address_city_label,text__address_country_label,edit_address_city,edit_address_country,text__address_street_name_label,edit_address_street_name,button_save_address"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_deliver_to"
+                    tools:visibility="gone" />
 
                 <EditText
                     android:id="@+id/edit_address_street_name"
@@ -312,6 +347,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/primaryColor"
+                    android:onClick="@{() -> checkoutFragment.verifyAndUpdateUserAddress()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/edit_address_country"
                     app:layout_constraintStart_toStartOf="@+id/edit_address_country"
@@ -333,6 +369,7 @@
             android:paddingEnd="42dp"
             android:text="@string/button_place_order"
             android:textAlignment="center"
+            android:onClick="@{() -> checkoutViewModel.placeOrder()}"
             android:textColor="@color/primaryTextColor"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -367,7 +404,7 @@
             app:layout_constraintEnd_toEndOf="@+id/button_place_order" />
 
         <View
-            android:id="@+id/divider"
+            android:id="@+id/divider_address_bottom"
             android:layout_width="409dp"
             android:layout_height="1dp"
             android:layout_marginBottom="150dp"
