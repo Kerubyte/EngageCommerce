@@ -1,9 +1,9 @@
 package com.kerubyte.engagecommerce.infrastructure.di
 
 import android.icu.util.Calendar
-import com.kerubyte.engagecommerce.data.mapper.user.NullableInputDatabaseUserMapper
-import com.kerubyte.engagecommerce.data.mapper.user.NullableOutputDatabaseUserMapper
 import com.kerubyte.engagecommerce.infrastructure.auth.InputValidator
+import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableInputDatabaseUserMapper
+import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableOutputDatabaseUserMapper
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
 import dagger.Module
 import dagger.Provides

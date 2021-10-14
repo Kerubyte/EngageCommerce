@@ -3,8 +3,8 @@ package com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.cart
 import androidx.lifecycle.*
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
-import com.kerubyte.engagecommerce.domain.repo.ProductRepository
-import com.kerubyte.engagecommerce.domain.repo.UserRepository
+import com.kerubyte.engagecommerce.data.repository.ProductRepository
+import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
