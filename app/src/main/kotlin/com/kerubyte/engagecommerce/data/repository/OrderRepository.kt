@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.domain.repo
+package com.kerubyte.engagecommerce.data.repository
 
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status

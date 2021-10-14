@@ -1,9 +1,9 @@
-package com.kerubyte.engagecommerce.data.remote
+package com.kerubyte.engagecommerce.infrastructure.remote
 
 import android.icu.util.Calendar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.kerubyte.engagecommerce.domain.repo.OrderRepository
+import com.kerubyte.engagecommerce.data.database.Authenticator
+import com.kerubyte.engagecommerce.data.database.DatabaseInteractor
+import com.kerubyte.engagecommerce.data.repository.OrderRepository
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_ORDERS
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
@@ -13,26 +13,30 @@ import javax.inject.Inject
 class OrderRepositoryImpl
 @Inject
 constructor(
-    private val firestore: FirebaseFirestore,
-    private val firebaseAuth: FirebaseAuth,
+    private val databaseInteractor: DatabaseInteractor,
+    authenticator: Authenticator,
     private val calendar: Calendar
 ) : OrderRepository {
 
+    private val currentUserUid = authenticator.getCurrentUserUid()
+
     override suspend fun createOrder(userOrder: Map<String, Any>): Resource<Status> {
 
-        val currentUserUid = firebaseAuth.currentUser?.uid
         val timeNow = calendar.time.toString()
 
         currentUserUid?.let { uid ->
 
             return try {
 
-                firestore.collection(COLLECTION_ORDERS)
-                    .document(uid)
-                    .collection(COLLECTION_ORDERS)
-                    .document(timeNow)
-                    .set(userOrder)
+                databaseInteractor
+                    .createDocumentInCollection(
+                        COLLECTION_ORDERS,
+                        uid,
+                        userOrder,
+                        timeNow
+                    )
                     .await()
+
                 Resource(Status.SUCCESS, null, null)
             } catch (exc: Exception) {
                 Resource(Status.ERROR, null, exc.message)

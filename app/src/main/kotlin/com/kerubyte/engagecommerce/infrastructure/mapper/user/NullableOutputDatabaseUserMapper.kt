@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.data.mapper.user
+package com.kerubyte.engagecommerce.infrastructure.mapper.user
 
 import com.kerubyte.engagecommerce.data.entity.DatabaseUser
 import com.kerubyte.engagecommerce.data.mapper.DatabaseMapper

@@ -1,14 +1,13 @@
-package com.kerubyte.engagecommerce.data.remote
+package com.kerubyte.engagecommerce.infrastructure.remote
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import com.kerubyte.engagecommerce.data.database.Authenticator
+import com.kerubyte.engagecommerce.data.database.DatabaseInteractor
 import com.kerubyte.engagecommerce.data.entity.DatabaseUser
-import com.kerubyte.engagecommerce.data.mapper.user.NullableInputDatabaseUserMapper
-import com.kerubyte.engagecommerce.data.mapper.user.NullableOutputDatabaseUserMapper
+import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.domain.model.User
-import com.kerubyte.engagecommerce.domain.repo.UserRepository
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_USERS
+import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableInputDatabaseUserMapper
+import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableOutputDatabaseUserMapper
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
 import kotlinx.coroutines.tasks.await
@@ -17,11 +16,13 @@ import javax.inject.Inject
 class UserRepositoryImpl
 @Inject
 constructor(
-    private val firestore: FirebaseFirestore,
-    private val firebaseAuth: FirebaseAuth,
+    private val databaseInteractor: DatabaseInteractor,
+    private val authenticator: Authenticator,
     private val inputDatabaseUserMapper: NullableInputDatabaseUserMapper,
     private val outputDatabaseUserMapper: NullableOutputDatabaseUserMapper
 ) : UserRepository {
+
+    private val currentUserUid = authenticator.getCurrentUserUid()
 
     override suspend fun createAccount(
         email: String,
@@ -32,25 +33,34 @@ constructor(
 
         return try {
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
+            authenticator
+                .createUserWithEmailAndPassword(email, password)
                 .await()
 
-            val user = User(
-                firebaseAuth.currentUser!!.uid,
-                firstName,
-                lastName,
-                email,
-                listOf(),
-                emptyMap()
-            )
-            val databaseUser = outputDatabaseUserMapper.mapToEntity(user)
+            val currentUid = authenticator.getCurrentUserUid()
 
-            firestore.collection(COLLECTION_USERS)
-                .document(user.uid)
-                .set(databaseUser)
-                .await()
-            Resource(Status.SUCCESS, null, null)
+            currentUid?.let { uid ->
 
+                val user = User(
+                    uid,
+                    firstName,
+                    lastName,
+                    email,
+                    listOf(),
+                    emptyMap()
+                )
+                val databaseUser = outputDatabaseUserMapper.mapToEntity(user)
+
+                databaseInteractor
+                    .setDocumentInCollection(
+                        COLLECTION_USERS,
+                        uid,
+                        databaseUser
+                    )
+                    .await()
+
+                Resource(Status.SUCCESS, null, null)
+            } ?: Resource(Status.ERROR, null, "Unknown error")
         } catch (exc: Exception) {
             Resource(Status.ERROR, null, exc.message)
         }
@@ -59,10 +69,14 @@ constructor(
     override suspend fun loginUser(email: String, password: String): Resource<Status> {
 
         return try {
-            firebaseAuth.signInWithEmailAndPassword(email, password)
+            authenticator
+                .loginUserWithEmailAndPassword(
+                    email,
+                    password
+                )
                 .await()
-            Resource(Status.SUCCESS, null, null)
 
+            Resource(Status.SUCCESS, null, null)
         } catch (exc: Exception) {
             Resource(Status.ERROR, null, exc.message)
         }
@@ -70,16 +84,13 @@ constructor(
 
     override suspend fun getUserData(): Resource<User> {
 
-        val currentUserUid = firebaseAuth.currentUser?.uid
-
         currentUserUid?.let { uid ->
 
             return try {
-                val querySnapshot = firestore.collection(COLLECTION_USERS)
-                    .document(uid)
-                    .get()
+                val documentSnapshot = databaseInteractor
+                    .getSingleDocument(COLLECTION_USERS, uid)
                     .await()
-                val response = querySnapshot.toObject(DatabaseUser::class.java)
+                val response = documentSnapshot.toObject(DatabaseUser::class.java)
                 val result = inputDatabaseUserMapper.mapFromDatabase(response)
 
                 Resource(Status.SUCCESS, result, null)
@@ -92,15 +103,17 @@ constructor(
 
     override suspend fun addToCart(productUid: String): Resource<Status> {
 
-        val currentUserUid = firebaseAuth.currentUser?.uid
-
         currentUserUid?.let { uid ->
 
             return try {
-                firestore.collection(COLLECTION_USERS)
-                    .document(uid)
-                    .update("cart", FieldValue.arrayUnion(productUid))
+                databaseInteractor
+                    .addToFieldInDocument(
+                        COLLECTION_USERS,
+                        uid,
+                        productUid
+                    )
                     .await()
+
                 Resource(Status.SUCCESS, null, null)
             } catch (exc: Exception) {
                 Resource(Status.ERROR, null, exc.message)
@@ -111,16 +124,18 @@ constructor(
 
     override suspend fun removeFromCart(productUid: String): Resource<Status> {
 
-        val currentUserUid = firebaseAuth.currentUser?.uid
-
         currentUserUid?.let { uid ->
 
             return try {
 
-                firestore.collection(COLLECTION_USERS)
-                    .document(uid)
-                    .update("cart", FieldValue.arrayRemove(productUid))
+                databaseInteractor
+                    .removeFromFieldInDocument(
+                        COLLECTION_USERS,
+                        uid,
+                        productUid
+                    )
                     .await()
+
                 Resource(Status.SUCCESS, null, null)
             } catch (exc: Exception) {
                 Resource(Status.ERROR, null, exc.message)
@@ -131,16 +146,17 @@ constructor(
 
     override suspend fun clearUserCart(): Resource<Status> {
 
-        val currentUserUid = firebaseAuth.currentUser?.uid
-
         currentUserUid?.let { uid ->
 
             return try {
 
-                firestore.collection(COLLECTION_USERS)
-                    .document(uid)
-                    .update(mapOf("cart" to FieldValue.delete()))
+                databaseInteractor
+                    .deleteFieldInDocument(
+                        COLLECTION_USERS,
+                        uid
+                    )
                     .await()
+
                 Resource(Status.SUCCESS, null, null)
             } catch (exc: Exception) {
                 Resource(Status.ERROR, null, exc.message)
@@ -151,16 +167,18 @@ constructor(
 
     override suspend fun updateAddress(userAddress: Map<String, String>): Resource<Status> {
 
-        val currentUserUid = firebaseAuth.currentUser?.uid
-
         currentUserUid?.let { uid ->
 
             return try {
 
-                firestore.collection(COLLECTION_USERS)
-                    .document(uid)
-                    .update("address", userAddress)
+                databaseInteractor
+                    .updateDocument(
+                        COLLECTION_USERS,
+                        uid,
+                        userAddress
+                    )
                     .await()
+
                 Resource(Status.SUCCESS, null, null)
             } catch (exc: Exception) {
                 Resource(Status.ERROR, null, exc.message)

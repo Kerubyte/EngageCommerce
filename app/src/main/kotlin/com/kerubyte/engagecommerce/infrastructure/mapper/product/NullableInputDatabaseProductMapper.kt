@@ -1,7 +1,8 @@
-package com.kerubyte.engagecommerce.data.mapper
+package com.kerubyte.engagecommerce.infrastructure.mapper.product
 
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
 import com.kerubyte.engagecommerce.data.entity.DatabaseProduct
+import com.kerubyte.engagecommerce.data.mapper.DatabaseMapper
 import com.kerubyte.engagecommerce.domain.model.Product
 import javax.inject.Inject
 
