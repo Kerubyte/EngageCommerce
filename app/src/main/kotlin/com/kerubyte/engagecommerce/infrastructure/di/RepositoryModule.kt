@@ -1,11 +1,11 @@
 package com.kerubyte.engagecommerce.infrastructure.di
 
-import com.kerubyte.engagecommerce.data.remote.OrderRepositoryImpl
-import com.kerubyte.engagecommerce.data.remote.ProductRepositoryImpl
-import com.kerubyte.engagecommerce.data.remote.UserRepositoryImpl
-import com.kerubyte.engagecommerce.domain.repo.OrderRepository
-import com.kerubyte.engagecommerce.domain.repo.ProductRepository
-import com.kerubyte.engagecommerce.domain.repo.UserRepository
+import com.kerubyte.engagecommerce.infrastructure.remote.OrderRepositoryImpl
+import com.kerubyte.engagecommerce.infrastructure.remote.ProductRepositoryImpl
+import com.kerubyte.engagecommerce.infrastructure.remote.UserRepositoryImpl
+import com.kerubyte.engagecommerce.data.repository.OrderRepository
+import com.kerubyte.engagecommerce.data.repository.ProductRepository
+import com.kerubyte.engagecommerce.data.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,20 +16,20 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped
 @InstallIn(ActivityRetainedComponent::class)
 abstract class RepositoryModule {
 
-    @Binds
     @ActivityRetainedScoped
+    @Binds
     abstract fun bindUserRepo(
         userRepositoryImpl: UserRepositoryImpl
     ): UserRepository
 
-    @Binds
     @ActivityRetainedScoped
+    @Binds
     abstract fun bindProductRepository(
         productRepositoryImpl: ProductRepositoryImpl
     ): ProductRepository
 
-    @Binds
     @ActivityRetainedScoped
+    @Binds
     abstract fun bindOrderRepository(
         orderRepositoryImpl: OrderRepositoryImpl
     ): OrderRepository
