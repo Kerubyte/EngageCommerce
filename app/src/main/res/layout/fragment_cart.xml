@@ -58,6 +58,7 @@
             android:text="@{viewModel.userCartValue}"
             android:textColor="@color/secondaryDarkColor"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/button_to_checkout"
             app:layout_constraintEnd_toEndOf="@+id/button_to_checkout" />
 
@@ -76,6 +77,7 @@
             android:textColor="@color/primaryTextColor"
             android:textSize="16sp"
             app:backgroundTint="@color/button_state_selector"
+            android:onClick="@{() -> viewModel.navigate()}"
             app:icon="@drawable/ic_cart"
             app:iconTint="@color/primaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,6 +85,16 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:rippleColor="@color/primaryColor" />
+
+        <ProgressBar
+            android:id="@+id/progress_recycler_cart"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/divider_cart"
+            app:layout_constraintEnd_toEndOf="@+id/recycler_cart"
+            app:layout_constraintStart_toStartOf="@+id/recycler_cart"
+            app:layout_constraintTop_toTopOf="@+id/recycler_cart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
