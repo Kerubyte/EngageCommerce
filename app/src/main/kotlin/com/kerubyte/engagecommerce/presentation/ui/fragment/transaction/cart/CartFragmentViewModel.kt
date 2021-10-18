@@ -1,10 +1,11 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.cart
 
 import androidx.lifecycle.*
-import com.kerubyte.engagecommerce.domain.model.Product
-import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
+import com.kerubyte.engagecommerce.data.util.DispatcherProvider
+import com.kerubyte.engagecommerce.domain.model.Product
+import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
@@ -19,6 +20,7 @@ class CartFragmentViewModel
 constructor(
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository,
+    private val dispatcherProvider: DispatcherProvider,
     private val priceFormatter: PriceFormatter
 ) : ViewModel() {
 
@@ -52,7 +54,7 @@ constructor(
         if (userCart.isEmpty()) {
             productsInCart.value = Resource(Status.SUCCESS, emptyList(), null)
         } else {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcherProvider.io) {
                 val products = productRepository.getProductsFromCart(userCart)
                 productsInCart.postValue(products)
             }
@@ -62,7 +64,7 @@ constructor(
 
     private fun getCurrentUser() {
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             val result = userRepository.getUserData()
             _currentUser.postValue(result)
         }
@@ -70,7 +72,7 @@ constructor(
 
     fun removeFromCart(productUid: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             userRepository.removeFromCart(productUid)
             getCurrentUser()
         }

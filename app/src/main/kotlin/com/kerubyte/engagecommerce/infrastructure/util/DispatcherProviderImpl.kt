@@ -3,8 +3,11 @@ package com.kerubyte.engagecommerce.infrastructure.util
 import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
 
-class DispatcherProviderImpl: DispatcherProvider {
+class DispatcherProviderImpl
+    @Inject
+    constructor(): DispatcherProvider {
 
     override val default: CoroutineDispatcher
         get() = Dispatchers.Default

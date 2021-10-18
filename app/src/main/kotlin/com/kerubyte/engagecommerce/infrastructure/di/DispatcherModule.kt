@@ -14,10 +14,6 @@ abstract class DispatcherModule {
 
     @Singleton
     @Binds
-    abstract fun bindDispatcherProviderImpl(): DispatcherProviderImpl
-
-    @Singleton
-    @Binds
     abstract fun bindDispatcherProvider(
         dispatcherProviderImpl: DispatcherProviderImpl
     ): DispatcherProvider

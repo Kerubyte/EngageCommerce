@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
+import com.kerubyte.engagecommerce.data.util.DispatcherProvider
+import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
-import com.kerubyte.engagecommerce.domain.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class TitleFragmentViewModel
 @Inject
 constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _products = MutableLiveData<Resource<List<Product>>>()
@@ -26,7 +28,7 @@ constructor(
     private fun getAllProducts() {
         _products.postValue(Resource(Status.LOADING, null, null))
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             val result = productRepository.getAllProducts()
             _products.postValue(result)
         }

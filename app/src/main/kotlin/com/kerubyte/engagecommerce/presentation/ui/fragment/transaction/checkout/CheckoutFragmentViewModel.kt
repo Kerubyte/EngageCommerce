@@ -1,11 +1,12 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout
 
 import androidx.lifecycle.*
-import com.kerubyte.engagecommerce.domain.model.Product
-import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.data.repository.OrderRepository
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
+import com.kerubyte.engagecommerce.data.util.DispatcherProvider
+import com.kerubyte.engagecommerce.domain.model.Product
+import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,8 @@ constructor(
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository,
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _currentUser = MutableLiveData<Resource<User>>()
@@ -50,7 +52,7 @@ constructor(
 
         val productsInCart = MutableLiveData<Resource<List<Product>>>()
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             val products = productRepository.getProductsFromCart(userCart)
             productsInCart.postValue(products)
         }
@@ -59,7 +61,7 @@ constructor(
 
     private fun getCurrentUser() {
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             val result = userRepository.getUserData()
             _currentUser.postValue(result)
         }
@@ -68,7 +70,7 @@ constructor(
     private fun createOrder() {
 
         currentUser.value?.data?.let { user ->
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcherProvider.io) {
 
                 cartValue?.let { value ->
 
@@ -85,7 +87,7 @@ constructor(
 
     private fun clearUserCart() {
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             userRepository.clearUserCart()
         }
     }
@@ -104,7 +106,7 @@ constructor(
                 "country" to country
             )
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io) {
             userRepository.updateAddress(userAddress)
             getCurrentUser()
         }
