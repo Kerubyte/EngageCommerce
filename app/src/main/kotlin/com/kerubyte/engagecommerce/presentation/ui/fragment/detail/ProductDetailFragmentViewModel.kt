@@ -3,7 +3,6 @@ package com.kerubyte.engagecommerce.presentation.ui.fragment.detail
 import androidx.lifecycle.*
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
-import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
@@ -19,8 +18,7 @@ class ProductDetailFragmentViewModel
 constructor(
     savedStateHandle: SavedStateHandle,
     private val productRepository: ProductRepository,
-    private val userRepository: UserRepository,
-    private val dispatcherProvider: DispatcherProvider
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
@@ -46,7 +44,7 @@ constructor(
         _currentProduct.value = Resource(Status.LOADING, null, null)
 
         productUid?.let { uid ->
-            viewModelScope.launch(dispatcherProvider.io) {
+            viewModelScope.launch {
 
                 val result = productRepository.getSingleProduct(uid)
                 _currentProduct.postValue(result)
@@ -56,7 +54,7 @@ constructor(
 
     private fun getCurrentUser() {
 
-        viewModelScope.launch(dispatcherProvider.io) {
+        viewModelScope.launch {
             val result = userRepository.getUserData()
             _currentUser.postValue(result)
         }
@@ -65,7 +63,7 @@ constructor(
     private fun addToCart() {
 
         productUid?.let { uid ->
-            viewModelScope.launch(dispatcherProvider.io) {
+            viewModelScope.launch {
                 userRepository.addToCart(uid)
             }
         }

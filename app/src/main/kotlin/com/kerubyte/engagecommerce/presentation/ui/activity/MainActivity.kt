@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navigationView, navController)
 
         setBindings()
-        subscribeObserver()
+        setupObserver()
     }
 
     override fun onBackPressed() {
@@ -63,11 +63,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
     }
 
-    private fun subscribeObserver() {
-        observeCurrentUser()
-    }
-
-    private fun observeCurrentUser() {
+    private fun setupObserver() {
         mainViewModel.currentUser.observe(this, { response ->
             when (response.status) {
                 Status.SUCCESS -> updateUI()

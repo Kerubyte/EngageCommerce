@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.kerubyte.engagecommerce.data.repository.OrderRepository
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
-import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
@@ -20,8 +19,7 @@ constructor(
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository,
-    private val orderRepository: OrderRepository,
-    private val dispatcherProvider: DispatcherProvider
+    private val orderRepository: OrderRepository
 ) : ViewModel() {
 
     private val _currentUser = MutableLiveData<Resource<User>>()
@@ -52,7 +50,7 @@ constructor(
 
         val productsInCart = MutableLiveData<Resource<List<Product>>>()
 
-        viewModelScope.launch(dispatcherProvider.io) {
+        viewModelScope.launch {
             val products = productRepository.getProductsFromCart(userCart)
             productsInCart.postValue(products)
         }
@@ -61,7 +59,7 @@ constructor(
 
     private fun getCurrentUser() {
 
-        viewModelScope.launch(dispatcherProvider.io) {
+        viewModelScope.launch {
             val result = userRepository.getUserData()
             _currentUser.postValue(result)
         }
@@ -70,7 +68,7 @@ constructor(
     private fun createOrder() {
 
         currentUser.value?.data?.let { user ->
-            viewModelScope.launch(dispatcherProvider.io) {
+            viewModelScope.launch {
 
                 cartValue?.let { value ->
 
@@ -87,7 +85,7 @@ constructor(
 
     private fun clearUserCart() {
 
-        viewModelScope.launch(dispatcherProvider.io) {
+        viewModelScope.launch {
             userRepository.clearUserCart()
         }
     }
@@ -106,7 +104,7 @@ constructor(
                 "country" to country
             )
 
-        viewModelScope.launch(dispatcherProvider.io) {
+        viewModelScope.launch {
             userRepository.updateAddress(userAddress)
             getCurrentUser()
         }

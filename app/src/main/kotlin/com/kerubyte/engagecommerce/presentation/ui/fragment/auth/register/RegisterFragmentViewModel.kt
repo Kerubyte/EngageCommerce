@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerubyte.engagecommerce.data.repository.UserRepository
-import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +15,7 @@ import javax.inject.Inject
 class RegisterFragmentViewModel
 @Inject
 constructor(
-    private val userRepository: UserRepository,
-    private val dispatcherProvider: DispatcherProvider
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _accountCreated = MutableLiveData<Resource<Status>>()
@@ -33,7 +31,7 @@ constructor(
 
         _accountCreated.value = Resource(Status.LOADING, null, null)
 
-        viewModelScope.launch(dispatcherProvider.io) {
+        viewModelScope.launch {
             val result = userRepository.createAccount(email, password, firstName, lastName)
             _accountCreated.postValue(result)
         }
