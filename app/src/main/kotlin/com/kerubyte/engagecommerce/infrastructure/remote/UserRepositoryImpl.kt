@@ -4,6 +4,7 @@ import com.kerubyte.engagecommerce.data.database.Authenticator
 import com.kerubyte.engagecommerce.data.database.DatabaseInteractor
 import com.kerubyte.engagecommerce.data.entity.DatabaseUser
 import com.kerubyte.engagecommerce.data.repository.UserRepository
+import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_USERS
 import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableInputDatabaseUserMapper
@@ -11,6 +12,7 @@ import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableOutputData
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.Status
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserRepositoryImpl
@@ -18,6 +20,7 @@ class UserRepositoryImpl
 constructor(
     private val databaseInteractor: DatabaseInteractor,
     private val authenticator: Authenticator,
+    private val dispatcherProvider: DispatcherProvider,
     private val inputDatabaseUserMapper: NullableInputDatabaseUserMapper,
     private val outputDatabaseUserMapper: NullableOutputDatabaseUserMapper
 ) : UserRepository {
@@ -29,9 +32,9 @@ constructor(
         password: String,
         firstName: String,
         lastName: String
-    ): Resource<Status> {
+    ): Resource<Status> = withContext(dispatcherProvider.io) {
 
-        return try {
+        try {
 
             authenticator
                 .createUserWithEmailAndPassword(email, password)
@@ -60,57 +63,22 @@ constructor(
                     .await()
 
                 Resource(Status.SUCCESS, null, null)
+
             } ?: Resource(Status.ERROR, null, "Unknown error")
         } catch (exc: Exception) {
             Resource(Status.ERROR, null, exc.message)
         }
     }
 
-    override suspend fun loginUser(email: String, password: String): Resource<Status> {
+    override suspend fun loginUser(email: String, password: String): Resource<Status> =
 
-        return try {
-            authenticator
-                .loginUserWithEmailAndPassword(
-                    email,
-                    password
-                )
-                .await()
+        withContext(dispatcherProvider.io) {
 
-            Resource(Status.SUCCESS, null, null)
-        } catch (exc: Exception) {
-            Resource(Status.ERROR, null, exc.message)
-        }
-    }
-
-    override suspend fun getUserData(): Resource<User> {
-
-        currentUserUid?.let { uid ->
-
-            return try {
-                val documentSnapshot = databaseInteractor
-                    .getSingleDocument(COLLECTION_USERS, uid)
-                    .await()
-                val response = documentSnapshot.toObject(DatabaseUser::class.java)
-                val result = inputDatabaseUserMapper.mapFromDatabase(response)
-
-                Resource(Status.SUCCESS, result, null)
-            } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
-            }
-        }
-        return Resource(Status.ERROR, null, "User not logged in")
-    }
-
-    override suspend fun addToCart(productUid: String): Resource<Status> {
-
-        currentUserUid?.let { uid ->
-
-            return try {
-                databaseInteractor
-                    .addToFieldInDocument(
-                        COLLECTION_USERS,
-                        uid,
-                        productUid
+            try {
+                authenticator
+                    .loginUserWithEmailAndPassword(
+                        email,
+                        password
                     )
                     .await()
 
@@ -119,71 +87,114 @@ constructor(
                 Resource(Status.ERROR, null, exc.message)
             }
         }
-        return Resource(Status.ERROR, null, "User not logged in")
-    }
 
-    override suspend fun removeFromCart(productUid: String): Resource<Status> {
+    override suspend fun getUserData(): Resource<User> =
 
-        currentUserUid?.let { uid ->
+        withContext(dispatcherProvider.io) {
 
-            return try {
+            currentUserUid?.let { uid ->
 
-                databaseInteractor
-                    .removeFromFieldInDocument(
-                        COLLECTION_USERS,
-                        uid,
-                        productUid
-                    )
-                    .await()
+                try {
+                    val documentSnapshot = databaseInteractor
+                        .getSingleDocument(COLLECTION_USERS, uid)
+                        .await()
+                    val response = documentSnapshot.toObject(DatabaseUser::class.java)
+                    val result = inputDatabaseUserMapper.mapFromDatabase(response)
 
-                Resource(Status.SUCCESS, null, null)
-            } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
-            }
+                    Resource(Status.SUCCESS, result, null)
+                } catch (exc: Exception) {
+                    Resource(Status.ERROR, null, exc.message)
+                }
+            } ?: Resource(Status.ERROR, null, "User not logged in")
         }
-        return Resource(Status.ERROR, null, "User not logged in")
-    }
 
-    override suspend fun clearUserCart(): Resource<Status> {
+    override suspend fun addToCart(productUid: String): Resource<Status> =
 
-        currentUserUid?.let { uid ->
+        withContext(dispatcherProvider.io) {
 
-            return try {
+            currentUserUid?.let { uid ->
 
-                databaseInteractor
-                    .deleteFieldInDocument(
-                        COLLECTION_USERS,
-                        uid
-                    )
-                    .await()
+                try {
+                    databaseInteractor
+                        .addToFieldInDocument(
+                            COLLECTION_USERS,
+                            uid,
+                            productUid
+                        )
+                        .await()
 
-                Resource(Status.SUCCESS, null, null)
-            } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
-            }
+                    Resource(Status.SUCCESS, null, null)
+                } catch (exc: Exception) {
+                    Resource(Status.ERROR, null, exc.message)
+                }
+            } ?: Resource(Status.ERROR, null, "User not logged in")
         }
-        return Resource(Status.ERROR, null, "User not logged in")
-    }
 
-    override suspend fun updateAddress(userAddress: Map<String, String>): Resource<Status> {
+    override suspend fun removeFromCart(productUid: String): Resource<Status> =
 
-        currentUserUid?.let { uid ->
+        withContext(dispatcherProvider.io) {
 
-            return try {
+            currentUserUid?.let { uid ->
 
-                databaseInteractor
-                    .updateDocument(
-                        COLLECTION_USERS,
-                        uid,
-                        userAddress
-                    )
-                    .await()
+                try {
 
-                Resource(Status.SUCCESS, null, null)
-            } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
-            }
+                    databaseInteractor
+                        .removeFromFieldInDocument(
+                            COLLECTION_USERS,
+                            uid,
+                            productUid
+                        )
+                        .await()
+
+                    Resource(Status.SUCCESS, null, null)
+                } catch (exc: Exception) {
+                    Resource(Status.ERROR, null, exc.message)
+                }
+            } ?: Resource(Status.ERROR, null, "User not logged in")
         }
-        return Resource(Status.ERROR, null, "User not logged in")
-    }
+
+    override suspend fun clearUserCart(): Resource<Status> =
+
+        withContext(dispatcherProvider.io) {
+
+            currentUserUid?.let { uid ->
+
+                try {
+
+                    databaseInteractor
+                        .deleteFieldInDocument(
+                            COLLECTION_USERS,
+                            uid
+                        )
+                        .await()
+
+                    Resource(Status.SUCCESS, null, null)
+                } catch (exc: Exception) {
+                    Resource(Status.ERROR, null, exc.message)
+                }
+            } ?: Resource(Status.ERROR, null, "User not logged in")
+        }
+
+    override suspend fun updateAddress(userAddress: Map<String, String>): Resource<Status> =
+
+        withContext(dispatcherProvider.io) {
+
+            currentUserUid?.let { uid ->
+
+                try {
+
+                    databaseInteractor
+                        .updateDocument(
+                            COLLECTION_USERS,
+                            uid,
+                            userAddress
+                        )
+                        .await()
+
+                    Resource(Status.SUCCESS, null, null)
+                } catch (exc: Exception) {
+                    Resource(Status.ERROR, null, exc.message)
+                }
+            } ?: Resource(Status.ERROR, null, "User not logged in")
+        }
 }
