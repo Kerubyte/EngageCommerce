@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentLoginBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Status
-import com.kerubyte.engagecommerce.presentation.ui.RootFragment
+import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
+import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment : RootFragment() {
+class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginFragmentViewModel by viewModels()
     lateinit var binding: FragmentLoginBinding

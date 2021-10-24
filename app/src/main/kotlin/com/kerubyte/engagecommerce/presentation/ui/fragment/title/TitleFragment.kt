@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentTitleBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
+import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.presentation.adapter.TitleAdapter
-import com.kerubyte.engagecommerce.presentation.ui.RootFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TitleFragment : RootFragment() {
+class TitleFragment : Fragment() {
 
     private val titleViewModel: TitleFragmentViewModel by viewModels()
     private lateinit var binding: FragmentTitleBinding
@@ -77,9 +78,8 @@ class TitleFragment : RootFragment() {
     }
 
     private fun openProductDetails(productUid: String) {
-        findNavController().navigate(
-            TitleFragmentDirections
-                .actionTitleFragmentToProductDetailFragment(productUid)
+        navigateWithArgs(
+            TitleFragmentDirections.actionTitleFragmentToProductDetailFragment(productUid)
         )
     }
 

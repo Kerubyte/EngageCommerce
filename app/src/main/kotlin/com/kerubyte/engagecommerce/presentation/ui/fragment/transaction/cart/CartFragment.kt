@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentCartBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Status
 import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
+import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.presentation.adapter.CartAdapter
-import com.kerubyte.engagecommerce.presentation.ui.RootFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CartFragment : RootFragment() {
+class CartFragment : Fragment() {
 
     private val viewModel: CartFragmentViewModel by viewModels()
     private lateinit var binding: FragmentCartBinding
