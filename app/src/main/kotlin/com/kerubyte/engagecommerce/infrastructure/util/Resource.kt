@@ -1,22 +1,12 @@
 package com.kerubyte.engagecommerce.infrastructure.util
 
-data class Resource<out T>(
-    val status: Status,
-    val data: T?,
-    val message: String?
+sealed class Resource<T>(
+    val data: T? = null,
+    val message: String? = null
 ) {
-    companion object {
-
-        fun <T> success(data: T?): Resource<T> {
-            return Resource(Status.SUCCESS, data, null)
-        }
-
-        fun <T> error(message: String?, data: T?): Resource<T> {
-            return Resource(Status.ERROR, data, message)
-        }
-
-        fun <T> loading(data: T?): Resource<T> {
-            return Resource(Status.LOADING, data, null)
-        }
+    class Success<T>(data: T?) : Resource<T>(data)
+    sealed class Error<T>(message: String?) : Resource<T>(null, message) {
+        class NetworkError<T>(message: String?) : Error<T>(message)
+        class AuthenticationError<T>(message: String?) : Error<T>(message)
     }
 }
