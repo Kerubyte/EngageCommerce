@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
-import com.kerubyte.engagecommerce.infrastructure.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +23,6 @@ constructor(
         get() = _products
 
     private fun getAllProducts() {
-        _products.postValue(Resource(Status.LOADING, null, null))
 
         viewModelScope.launch {
             val result = productRepository.getAllProducts()

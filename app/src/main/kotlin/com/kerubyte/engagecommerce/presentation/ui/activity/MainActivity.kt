@@ -1,7 +1,6 @@
 package com.kerubyte.engagecommerce.presentation.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -12,7 +11,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,10 +64,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         mainViewModel.currentUser.observe(this, { response ->
-            when (response.status) {
-                Status.SUCCESS -> updateUI()
-                Status.ERROR -> Log.d("mainActivity", "$response.message")
-                Status.LOADING -> Log.d("mainActivity", "loado!")
+            when (response) {
+                is Resource.Success -> updateUI()
+                is Resource.Error.AuthenticationError -> updateUI()
+                is Resource.Error.NetworkError -> updateUI()
             }
         })
     }

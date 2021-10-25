@@ -7,7 +7,6 @@ import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
-import com.kerubyte.engagecommerce.infrastructure.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,8 +39,6 @@ constructor(
     }
 
     private fun getSingleProduct() {
-
-        _currentProduct.value = Resource(Status.LOADING, null, null)
 
         productUid?.let { uid ->
             viewModelScope.launch {

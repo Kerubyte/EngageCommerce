@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentCartBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.presentation.adapter.CartAdapter
@@ -56,17 +56,19 @@ class CartFragment : Fragment() {
     private fun subscribeObserver() {
         viewModel.productsInCart.observe(viewLifecycleOwner, {
 
-            when (it.status) {
+            when (it) {
 
-                Status.LOADING -> {
-                    //showProgressBar()
-                }
-                Status.SUCCESS -> {
+                is Resource.Success -> {
                     //hideProgressBar()
                     cartAdapter.differ.submitList(it.data)
 
                 }
-                Status.ERROR -> {
+                is Resource.Error.NetworkError -> {
+                    //hideProgressBar()
+                    //displayErrorLayout()
+                }
+
+                is Resource.Error.AuthenticationError -> {
                     //hideProgressBar()
                     //displayErrorLayout()
                 }

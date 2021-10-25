@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentLoginBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,11 +43,11 @@ class LoginFragment : Fragment() {
     private fun setupObserver() {
         loginViewModel.accountLogin.observe(viewLifecycleOwner, {
 
-            when (it.status) {
+            when (it) {
 
-                Status.LOADING -> Log.d("loginFragment", "loado!")
-                Status.SUCCESS -> restartMainActivity()
-                Status.ERROR -> Log.d("loginFragment", "eror!")
+                is Resource.Success -> restartMainActivity()
+                is Resource.Error.AuthenticationError -> Log.d("loginFragment", "loado!")
+                is Resource.Error.NetworkError -> Log.d("loginFragment", "eror!")
             }
         })
     }

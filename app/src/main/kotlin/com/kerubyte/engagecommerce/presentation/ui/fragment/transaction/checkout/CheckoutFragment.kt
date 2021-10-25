@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentCheckoutBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.presentation.adapter.CheckoutAdapter
@@ -63,19 +63,19 @@ class CheckoutFragment : Fragment() {
 
         checkoutViewModel.productsInCart.observe(viewLifecycleOwner, {
 
-            when (it.status) {
+            when (it) {
 
-                Status.SUCCESS -> {
+                is Resource.Success -> {
                     hideProgressBar()
                     checkoutAdapter.differ.submitList(it.data)
 
                 }
-                Status.ERROR -> {
+                is Resource.Error.AuthenticationError -> {
                     hideProgressBar()
                     //displayErrorLayout()
                 }
 
-                Status.LOADING -> {
+                is Resource.Error.NetworkError -> {
                     //No action to be taken
                 }
             }

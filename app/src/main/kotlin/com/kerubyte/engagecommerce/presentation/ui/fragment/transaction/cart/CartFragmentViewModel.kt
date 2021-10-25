@@ -8,7 +8,6 @@ import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
-import com.kerubyte.engagecommerce.infrastructure.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,7 +49,7 @@ constructor(
         val productsInCart = MutableLiveData<Resource<List<Product>>>()
 
         if (userCart.isEmpty()) {
-            productsInCart.value = Resource(Status.SUCCESS, emptyList(), null)
+            productsInCart.value = Resource.Success(emptyList())
         } else {
             viewModelScope.launch {
                 val products = productRepository.getProductsFromCart(userCart)

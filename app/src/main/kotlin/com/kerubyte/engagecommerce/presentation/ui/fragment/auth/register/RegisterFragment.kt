@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentRegisterBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,11 +45,11 @@ class RegisterFragment : Fragment() {
 
         registerViewModel.accountCreated.observe(viewLifecycleOwner, {
 
-            when (it.status) {
+            when (it) {
 
-                Status.SUCCESS -> restartMainActivity()
-                Status.ERROR -> Log.d("registro", "eror!")
-                Status.LOADING -> Log.d("registro", "loado!")
+                is Resource.Success -> restartMainActivity()
+                is Resource.Error.AuthenticationError -> Log.d("registro", "eror!")
+                is Resource.Error.NetworkError -> Log.d("registro", "loado!")
 
             }
         })

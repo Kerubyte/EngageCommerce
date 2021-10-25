@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentTitleBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Status
+import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.presentation.adapter.TitleAdapter
@@ -55,16 +55,17 @@ class TitleFragment : Fragment() {
     private fun setupObserver() {
         titleViewModel.products.observe(viewLifecycleOwner, {
 
-            when (it.status) {
+            when (it) {
 
-                Status.LOADING -> {
-                    showProgressBar()
-                }
-                Status.SUCCESS -> {
+                is Resource.Success -> {
                     hideProgressBar()
                     titleAdapter.differ.submitList(it.data)
                 }
-                Status.ERROR -> {
+                is Resource.Error.AuthenticationError -> {
+                    hideProgressBar()
+                }
+
+                is Resource.Error.NetworkError -> {
                     hideProgressBar()
                 }
             }

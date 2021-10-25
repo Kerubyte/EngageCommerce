@@ -8,7 +8,6 @@ import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_PRODUCTS
 import com.kerubyte.engagecommerce.infrastructure.mapper.product.NullableInputDatabaseProductMapper
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
-import com.kerubyte.engagecommerce.infrastructure.util.Status
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,14 +29,11 @@ constructor(
                     .getWholeCollection(COLLECTION_PRODUCTS)
                     .await()
                 val databaseProducts = querySnapshot.toObjects(DatabaseProduct::class.java)
+                val result = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
 
-                Resource(
-                    Status.SUCCESS,
-                    inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts),
-                    null
-                )
+                Resource.Success(result)
             } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
+                Resource.Error.NetworkError(exc.message)
             }
         }
 
@@ -50,14 +46,12 @@ constructor(
                     .getSingleDocument(COLLECTION_PRODUCTS, productUid)
                     .await()
                 val databaseProduct = documentSnapshot.toObject(DatabaseProduct::class.java)
+                val result = inputDatabaseProductMapper.mapFromDatabase(databaseProduct)
 
-                Resource(
-                    Status.SUCCESS,
-                    inputDatabaseProductMapper.mapFromDatabase(databaseProduct),
-                    null
-                )
+                Resource.Success(result)
+
             } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
+                Resource.Error.NetworkError(exc.message)
             }
         }
 
@@ -72,13 +66,9 @@ constructor(
                 val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
                 val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
 
-                Resource(
-                    Status.SUCCESS,
-                    userCart,
-                    null
-                )
+                Resource.Success(userCart)
             } catch (exc: Exception) {
-                Resource(Status.ERROR, null, exc.message)
+                Resource.Error.NetworkError(exc.message)
             }
         }
 }
