@@ -1,7 +1,6 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.kerubyte.engagecommerce.databinding.FragmentRegisterBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
+import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,14 +43,21 @@ class RegisterFragment : Fragment() {
 
     private fun setupObserver() {
 
+        observeRegistrationResult()
+    }
+
+    private fun observeRegistrationResult() {
+
         registerViewModel.accountCreated.observe(viewLifecycleOwner, {
 
             when (it) {
 
-                is Resource.Success -> restartMainActivity()
-                is Resource.Error.AuthenticationError -> Log.d("registro", "eror!")
-                is Resource.Error.NetworkError -> Log.d("registro", "loado!")
-
+                is Resource.Success ->
+                    restartMainActivity()
+                is Resource.Error.AuthenticationError ->
+                    showErrorSnackbar(requireView(), R.string.authentication_error)
+                is Resource.Error.NetworkError ->
+                    showErrorSnackbar(requireView(), R.string.network_error)
             }
         })
     }

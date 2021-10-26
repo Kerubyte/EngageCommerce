@@ -1,7 +1,6 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.auth.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.kerubyte.engagecommerce.databinding.FragmentLoginBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
+import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,13 +41,22 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObserver() {
+
+        observeLoginResult()
+    }
+
+    private fun observeLoginResult() {
+
         loginViewModel.accountLogin.observe(viewLifecycleOwner, {
 
             when (it) {
 
-                is Resource.Success -> restartMainActivity()
-                is Resource.Error.AuthenticationError -> Log.d("loginFragment", "loado!")
-                is Resource.Error.NetworkError -> Log.d("loginFragment", "eror!")
+                is Resource.Success ->
+                    restartMainActivity()
+                is Resource.Error.AuthenticationError ->
+                    showErrorSnackbar(requireView(), R.string.authentication_error)
+                is Resource.Error.NetworkError ->
+                    showErrorSnackbar(requireView(), R.string.network_error)
             }
         })
     }

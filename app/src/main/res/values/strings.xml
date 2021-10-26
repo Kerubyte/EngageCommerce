@@ -35,4 +35,6 @@
     <string name="address_post_code">Post Code</string>
     <string name="address_city">City</string>
     <string name="delivery_label">Deliver to</string>
+    <string name="authentication_error">You are not logged in</string>
+    <string name="network_error">Network connection error</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.kerubyte.engagecommerce.presentation.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -65,9 +66,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupObserver() {
         mainViewModel.currentUser.observe(this, { response ->
             when (response) {
-                is Resource.Success -> updateUI()
-                is Resource.Error.AuthenticationError -> updateUI()
-                is Resource.Error.NetworkError -> updateUI()
+                is Resource.Success ->
+                    updateUI()
+                is Resource.Error.AuthenticationError ->
+                    Log.d("MainActivity", "${R.string.authentication_error}")
+                is Resource.Error.NetworkError ->
+                    Log.d("MainActivity", "${R.string.network_error}")
             }
         })
     }

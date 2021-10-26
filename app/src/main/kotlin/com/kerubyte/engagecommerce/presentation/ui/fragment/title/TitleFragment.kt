@@ -13,6 +13,7 @@ import com.kerubyte.engagecommerce.databinding.FragmentTitleBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
+import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
 import com.kerubyte.engagecommerce.presentation.adapter.TitleAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,7 +37,7 @@ class TitleFragment : Fragment() {
         )
 
         setAnimation()
-        setupObserver()
+        subscribeObserver()
         setUpRecycler()
         setOnItemClickListener()
 
@@ -52,7 +53,13 @@ class TitleFragment : Fragment() {
         }
     }
 
-    private fun setupObserver() {
+    private fun subscribeObserver() {
+
+        observeProducts()
+    }
+
+    private fun observeProducts() {
+
         titleViewModel.products.observe(viewLifecycleOwner, {
 
             when (it) {
@@ -63,13 +70,16 @@ class TitleFragment : Fragment() {
                 }
                 is Resource.Error.AuthenticationError -> {
                     hideProgressBar()
+                    showErrorSnackbar(requireView(), R.string.authentication_error)
                 }
 
                 is Resource.Error.NetworkError -> {
                     hideProgressBar()
+                    showErrorSnackbar(requireView(), R.string.network_error)
                 }
             }
         })
+
     }
 
     private fun setOnItemClickListener() {
@@ -86,9 +96,5 @@ class TitleFragment : Fragment() {
 
     private fun hideProgressBar() {
         binding.progressBarTitleFragment.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.progressBarTitleFragment.visibility = View.VISIBLE
     }
 }

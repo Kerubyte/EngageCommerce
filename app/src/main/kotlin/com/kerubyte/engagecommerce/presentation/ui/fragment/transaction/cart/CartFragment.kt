@@ -13,6 +13,7 @@ import com.kerubyte.engagecommerce.databinding.FragmentCartBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
+import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
 import com.kerubyte.engagecommerce.presentation.adapter.CartAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,26 +55,35 @@ class CartFragment : Fragment() {
     }
 
     private fun subscribeObserver() {
+
+        observeUserCart()
+        observeNavigation()
+    }
+
+    private fun observeUserCart() {
+
         viewModel.productsInCart.observe(viewLifecycleOwner, {
 
             when (it) {
 
                 is Resource.Success -> {
-                    //hideProgressBar()
+                    hideProgressBar()
                     cartAdapter.differ.submitList(it.data)
 
                 }
-                is Resource.Error.NetworkError -> {
-                    //hideProgressBar()
-                    //displayErrorLayout()
+                is Resource.Error.AuthenticationError -> {
+                    hideProgressBar()
+                    showErrorSnackbar(requireView(), R.string.authentication_error)
                 }
 
-                is Resource.Error.AuthenticationError -> {
-                    //hideProgressBar()
-                    //displayErrorLayout()
-                }
+                is Resource.Error.NetworkError -> {
+                    hideProgressBar()
+                    showErrorSnackbar(requireView(), R.string.network_error)                }
             }
         })
+    }
+
+    private fun observeNavigation() {
 
         viewModel.navigate.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
@@ -94,5 +104,9 @@ class CartFragment : Fragment() {
         cartAdapter.setOnItemClickListener { product ->
             viewModel.removeFromCart(product.uid)
         }
+    }
+
+    private fun hideProgressBar() {
+        binding.progressRecyclerCart.visibility = View.INVISIBLE
     }
 }

@@ -14,6 +14,7 @@ import com.kerubyte.engagecommerce.databinding.FragmentCheckoutBinding
 import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
+import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
 import com.kerubyte.engagecommerce.presentation.adapter.CheckoutAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -72,11 +73,11 @@ class CheckoutFragment : Fragment() {
                 }
                 is Resource.Error.AuthenticationError -> {
                     hideProgressBar()
-                    //displayErrorLayout()
+                    showErrorSnackbar(requireView(), R.string.authentication_error)
                 }
 
                 is Resource.Error.NetworkError -> {
-                    //No action to be taken
+                    showErrorSnackbar(requireView(), R.string.network_error)
                 }
             }
         })
@@ -99,11 +100,6 @@ class CheckoutFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private fun hideProgressBar() {
-
-        binding.progressRecyclerCheckout.isVisible = false
-    }
-
     fun verifyAndUpdateUserAddress() {
 
         val editStreet = binding.editAddressStreetName.text.toString().trim()
@@ -118,5 +114,10 @@ class CheckoutFragment : Fragment() {
 
         binding.groupTextAddress.isVisible = false
         binding.groupEditAddress.isVisible = true
+    }
+
+    private fun hideProgressBar() {
+
+        binding.progressRecyclerCheckout.isVisible = false
     }
 }
