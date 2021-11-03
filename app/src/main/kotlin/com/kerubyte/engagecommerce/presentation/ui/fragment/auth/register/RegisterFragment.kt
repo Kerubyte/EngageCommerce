@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentRegisterBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
@@ -52,11 +51,11 @@ class RegisterFragment : Fragment() {
 
             when (it) {
 
-                is Resource.Success ->
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Success ->
                     restartMainActivity()
-                is Resource.Error.AuthenticationError ->
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.AuthenticationError ->
                     showErrorSnackbar(requireView(), R.string.authentication_error)
-                is Resource.Error.NetworkError ->
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.NetworkError ->
                     showErrorSnackbar(requireView(), R.string.network_error)
             }
         })

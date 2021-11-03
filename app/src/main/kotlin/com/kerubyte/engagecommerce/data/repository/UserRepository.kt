@@ -1,7 +1,7 @@
 package com.kerubyte.engagecommerce.data.repository
 
 import com.kerubyte.engagecommerce.domain.model.User
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 
 interface UserRepository {
 
@@ -10,17 +10,17 @@ interface UserRepository {
         password: String,
         firstName: String,
         lastName: String
-    ): Resource<Nothing>
+    ): Result<Nothing>
 
-    suspend fun loginUser(email: String, password: String): Resource<Nothing>
+    suspend fun loginUser(email: String, password: String): Result<Nothing>
 
-    suspend fun getUserData(): Resource<User>
+    suspend fun getUserData(): Result<User>
 
-    suspend fun addToCart(productUid: String): Resource<Nothing>
+    suspend fun addToCart(productUid: String): Result<Nothing>
 
-    suspend fun removeFromCart(productUid: String): Resource<Nothing>
+    suspend fun removeFromCart(productUid: String): Result<Any>
 
-    suspend fun clearUserCart(): Resource<Nothing>
+    suspend fun clearUserCart(): Result<Nothing>
 
-    suspend fun updateAddress(userAddress: Map<String, String>): Resource<Nothing>
+    suspend fun updateAddress(userAddress: Map<String, String>): Result<Nothing>
 }

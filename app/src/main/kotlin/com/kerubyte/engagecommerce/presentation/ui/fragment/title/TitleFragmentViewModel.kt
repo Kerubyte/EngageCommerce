@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.domain.model.Product
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +18,8 @@ constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    private val _products = MutableLiveData<Resource<List<Product>>>()
-    val products: LiveData<Resource<List<Product>>>
+    private val _products = MutableLiveData<Result<List<Product>>>()
+    val products: LiveData<Result<List<Product>>>
         get() = _products
 
     private fun getAllProducts() {

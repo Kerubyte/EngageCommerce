@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentCartBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import com.kerubyte.engagecommerce.infrastructure.util.navigateWithArgs
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
@@ -66,17 +65,17 @@ class CartFragment : Fragment() {
 
             when (it) {
 
-                is Resource.Success -> {
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Success -> {
                     hideProgressBar()
                     cartAdapter.differ.submitList(it.data)
 
                 }
-                is Resource.Error.AuthenticationError -> {
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.AuthenticationError -> {
                     hideProgressBar()
                     showErrorSnackbar(requireView(), R.string.authentication_error)
                 }
 
-                is Resource.Error.NetworkError -> {
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.NetworkError -> {
                     hideProgressBar()
                     showErrorSnackbar(requireView(), R.string.network_error)                }
             }

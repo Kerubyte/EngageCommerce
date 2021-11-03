@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerubyte.engagecommerce.data.repository.UserRepository
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +17,8 @@ constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _accountCreated = MutableLiveData<Resource<Nothing>>()
-    val accountCreated: LiveData<Resource<Nothing>>
+    private val _accountCreated = MutableLiveData<Result<Nothing>>()
+    val accountCreated: LiveData<Result<Nothing>>
         get() = _accountCreated
 
     fun createUserAccount(

@@ -12,7 +12,6 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,11 +65,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupObserver() {
         mainViewModel.currentUser.observe(this, { response ->
             when (response) {
-                is Resource.Success ->
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Success ->
                     updateUI()
-                is Resource.Error.AuthenticationError ->
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.AuthenticationError ->
                     Log.d("MainActivity", "${R.string.authentication_error}")
-                is Resource.Error.NetworkError ->
+                is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.NetworkError ->
                     Log.d("MainActivity", "${R.string.network_error}")
             }
         })

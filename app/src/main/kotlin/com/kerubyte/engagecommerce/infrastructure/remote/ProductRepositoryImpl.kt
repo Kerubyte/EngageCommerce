@@ -7,7 +7,7 @@ import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_PRODUCTS
 import com.kerubyte.engagecommerce.infrastructure.mapper.product.NullableInputDatabaseProductMapper
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,7 +20,7 @@ constructor(
     private val inputDatabaseProductMapper: NullableInputDatabaseProductMapper
 ) : ProductRepository {
 
-    override suspend fun getAllProducts(): Resource<List<Product>> =
+    override suspend fun getAllProducts(): Result<List<Product>> =
 
         withContext(dispatcherProvider.io) {
 
@@ -31,13 +31,13 @@ constructor(
                 val databaseProducts = querySnapshot.toObjects(DatabaseProduct::class.java)
                 val result = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
 
-                Resource.Success(result)
+                Result.Success(result)
             } catch (exc: Exception) {
-                Resource.Error.NetworkError(exc.message)
+                Result.Error.NetworkError(exc.message)
             }
         }
 
-    override suspend fun getSingleProduct(productUid: String): Resource<Product> =
+    override suspend fun getSingleProduct(productUid: String): Result<Product> =
 
         withContext(dispatcherProvider.io) {
 
@@ -48,14 +48,14 @@ constructor(
                 val databaseProduct = documentSnapshot.toObject(DatabaseProduct::class.java)
                 val result = inputDatabaseProductMapper.mapFromDatabase(databaseProduct)
 
-                Resource.Success(result)
+                Result.Success(result)
 
             } catch (exc: Exception) {
-                Resource.Error.NetworkError(exc.message)
+                Result.Error.NetworkError(exc.message)
             }
         }
 
-    override suspend fun getProductsFromCart(cartList: List<String>): Resource<List<Product>> =
+    override suspend fun getProductsFromCart(cartList: List<String>): Result<List<Product>> =
 
         withContext(dispatcherProvider.io) {
 
@@ -66,9 +66,9 @@ constructor(
                 val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
                 val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
 
-                Resource.Success(userCart)
+                Result.Success(userCart)
             } catch (exc: Exception) {
-                Resource.Error.NetworkError(exc.message)
+                Result.Error.NetworkError(exc.message)
             }
         }
 }

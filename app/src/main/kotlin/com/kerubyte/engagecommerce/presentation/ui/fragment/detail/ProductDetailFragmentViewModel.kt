@@ -6,7 +6,7 @@ import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,12 +22,12 @@ constructor(
 
     private val productUid = savedStateHandle.get<String>("productUid")
 
-    private val _currentProduct = MutableLiveData<Resource<Product>>()
-    val currentProduct: LiveData<Resource<Product>>
+    private val _currentProduct = MutableLiveData<Result<Product>>()
+    val currentProduct: LiveData<Result<Product>>
         get() = _currentProduct
 
-    private val _currentUser = MutableLiveData<Resource<User>>()
-    private val currentUser: LiveData<Resource<User>>
+    private val _currentUser = MutableLiveData<Result<User>>()
+    private val currentUser: LiveData<Result<User>>
         get() = _currentUser
 
     private val _navigate = MutableLiveData<Event<Boolean>>()

@@ -9,7 +9,7 @@ import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_USERS
 import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableInputDatabaseUserMapper
 import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableOutputDatabaseUserMapper
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -31,7 +31,7 @@ constructor(
         password: String,
         firstName: String,
         lastName: String
-    ): Resource<Nothing> = withContext(dispatcherProvider.io) {
+    ): Result<Nothing> = withContext(dispatcherProvider.io) {
 
         try {
 
@@ -61,15 +61,15 @@ constructor(
                     )
                     .await()
 
-                Resource.Success(null)
+                Result.Success(null)
 
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         } catch (exc: Exception) {
-            Resource.Error.NetworkError(exc.message)
+            Result.Error.NetworkError(exc.message)
         }
     }
 
-    override suspend fun loginUser(email: String, password: String): Resource<Nothing> =
+    override suspend fun loginUser(email: String, password: String): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
 
@@ -81,13 +81,13 @@ constructor(
                     )
                     .await()
 
-                Resource.Success(null)
+                Result.Success(null)
             } catch (exc: Exception) {
-                Resource.Error.NetworkError(exc.message)
+                Result.Error.NetworkError(exc.message)
             }
         }
 
-    override suspend fun getUserData(): Resource<User> =
+    override suspend fun getUserData(): Result<User> =
 
         withContext(dispatcherProvider.io) {
 
@@ -100,14 +100,14 @@ constructor(
                     val response = documentSnapshot.toObject(DatabaseUser::class.java)
                     val result = inputDatabaseUserMapper.mapFromDatabase(response)
 
-                    Resource.Success(result)
+                    Result.Success(result)
                 } catch (exc: Exception) {
-                    Resource.Error.NetworkError(exc.message)
+                    Result.Error.NetworkError(exc.message)
                 }
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         }
 
-    override suspend fun addToCart(productUid: String): Resource<Nothing> =
+    override suspend fun addToCart(productUid: String): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
 
@@ -122,14 +122,14 @@ constructor(
                         )
                         .await()
 
-                    Resource.Success(null)
+                    Result.Success(null)
                 } catch (exc: Exception) {
-                    Resource.Error.NetworkError(exc.message)
+                    Result.Error.NetworkError(exc.message)
                 }
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         }
 
-    override suspend fun removeFromCart(productUid: String): Resource<Nothing> =
+    override suspend fun removeFromCart(productUid: String): Result<Any> =
 
         withContext(dispatcherProvider.io) {
 
@@ -145,14 +145,14 @@ constructor(
                         )
                         .await()
 
-                    Resource.Success(null)
+                    Result.Success(null)
                 } catch (exc: Exception) {
-                    Resource.Error.NetworkError(exc.message)
+                    Result.Error.NetworkError(exc.message)
                 }
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         }
 
-    override suspend fun clearUserCart(): Resource<Nothing> =
+    override suspend fun clearUserCart(): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
 
@@ -167,14 +167,14 @@ constructor(
                         )
                         .await()
 
-                    Resource.Success(null)
+                    Result.Success(null)
                 } catch (exc: Exception) {
-                    Resource.Error.NetworkError(exc.message)
+                    Result.Error.NetworkError(exc.message)
                 }
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         }
 
-    override suspend fun updateAddress(userAddress: Map<String, String>): Resource<Nothing> =
+    override suspend fun updateAddress(userAddress: Map<String, String>): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
 
@@ -190,10 +190,10 @@ constructor(
                         )
                         .await()
 
-                    Resource.Success(null)
+                    Result.Success(null)
                 } catch (exc: Exception) {
-                    Resource.Error.NetworkError(exc.message)
+                    Result.Error.NetworkError(exc.message)
                 }
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         }
 }

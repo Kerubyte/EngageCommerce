@@ -7,7 +7,7 @@ import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,8 +22,8 @@ constructor(
     private val orderRepository: OrderRepository
 ) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<Resource<User>>()
-    private val currentUser: LiveData<Resource<User>>
+    private val _currentUser = MutableLiveData<Result<User>>()
+    private val currentUser: LiveData<Result<User>>
         get() = _currentUser
 
     private val _navigate = MutableLiveData<Event<Boolean>>()
@@ -46,9 +46,9 @@ constructor(
 
     val userAddress = Transformations.map(currentUser) { it.data?.address }
 
-    private fun getProductsFromCart(userCart: List<String>): LiveData<Resource<List<Product>>> {
+    private fun getProductsFromCart(userCart: List<String>): LiveData<Result<List<Product>>> {
 
-        val productsInCart = MutableLiveData<Resource<List<Product>>>()
+        val productsInCart = MutableLiveData<Result<List<Product>>>()
 
         viewModelScope.launch {
             val products = productRepository.getProductsFromCart(userCart)

@@ -6,7 +6,7 @@ import com.kerubyte.engagecommerce.data.database.DatabaseInteractor
 import com.kerubyte.engagecommerce.data.repository.OrderRepository
 import com.kerubyte.engagecommerce.data.util.DispatcherProvider
 import com.kerubyte.engagecommerce.infrastructure.Constants.COLLECTION_ORDERS
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,7 +22,7 @@ constructor(
 
     private val currentUserUid = authenticator.getCurrentUserUid()
 
-    override suspend fun createOrder(userOrder: Map<String, Any>): Resource<Nothing> =
+    override suspend fun createOrder(userOrder: Map<String, Any>): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
 
@@ -41,10 +41,10 @@ constructor(
                         )
                         .await()
 
-                    Resource.Success(null)
+                    Result.Success(null)
                 } catch (exc: Exception) {
-                    Resource.Error.NetworkError(exc.message)
+                    Result.Error.NetworkError(exc.message)
                 }
-            } ?: Resource.Error.AuthenticationError(null)
+            } ?: Result.Error.AuthenticationError(null)
         }
 }
