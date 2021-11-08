@@ -27,7 +27,7 @@ constructor(
         get() = _currentProduct
 
     private val _currentUser = MutableLiveData<Result<User>>()
-    private val currentUser: LiveData<Result<User>>
+    val currentUser: LiveData<Result<User>>
         get() = _currentUser
 
     private val _navigate = MutableLiveData<Event<Boolean>>()

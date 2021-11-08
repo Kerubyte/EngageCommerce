@@ -18,7 +18,7 @@ interface UserRepository {
 
     suspend fun addToCart(productUid: String): Result<Nothing>
 
-    suspend fun removeFromCart(productUid: String): Result<Any>
+    suspend fun removeFromCart(productUid: String): Result<Nothing>
 
     suspend fun clearUserCart(): Result<Nothing>
 

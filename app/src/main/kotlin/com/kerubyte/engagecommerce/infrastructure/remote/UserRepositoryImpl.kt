@@ -129,7 +129,7 @@ constructor(
             } ?: Result.Error.AuthenticationError(null)
         }
 
-    override suspend fun removeFromCart(productUid: String): Result<Any> =
+    override suspend fun removeFromCart(productUid: String): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
 

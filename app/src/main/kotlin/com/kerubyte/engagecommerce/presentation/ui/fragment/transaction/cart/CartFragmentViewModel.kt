@@ -7,7 +7,7 @@ import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
-import com.kerubyte.engagecommerce.infrastructure.util.Resource
+import com.kerubyte.engagecommerce.infrastructure.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +21,9 @@ constructor(
     private val priceFormatter: PriceFormatter
 ) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<Resource<User>>()
+    private val _currentUser = MutableLiveData<Result<User>>()
+    val currentUser: LiveData<Result<User>>
+        get() = _currentUser
 
     private val _navigate = MutableLiveData<Event<Boolean>>()
     val navigate: LiveData<Event<Boolean>>
@@ -34,7 +36,7 @@ constructor(
         }
     }
 
-    val userCartValue = Transformations.map(productsInCart) {
+    val productsInCartValue = Transformations.map(productsInCart) {
 
         val cartValue = it.data?.map { product ->
             product.price
@@ -44,12 +46,12 @@ constructor(
 
     val areProductsInCart = Transformations.map(productsInCart) { it.data!!.isNotEmpty() }
 
-    private fun getProductsFromCart(userCart: List<String>): LiveData<Resource<List<Product>>> {
+    private fun getProductsFromCart(userCart: List<String>): LiveData<Result<List<Product>>> {
 
-        val productsInCart = MutableLiveData<Resource<List<Product>>>()
+        val productsInCart = MutableLiveData<Result<List<Product>>>()
 
         if (userCart.isEmpty()) {
-            productsInCart.value = Resource.Success(emptyList())
+            productsInCart.value = Result.Success(emptyList())
         } else {
             viewModelScope.launch {
                 val products = productRepository.getProductsFromCart(userCart)
