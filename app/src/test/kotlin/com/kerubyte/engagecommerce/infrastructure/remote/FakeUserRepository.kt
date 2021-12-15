@@ -23,7 +23,7 @@ class FakeUserRepository : UserRepository {
     }
 
     override suspend fun loginUser(email: String, password: String): Result<Nothing> {
-        TODO("Not yet implemented")
+        return Result.Success(null)
     }
 
     override suspend fun getUserData(): Result<User> {
