@@ -9,6 +9,10 @@
         <variable
             name="registerFragment"
             type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragment" />
+
+        <variable
+            name="registerViewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -223,6 +227,7 @@
             android:textColor="@color/primaryAccentColor"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:onClick="@{() -> registerViewModel.navigate()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -237,7 +242,7 @@
             android:text="@string/text_first_name_error"
             android:textAppearance="@style/primaryTextStyle"
             android:textColor="@color/secondaryDarkColor"
-            android:visibility="@{true}"
+            android:visibility="@{!registerViewModel.isValidFirstName()}"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/input_first_name"
@@ -252,7 +257,7 @@
             android:text="@string/text_last_name_error"
             android:textAppearance="@style/primaryTextStyle"
             android:textColor="@color/secondaryDarkColor"
-            android:visibility="@{true}"
+            android:visibility="@{!registerViewModel.isValidLastName()}"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/input_last_name"
@@ -267,7 +272,7 @@
             android:text="@string/text_email_error"
             android:textAppearance="@style/primaryTextStyle"
             android:textColor="@color/secondaryDarkColor"
-            android:visibility="@{true}"
+            android:visibility="@{!registerViewModel.isValidEmail()}"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/input_email"
@@ -283,7 +288,7 @@
             android:textAppearance="@style/primaryTextStyle"
             android:textColor="@color/secondaryDarkColor"
             android:textSize="10sp"
-            android:visibility="@{true}"
+            android:visibility="@{!registerViewModel.isValidPassword()}"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/input_password"
             app:layout_constraintTop_toBottomOf="@+id/input_password" />

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentLoginBinding
+import com.kerubyte.engagecommerce.infrastructure.util.navigate
 import com.kerubyte.engagecommerce.infrastructure.util.restartMainActivity
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import com.kerubyte.engagecommerce.infrastructure.util.showErrorSnackbar
@@ -42,13 +44,16 @@ class LoginFragment : Fragment() {
     private fun setupObserver() {
 
         observeLoginResult()
+        doOnEmailInputChange()
+        doOnPasswordInputChange()
+        observeNavigateToRegister()
     }
 
     private fun observeLoginResult() {
 
-        loginViewModel.accountLogin.observe(viewLifecycleOwner, {
+        loginViewModel.loginResult.observe(viewLifecycleOwner, { result ->
 
-            when (it) {
+            when (result) {
 
                 is com.kerubyte.engagecommerce.infrastructure.util.Result.Success ->
                     restartMainActivity()
@@ -60,6 +65,22 @@ class LoginFragment : Fragment() {
         })
     }
 
+    private fun doOnEmailInputChange() {
+
+        val emailInput = binding.inputUserEmail
+        emailInput.doOnTextChanged { text, _, _, _ ->
+            loginViewModel.validateEmail(text.toString())
+        }
+    }
+
+    private fun doOnPasswordInputChange() {
+
+        val passwordInput = binding.inputUserPassword
+        passwordInput.doOnTextChanged { text, _, _, _ ->
+            loginViewModel.validatePassword(text.toString())
+        }
+    }
+
     fun loginUser() {
 
         val userEmail = binding.inputUserEmail.text.toString()
@@ -68,8 +89,18 @@ class LoginFragment : Fragment() {
         loginViewModel.loginUser(userEmail, userPassword)
     }
 
+    private fun observeNavigateToRegister() {
+
+        loginViewModel.navigate.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let {
+                navigate(R.id.registerFragment)
+            }
+        })
+    }
+
     private fun setBindings() {
         binding.loginFragment = this
+        binding.loginViewModel = loginViewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }
 }

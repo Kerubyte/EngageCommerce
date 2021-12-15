@@ -9,6 +9,10 @@
         <variable
             name="loginFragment"
             type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.login.LoginFragment" />
+
+        <variable
+            name="loginViewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.login.LoginFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,9 +87,9 @@
             android:text="@string/text_email_error"
             android:textAppearance="@style/primaryTextStyle"
             android:textColor="@color/secondaryDarkColor"
-            android:visibility="@{true}"
             android:textSize="10sp"
             android:textStyle="bold"
+            android:visibility="@{!loginViewModel.isValidEmail()}"
             app:layout_constraintStart_toStartOf="@+id/input_user_email"
             app:layout_constraintTop_toBottomOf="@+id/input_user_email" />
 
@@ -129,9 +133,9 @@
             android:text="@string/text_password_error"
             android:textAppearance="@style/primaryTextStyle"
             android:textColor="@color/secondaryDarkColor"
-            android:visibility="@{true}"
             android:textSize="10sp"
             android:textStyle="bold"
+            android:visibility="@{!loginViewModel.isValidPassword()}"
             app:layout_constraintStart_toStartOf="@+id/input_user_password"
             app:layout_constraintTop_toBottomOf="@+id/input_user_password" />
 
@@ -143,6 +147,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="60dp"
+            android:onClick="@{() -> loginFragment.loginUser()}"
             android:paddingEnd="42dp"
             android:text="@string/button_login"
             android:textAlignment="center"
@@ -183,6 +188,7 @@
             android:textColor="@color/primaryAccentColor"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:onClick="@{() -> loginViewModel.navigate()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
