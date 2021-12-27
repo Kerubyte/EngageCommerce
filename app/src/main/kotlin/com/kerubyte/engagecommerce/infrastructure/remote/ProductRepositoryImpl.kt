@@ -57,18 +57,21 @@ constructor(
 
     override suspend fun getProductsFromCart(cartList: List<String>): Result<List<Product>> =
 
-        withContext(dispatcherProvider.io) {
+        if (cartList.isEmpty()) Result.Success(emptyList())
+        else
 
-            try {
-                val documentSnapshot = databaseInteractor
-                    .getItemsFromCollection(COLLECTION_PRODUCTS, cartList)
-                    .await()
-                val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
-                val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
+            withContext(dispatcherProvider.io) {
 
-                Result.Success(userCart)
-            } catch (exc: Exception) {
-                Result.Error.NetworkError(exc.message)
+                try {
+                    val documentSnapshot = databaseInteractor
+                        .getItemsFromCollection(COLLECTION_PRODUCTS, cartList)
+                        .await()
+                    val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
+                    val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
+
+                    Result.Success(userCart)
+                } catch (exc: Exception) {
+                    Result.Error.NetworkError(exc.message)
+                }
             }
-        }
 }
