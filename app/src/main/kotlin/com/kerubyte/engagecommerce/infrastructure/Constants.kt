@@ -9,4 +9,6 @@ object Constants {
     const val DOCUMENT_FIELD_ID = "uid"
     const val DOCUMENT_FIELD_CART = "cart"
     const val DOCUMENT_FIELD_ADDRESS = "address"
+
+    const val DEFAULT_CART_VALUE = 0.00
 }

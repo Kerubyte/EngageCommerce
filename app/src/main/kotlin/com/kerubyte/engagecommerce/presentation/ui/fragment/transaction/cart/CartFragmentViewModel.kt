@@ -29,18 +29,19 @@ constructor(
     val navigate: LiveData<Event<Boolean>>
         get() = _navigate
 
-    val productsInCart = Transformations.switchMap(_currentUser) {
+    val productsInCart = Transformations.switchMap(currentUser) { result ->
 
-        it.data?.let { user ->
+        result.data?.let { user ->
             getProductsFromCart(user.cart)
         }
     }
 
-    val productsInCartValue = Transformations.map(productsInCart) {
+    val productsInCartValue = Transformations.map(productsInCart) { result ->
 
-        val cartValue = it.data?.map { product ->
+        val cartValue = result.data?.map { product ->
             product.price
         }?.sum()
+
         priceFormatter.formatPrice(cartValue)
     }
 
@@ -50,14 +51,11 @@ constructor(
 
         val productsInCart = MutableLiveData<Result<List<Product>>>()
 
-        if (userCart.isEmpty()) {
-            productsInCart.value = Result.Success(emptyList())
-        } else {
-            viewModelScope.launch {
-                val products = productRepository.getProductsFromCart(userCart)
-                productsInCart.postValue(products)
-            }
+        viewModelScope.launch {
+            val products = productRepository.getProductsFromCart(userCart)
+            productsInCart.postValue(products)
         }
+
         return productsInCart
     }
 
