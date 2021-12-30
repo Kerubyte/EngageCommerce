@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="profileViewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.profile.ProfileFragmentViewModel" />
+
+        <variable
+            name="profileFragment"
+            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.profile.ProfileFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image_user_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true" />
+
+        <View
+            android:id="@+id/view_avatar_support"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_user_avatar"
+            app:layout_constraintEnd_toEndOf="@+id/image_user_avatar"
+            app:layout_constraintStart_toStartOf="@+id/image_user_avatar"
+            app:layout_constraintTop_toTopOf="@+id/image_user_avatar" />
+
+        <TextView
+            android:id="@+id/text_user_name_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{profileViewModel.userName}"
+            android:textAppearance="@style/primaryTextStyle"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/image_user_avatar"
+            app:layout_constraintStart_toStartOf="@+id/image_user_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/image_user_avatar" />
+
+        <View
+            android:id="@+id/divider_profile_address"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_user_name_profile" />
+
+        <ScrollView
+            android:id="@+id/scroll_view_profile_details"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider_profile_address">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_profile_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_user_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/user_address"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_address_background"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_address_country_value"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/image_location_pin"
+                    app:srcCompat="@drawable/bg_image" />
+
+                <ImageView
+                    android:id="@+id/image_location_pin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_user_address"
+                    app:srcCompat="@drawable/ic_location" />
+
+                <TextView
+                    android:id="@+id/text_address_street_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:text='@{profileViewModel.userAddress.get("street")}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/image_address_background"
+                    app:layout_constraintStart_toEndOf="@+id/image_location_pin"
+                    app:layout_constraintTop_toTopOf="@+id/image_location_pin" />
+
+                <TextView
+                    android:id="@+id/text_address_post_code_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:paddingStart="10dp"
+                    android:text='@{profileViewModel.userAddress.get("postCode")}'
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/text_address_city_value"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_street_value"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_street_value" />
+
+                <TextView
+                    android:id="@+id/text_address_city_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingEnd="10dp"
+                    android:text='@{profileViewModel.userAddress.get("city")}'
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/image_address_background"
+                    app:layout_constraintStart_toEndOf="@+id/text_address_post_code_value"
+                    app:layout_constraintTop_toTopOf="@+id/text_address_post_code_value" />
+
+                <TextView
+                    android:id="@+id/text_address_country_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text='@{profileViewModel.userAddress.get("country")}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/image_address_background"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_post_code_value"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_post_code_value" />
+
+                <ImageButton
+                    android:id="@+id/button_edit_address"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/primaryColor"
+                    android:onClick="@{() -> profileFragment.showEditAddress()}"
+                    app:layout_constraintEnd_toEndOf="@+id/text_address_country_value"
+                    app:layout_constraintStart_toStartOf="@+id/text_address_country_value"
+                    app:layout_constraintTop_toBottomOf="@+id/text_address_country_value"
+                    app:srcCompat="@drawable/ic_edit" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_text_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{profileViewModel.isUserAddressProvided()}"
+                    app:constraint_referenced_ids="text_address_street_value,text_address_country_value,text_address_post_code_value,text_address_city_value,button_edit_address,image_location_pin,image_address_background"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_edit_address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_edit_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{!profileViewModel.isUserAddressProvided()}"
+                    app:constraint_referenced_ids="text__address_post_code_label,edit_address_post_code,text__address_city_label,text__address_country_label,edit_address_city,edit_address_country,text__address_street_name_label,edit_address_street_name,button_save_address"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_user_address"
+                    tools:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/edit_address_street_name"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text='@{profileViewModel.isUserAddressProvided() ? profileViewModel.userAddress.get("street") : null}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_user_address" />
+
+                <TextView
+                    android:id="@+id/text__address_street_name_label"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_street"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_street_name"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_street_name"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_street_name" />
+
+                <EditText
+                    android:id="@+id/edit_address_country"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text='@{profileViewModel.isUserAddressProvided() ? profileViewModel.userAddress.get("country") : null}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address_post_code"
+                    tools:ignore="TextFields" />
+
+                <TextView
+                    android:id="@+id/text__address_country_label"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_country"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_country"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_country"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_country" />
+
+                <EditText
+                    android:id="@+id/edit_address_city"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text='@{profileViewModel.isUserAddressProvided() ? profileViewModel.userAddress.get("city") : null}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/edit_address_post_code"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_post_code" />
+
+                <TextView
+                    android:id="@+id/text__address_city_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_city"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_city"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_city"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_city" />
+
+                <EditText
+                    android:id="@+id/edit_address_post_code"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableEnd="@drawable/ic_address"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text='@{profileViewModel.isUserAddressProvided() ? profileViewModel.userAddress.get("postCode") : null}'
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/edit_address_city"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address_street_name" />
+
+                <TextView
+                    android:id="@+id/text__address_post_code_label"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/primaryColor"
+                    android:text="@string/address_post_code"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/primaryTextStyle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_address_post_code"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_post_code"
+                    app:layout_constraintTop_toTopOf="@+id/edit_address_post_code" />
+
+                <ImageButton
+                    android:id="@+id/button_save_address"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/primaryColor"
+                    android:onClick="@{() -> profileFragment.verifyAndUpdateUserAddress()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_address_country"
+                    app:layout_constraintStart_toStartOf="@+id/edit_address_country"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address_country"
+                    app:srcCompat="@drawable/ic_ok_circle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

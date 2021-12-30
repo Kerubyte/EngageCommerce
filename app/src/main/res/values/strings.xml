@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">EngageCommerce</string>
     <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
     <string name="text_first_name_input_label">First Name</string>
     <string name="text_last_name_input_label">Last Name</string>
     <string name="text_email_input_label">Email</string>
@@ -37,4 +38,5 @@
     <string name="delivery_label">Deliver to</string>
     <string name="authentication_error">You are not logged in</string>
     <string name="network_error">Network connection error</string>
+    <string name="user_address">Your address</string>
 </resources>

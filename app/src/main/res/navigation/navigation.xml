@@ -52,4 +52,8 @@
             android:name="cartValue"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

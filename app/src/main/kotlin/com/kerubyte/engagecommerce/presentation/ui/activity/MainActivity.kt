@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToProfile() {
-        navController.navigate(R.id.registerFragment)
+        navController.navigate(R.id.profileFragment)
     }
 
     private fun navigateToLogin() {
