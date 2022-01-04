@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.FragmentDetailProductBinding
+import com.kerubyte.engagecommerce.infrastructure.Constants.EVENT_DETAIL
 import com.kerubyte.engagecommerce.infrastructure.util.navigate
 import com.kerubyte.engagecommerce.infrastructure.util.setAnimation
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,11 @@ class ProductDetailFragment : Fragment() {
             event.getContentIfNotHandled()?.let {
                 navigate(R.id.loginFragment)
             }
+        })
+
+        // Workaround, needs to be changed
+        detailViewModel.currentProduct.observe(viewLifecycleOwner, {
+            detailViewModel.sendProductEvent(EVENT_DETAIL)
         })
     }
 }

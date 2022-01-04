@@ -1,12 +1,15 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.detail
 
 import androidx.lifecycle.*
+import com.kerubyte.engagecommerce.data.repository.MarketingRepository
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
+import com.kerubyte.engagecommerce.infrastructure.Constants.EVENT_ADD_TO_CART
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.Result
+import com.user.sdk.events.ProductEventType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +20,8 @@ class ProductDetailFragmentViewModel
 constructor(
     savedStateHandle: SavedStateHandle,
     private val productRepository: ProductRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val marketingRepository: MarketingRepository
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
@@ -34,7 +38,7 @@ constructor(
     val navigate: LiveData<Event<Boolean>>
         get() = _navigate
 
-    val isNotInCart = Transformations.map(_currentUser) {
+    val isNotInCart = Transformations.map(currentUser) {
         it.data?.cart?.let { userCart -> productUid !in userCart } ?: true
     }
 
@@ -71,11 +75,22 @@ constructor(
         currentUser.value?.data?.let {
             addToCart()
             getCurrentUser()
+            sendProductEvent(EVENT_ADD_TO_CART)
         } ?: navigate()
     }
 
     private fun navigate() {
         _navigate.value = Event(true)
+    }
+
+    fun sendProductEvent(eventType: ProductEventType) {
+
+        currentProduct.value?.data?.let { product ->
+            val productUid = product.uid
+            viewModelScope.launch {
+                marketingRepository.sendProductEvent(productUid, eventType, product)
+            }
+        }
     }
 
     init {

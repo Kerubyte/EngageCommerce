@@ -101,7 +101,7 @@ class CartFragment : Fragment() {
 
     private fun setOnItemClickListener() {
         cartAdapter.setOnItemClickListener { product ->
-            viewModel.removeFromCart(product.uid)
+            viewModel.handleRemoveFromCart(product.uid)
         }
     }
 

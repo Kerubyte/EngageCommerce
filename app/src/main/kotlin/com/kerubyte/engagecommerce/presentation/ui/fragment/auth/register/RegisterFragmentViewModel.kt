@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kerubyte.engagecommerce.data.repository.MarketingRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.infrastructure.auth.InputValidator
 import com.kerubyte.engagecommerce.infrastructure.auth.InputValidator.isValidName
 import com.kerubyte.engagecommerce.infrastructure.util.Event
+import com.kerubyte.engagecommerce.infrastructure.util.MarketingEvent
 import com.kerubyte.engagecommerce.infrastructure.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +19,8 @@ import javax.inject.Inject
 class RegisterFragmentViewModel
 @Inject
 constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val marketingRepository: MarketingRepository
 ) : ViewModel() {
 
     private val _isValidFirstName = MutableLiveData<Boolean>()
@@ -56,6 +59,7 @@ constructor(
                 val result = userRepository.createAccount(email, password, firstName, lastName)
                 _accountCreated.postValue(result)
             }
+            sendMarketingEvent(firstName, lastName, email)
         }
     }
 
@@ -94,5 +98,21 @@ constructor(
                 && InputValidator.isValidPassword(password)
                 && InputValidator.isValidName(firstName)
                 && InputValidator.isValidName(lastName)
+    }
+
+    private fun sendMarketingEvent(
+        firstName: String,
+        lastName: String,
+        email: String
+    ) {
+
+        viewModelScope.launch {
+            marketingRepository.sendEvent(
+                MarketingEvent.EventType.REGISTER,
+                firstName,
+                lastName,
+                email
+            )
+        }
     }
 }

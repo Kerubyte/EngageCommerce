@@ -1,13 +1,18 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout
 
 import androidx.lifecycle.*
+import com.kerubyte.engagecommerce.data.repository.MarketingRepository
 import com.kerubyte.engagecommerce.data.repository.OrderRepository
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
+import com.kerubyte.engagecommerce.infrastructure.Constants.EVENT_CHECKOUT
+import com.kerubyte.engagecommerce.infrastructure.Constants.EVENT_PURCHASE
 import com.kerubyte.engagecommerce.infrastructure.util.Event
+import com.kerubyte.engagecommerce.infrastructure.util.MarketingEvent
 import com.kerubyte.engagecommerce.infrastructure.util.Result
+import com.user.sdk.events.ProductEventType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +24,8 @@ constructor(
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository,
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val marketingRepository: MarketingRepository
 ) : ViewModel() {
 
     private val _currentUser = MutableLiveData<Result<User>>()
@@ -33,18 +39,19 @@ constructor(
     val cartValue = savedStateHandle.get<String>("cartValue")
 
     val productsInCart =
-        Transformations.switchMap(currentUser) {
-            it.data?.let { user ->
+        Transformations.switchMap(currentUser) { result ->
+            result.data?.let { user ->
+                sendProductEvent(user.cart, EVENT_CHECKOUT)
                 getProductsFromCart(user.cart)
             }
         }
 
     val isUserAddressProvided =
-        Transformations.map(currentUser) {
-            currentUser.value?.data?.address?.values?.isNotEmpty() ?: false
+        Transformations.map(currentUser) { result ->
+            result.data?.address?.values?.isNotEmpty() ?: false
         }
 
-    val userAddress = Transformations.map(currentUser) { it.data?.address }
+    val userAddress = Transformations.map(currentUser) { result -> result.data?.address }
 
     private fun getProductsFromCart(userCart: List<String>): LiveData<Result<List<Product>>> {
 
@@ -71,7 +78,6 @@ constructor(
             viewModelScope.launch {
 
                 cartValue?.let { value ->
-
                     val order =
                         mapOf(
                             "products" to user.cart,
@@ -94,6 +100,20 @@ constructor(
         _navigate.value = Event(true)
     }
 
+    private fun sendProductEvent(userCart: List<String>, eventType: ProductEventType) {
+
+        viewModelScope.launch {
+            userCart.let { list ->
+                list.forEach { cartItem ->
+                    val product = productRepository.getSingleProduct(cartItem).data
+                    product?.let {
+                        marketingRepository.sendProductEvent(it.uid, eventType, it)
+                    }
+                }
+            }
+        }
+    }
+
     fun updateUserAddress(street: String, postCode: String, city: String, country: String) {
 
         val userAddress =
@@ -112,9 +132,27 @@ constructor(
 
     fun placeOrder() {
 
+        currentUser.value?.data?.let { user ->
+            sendProductEvent(user.cart, EVENT_PURCHASE)
+        }
+        cartValue?.let { value ->
+            sendMarketingEvent(value)
+        }
         createOrder()
         clearUserCart()
         navigate()
+    }
+
+    private fun sendMarketingEvent(
+        totalRevenue: String
+    ) {
+
+        viewModelScope.launch {
+            marketingRepository.sendEvent(
+                MarketingEvent.EventType.PURCHASE_SUMMARY,
+                totalRevenue = totalRevenue
+            )
+        }
     }
 
     init {

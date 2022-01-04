@@ -1,13 +1,16 @@
 package com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.cart
 
 import androidx.lifecycle.*
+import com.kerubyte.engagecommerce.data.repository.MarketingRepository
 import com.kerubyte.engagecommerce.data.repository.ProductRepository
 import com.kerubyte.engagecommerce.data.repository.UserRepository
 import com.kerubyte.engagecommerce.domain.model.Product
 import com.kerubyte.engagecommerce.domain.model.User
+import com.kerubyte.engagecommerce.infrastructure.Constants.EVENT_REMOVE
 import com.kerubyte.engagecommerce.infrastructure.util.Event
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
 import com.kerubyte.engagecommerce.infrastructure.util.Result
+import com.user.sdk.events.ProductEventType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +21,7 @@ class CartFragmentViewModel
 constructor(
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository,
+    private val marketingRepository: MarketingRepository,
     private val priceFormatter: PriceFormatter
 ) : ViewModel() {
 
@@ -67,12 +71,28 @@ constructor(
         }
     }
 
-    fun removeFromCart(productUid: String) {
+    private fun removeFromCart(productUid: String) {
 
         viewModelScope.launch {
             userRepository.removeFromCart(productUid)
-            getCurrentUser()
         }
+    }
+
+    private fun sendProductEvent(productUid: String, eventType: ProductEventType) {
+
+        viewModelScope.launch {
+            val product = productRepository.getSingleProduct(productUid)
+            product.data?.let {
+                marketingRepository.sendProductEvent(productUid, eventType, it)
+            }
+        }
+    }
+
+    fun handleRemoveFromCart(productUid: String) {
+
+        removeFromCart(productUid)
+        getCurrentUser()
+        sendProductEvent(productUid, EVENT_REMOVE)
     }
 
     fun navigate() {
