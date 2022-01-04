@@ -2,6 +2,9 @@ package com.kerubyte.engagecommerce.infrastructure.di
 
 import android.icu.util.Calendar
 import com.kerubyte.engagecommerce.infrastructure.auth.InputValidator
+import com.kerubyte.engagecommerce.infrastructure.mapper.marketing.OutputCustomerMapper
+import com.kerubyte.engagecommerce.infrastructure.mapper.marketing.OutputEventAttributesMapper
+import com.kerubyte.engagecommerce.infrastructure.mapper.marketing.OutputProductAttributesMapper
 import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableInputDatabaseUserMapper
 import com.kerubyte.engagecommerce.infrastructure.mapper.user.NullableOutputDatabaseUserMapper
 import com.kerubyte.engagecommerce.infrastructure.util.PriceFormatter
@@ -32,6 +35,21 @@ object UtilModule {
     @Provides
     fun provideNullableOutputDatabaseUserMapper():
             NullableOutputDatabaseUserMapper = NullableOutputDatabaseUserMapper()
+
+    @Singleton
+    @Provides
+    fun provideOutputProductAttributesMapper():
+            OutputProductAttributesMapper = OutputProductAttributesMapper()
+
+    @Singleton
+    @Provides
+    fun provideOutputEventAttributesMapper():
+            OutputEventAttributesMapper = OutputEventAttributesMapper()
+
+    @Singleton
+    @Provides
+    fun provideOutputCustomerMapper():
+            OutputCustomerMapper = OutputCustomerMapper()
 
     @Provides
     fun provideCalendarInstance():
