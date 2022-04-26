@@ -25,26 +25,19 @@ constructor(
     override suspend fun createOrder(userOrder: Map<String, Any>): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
-
             val timeNow = calendar.time.toString()
 
             currentUserUid?.let { uid ->
+                databaseInteractor
+                    .createDocumentInCollection(
+                        COLLECTION_ORDERS,
+                        uid,
+                        userOrder,
+                        timeNow
+                    )
+                    .await()
 
-                try {
-
-                    databaseInteractor
-                        .createDocumentInCollection(
-                            COLLECTION_ORDERS,
-                            uid,
-                            userOrder,
-                            timeNow
-                        )
-                        .await()
-
-                    Result.Success(null)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(null)
             } ?: Result.Error.AuthenticationError(null)
         }
 }

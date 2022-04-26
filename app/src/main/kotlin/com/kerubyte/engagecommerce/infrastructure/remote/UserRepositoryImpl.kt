@@ -45,59 +45,46 @@ constructor(
         firstName: String,
         lastName: String
     ): Result<Nothing> = withContext(dispatcherProvider.io) {
+        authenticator
+            .createUserWithEmailAndPassword(email, password)
+            .await()
 
-        try {
+        val currentUid = authenticator.getCurrentUserUid()
 
-            authenticator
-                .createUserWithEmailAndPassword(email, password)
+        currentUid?.let { uid ->
+            val user = User(
+                uid,
+                firstName,
+                lastName,
+                email,
+                listOf(),
+                emptyMap()
+            )
+            val databaseUser = outputDatabaseUserMapper.mapToEntity(user)
+
+            databaseInteractor
+                .setDocumentInCollection(
+                    COLLECTION_USERS,
+                    uid,
+                    databaseUser
+                )
                 .await()
 
-            val currentUid = authenticator.getCurrentUserUid()
-
-            currentUid?.let { uid ->
-
-                val user = User(
-                    uid,
-                    firstName,
-                    lastName,
-                    email,
-                    listOf(),
-                    emptyMap()
-                )
-                val databaseUser = outputDatabaseUserMapper.mapToEntity(user)
-
-                databaseInteractor
-                    .setDocumentInCollection(
-                        COLLECTION_USERS,
-                        uid,
-                        databaseUser
-                    )
-                    .await()
-
-                Result.Success(null)
-
-            } ?: Result.Error.AuthenticationError(null)
-        } catch (exc: Exception) {
-            Result.Error.NetworkError(exc.message)
-        }
+            Result.Success(null)
+        } ?: Result.Error.AuthenticationError(null)
     }
 
     override suspend fun loginUser(email: String, password: String): Result<Nothing> =
 
         withContext(dispatcherProvider.io) {
+            authenticator
+                .loginUserWithEmailAndPassword(
+                    email,
+                    password
+                )
+                .await()
 
-            try {
-                authenticator
-                    .loginUserWithEmailAndPassword(
-                        email,
-                        password
-                    )
-                    .await()
-
-                Result.Success(null)
-            } catch (exc: Exception) {
-                Result.Error.NetworkError(exc.message)
-            }
+            Result.Success(null)
         }
 
     override suspend fun getUserData(): Result<User> =
@@ -105,18 +92,13 @@ constructor(
         withContext(dispatcherProvider.io) {
 
             currentUserUid?.let { uid ->
+                val documentSnapshot = databaseInteractor
+                    .getSingleDocument(COLLECTION_USERS, uid)
+                    .await()
+                val response = documentSnapshot.toObject(DatabaseUser::class.java)
+                val result = inputDatabaseUserMapper.mapFromDatabase(response)
 
-                try {
-                    val documentSnapshot = databaseInteractor
-                        .getSingleDocument(COLLECTION_USERS, uid)
-                        .await()
-                    val response = documentSnapshot.toObject(DatabaseUser::class.java)
-                    val result = inputDatabaseUserMapper.mapFromDatabase(response)
-
-                    Result.Success(result)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(result)
             } ?: Result.Error.AuthenticationError(null)
         }
 
@@ -125,20 +107,15 @@ constructor(
         withContext(dispatcherProvider.io) {
 
             currentUserUid?.let { uid ->
+                databaseInteractor
+                    .addToFieldInDocument(
+                        COLLECTION_USERS,
+                        uid,
+                        productUid
+                    )
+                    .await()
 
-                try {
-                    databaseInteractor
-                        .addToFieldInDocument(
-                            COLLECTION_USERS,
-                            uid,
-                            productUid
-                        )
-                        .await()
-
-                    Result.Success(null)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(null)
             } ?: Result.Error.AuthenticationError(null)
         }
 
@@ -147,21 +124,15 @@ constructor(
         withContext(dispatcherProvider.io) {
 
             currentUserUid?.let { uid ->
+                databaseInteractor
+                    .removeFromFieldInDocument(
+                        COLLECTION_USERS,
+                        uid,
+                        productUid
+                    )
+                    .await()
 
-                try {
-
-                    databaseInteractor
-                        .removeFromFieldInDocument(
-                            COLLECTION_USERS,
-                            uid,
-                            productUid
-                        )
-                        .await()
-
-                    Result.Success(null)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(null)
             } ?: Result.Error.AuthenticationError(null)
         }
 
@@ -170,20 +141,14 @@ constructor(
         withContext(dispatcherProvider.io) {
 
             currentUserUid?.let { uid ->
+                databaseInteractor
+                    .deleteFieldInDocument(
+                        COLLECTION_USERS,
+                        uid
+                    )
+                    .await()
 
-                try {
-
-                    databaseInteractor
-                        .deleteFieldInDocument(
-                            COLLECTION_USERS,
-                            uid
-                        )
-                        .await()
-
-                    Result.Success(null)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(null)
             } ?: Result.Error.AuthenticationError(null)
         }
 
@@ -192,21 +157,15 @@ constructor(
         withContext(dispatcherProvider.io) {
 
             currentUserUid?.let { uid ->
+                databaseInteractor
+                    .updateDocument(
+                        COLLECTION_USERS,
+                        uid,
+                        userAddress
+                    )
+                    .await()
 
-                try {
-
-                    databaseInteractor
-                        .updateDocument(
-                            COLLECTION_USERS,
-                            uid,
-                            userAddress
-                        )
-                        .await()
-
-                    Result.Success(null)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(null)
             } ?: Result.Error.AuthenticationError(null)
         }
 }

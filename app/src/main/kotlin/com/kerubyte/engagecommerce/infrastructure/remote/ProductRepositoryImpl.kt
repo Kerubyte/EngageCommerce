@@ -23,36 +23,25 @@ constructor(
     override suspend fun getAllProducts(): Result<List<Product>> =
 
         withContext(dispatcherProvider.io) {
+            val querySnapshot = databaseInteractor
+                .getWholeCollection(COLLECTION_PRODUCTS)
+                .await()
+            val databaseProducts = querySnapshot.toObjects(DatabaseProduct::class.java)
+            val result = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
 
-            try {
-                val querySnapshot = databaseInteractor
-                    .getWholeCollection(COLLECTION_PRODUCTS)
-                    .await()
-                val databaseProducts = querySnapshot.toObjects(DatabaseProduct::class.java)
-                val result = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
-
-                Result.Success(result)
-            } catch (exc: Exception) {
-                Result.Error.NetworkError(exc.message)
-            }
+            Result.Success(result)
         }
 
     override suspend fun getSingleProduct(productUid: String): Result<Product> =
 
         withContext(dispatcherProvider.io) {
+            val documentSnapshot = databaseInteractor
+                .getSingleDocument(COLLECTION_PRODUCTS, productUid)
+                .await()
+            val databaseProduct = documentSnapshot.toObject(DatabaseProduct::class.java)
+            val result = inputDatabaseProductMapper.mapFromDatabase(databaseProduct)
 
-            try {
-                val documentSnapshot = databaseInteractor
-                    .getSingleDocument(COLLECTION_PRODUCTS, productUid)
-                    .await()
-                val databaseProduct = documentSnapshot.toObject(DatabaseProduct::class.java)
-                val result = inputDatabaseProductMapper.mapFromDatabase(databaseProduct)
-
-                Result.Success(result)
-
-            } catch (exc: Exception) {
-                Result.Error.NetworkError(exc.message)
-            }
+            Result.Success(result)
         }
 
     override suspend fun getProductsFromCart(cartList: List<String>): Result<List<Product>> =
@@ -61,17 +50,12 @@ constructor(
         else
 
             withContext(dispatcherProvider.io) {
+                val documentSnapshot = databaseInteractor
+                    .getItemsFromCollection(COLLECTION_PRODUCTS, cartList)
+                    .await()
+                val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
+                val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
 
-                try {
-                    val documentSnapshot = databaseInteractor
-                        .getItemsFromCollection(COLLECTION_PRODUCTS, cartList)
-                        .await()
-                    val databaseProducts = documentSnapshot.toObjects(DatabaseProduct::class.java)
-                    val userCart = inputDatabaseProductMapper.mapFromDatabaseList(databaseProducts)
-
-                    Result.Success(userCart)
-                } catch (exc: Exception) {
-                    Result.Error.NetworkError(exc.message)
-                }
+                Result.Success(userCart)
             }
 }
