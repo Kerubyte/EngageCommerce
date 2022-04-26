@@ -34,6 +34,7 @@ class ProductDetailFragment : Fragment() {
         setAnimation()
         setBindings()
         subscribeObserver()
+
         return binding.root
     }
 
@@ -45,10 +46,10 @@ class ProductDetailFragment : Fragment() {
 
     private fun subscribeObserver() {
 
-        detailViewModel.navigate.observe(viewLifecycleOwner, { event ->
+        detailViewModel.navigate.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 navigate(R.id.loginFragment)
             }
-        })
+        }
     }
 }

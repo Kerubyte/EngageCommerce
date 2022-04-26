@@ -66,7 +66,7 @@ constructor(
 
     fun validateLastName(lastName: String) {
 
-        _isValidLastName.value = InputValidator.isValidName(lastName)
+        _isValidLastName.value = isValidName(lastName)
     }
 
     fun validateEmail(email: String) {
@@ -92,7 +92,7 @@ constructor(
 
         return InputValidator.isValidEmail(email)
                 && InputValidator.isValidPassword(password)
-                && InputValidator.isValidName(firstName)
-                && InputValidator.isValidName(lastName)
+                && isValidName(firstName)
+                && isValidName(lastName)
     }
 }

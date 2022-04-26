@@ -51,7 +51,7 @@ class RegisterFragment : Fragment() {
 
     private fun observeRegistrationResult() {
 
-        registerViewModel.accountCreated.observe(viewLifecycleOwner, {
+        registerViewModel.accountCreated.observe(viewLifecycleOwner) {
 
             when (it) {
 
@@ -62,7 +62,7 @@ class RegisterFragment : Fragment() {
                 is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.NetworkError ->
                     showErrorSnackbar(requireView(), R.string.network_error)
             }
-        })
+        }
     }
 
     fun createUserAccount() {
@@ -117,11 +117,11 @@ class RegisterFragment : Fragment() {
 
     private fun observeNavigateToLogin() {
 
-        registerViewModel.navigate.observe(viewLifecycleOwner, { event ->
+        registerViewModel.navigate.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 navigate(R.id.loginFragment)
             }
-        })
+        }
     }
 
     private fun setBindings() {

@@ -38,9 +38,9 @@ constructor(
 
     val productsInCartValue = Transformations.map(productsInCart) { result ->
 
-        val cartValue = result.data?.map { product ->
+        val cartValue = result.data?.sumOf { product ->
             product.price
-        }?.sum()
+        }
 
         priceFormatter.formatPrice(cartValue)
     }
@@ -67,12 +67,17 @@ constructor(
         }
     }
 
-    fun removeFromCart(productUid: String) {
+    private fun removeFromCart(productUid: String) {
 
         viewModelScope.launch {
             userRepository.removeFromCart(productUid)
-            getCurrentUser()
         }
+    }
+
+    fun handleRemoveFromCart(productUid: String) {
+
+        removeFromCart(productUid)
+        getCurrentUser()
     }
 
     fun navigate() {

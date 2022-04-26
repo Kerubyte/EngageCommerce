@@ -39,4 +39,5 @@
     <string name="authentication_error">You are not logged in</string>
     <string name="network_error">Network connection error</string>
     <string name="user_address">Your address</string>
+    <string name="default_notification_channel_id">Ads</string>
 </resources>

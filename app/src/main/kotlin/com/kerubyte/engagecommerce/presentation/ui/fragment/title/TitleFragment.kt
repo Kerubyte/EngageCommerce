@@ -59,7 +59,7 @@ class TitleFragment : Fragment() {
 
     private fun observeProducts() {
 
-        titleViewModel.products.observe(viewLifecycleOwner, {
+        titleViewModel.products.observe(viewLifecycleOwner) {
 
             when (it) {
 
@@ -77,7 +77,7 @@ class TitleFragment : Fragment() {
                     showErrorSnackbar(requireView(), R.string.network_error)
                 }
             }
-        })
+        }
 
     }
 
@@ -89,7 +89,8 @@ class TitleFragment : Fragment() {
 
     private fun openProductDetails(productUid: String) {
         navigateWithArgs(
-            TitleFragmentDirections.actionTitleFragmentToProductDetailFragment(productUid)
+            //TitleFragmentDirections.actionTitleFragmentToProductDetailFragment(productUid)
+        TitleFragmentDirections.actionTitleFragmentToProductDetailFragment(productUid)
         )
     }
 

@@ -3,50 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.kerubyte.engagecommerce.presentation.ui.activity.ActivityMainViewModel" />
+        <variable
+            name="mainActivity"
+            type="com.kerubyte.engagecommerce.presentation.ui.activity.MainActivity" />
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/user_data_header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    </data>
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/image_user_avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:riv_oval="true"/>
 
-    <View
-        android:id="@+id/view_avatar_support"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/image_user_avatar"
-        app:layout_constraintEnd_toEndOf="@+id/image_user_avatar"
-        app:layout_constraintStart_toStartOf="@+id/image_user_avatar"
-        app:layout_constraintTop_toTopOf="@+id/image_user_avatar" />
-
-    <TextView
-        android:id="@+id/text_user_name"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userProfileHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/text_user_email"
-        app:layout_constraintStart_toEndOf="@+id/image_user_avatar" />
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/text_user_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/image_user_avatar"
-        app:layout_constraintStart_toEndOf="@+id/image_user_avatar" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image_user_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/view_avatar_support"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_user_avatar"
+            app:layout_constraintEnd_toEndOf="@+id/image_user_avatar"
+            app:layout_constraintStart_toStartOf="@+id/image_user_avatar"
+            app:layout_constraintTop_toTopOf="@+id/image_user_avatar" />
+
+        <TextView
+            android:id="@+id/text_user_name"
+            style="@style/primaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="User Name"
+            app:layout_constraintStart_toEndOf="@+id/image_user_avatar"
+            app:layout_constraintTop_toTopOf="@+id/image_user_avatar" />
+
+        <TextView
+            android:id="@+id/text_user_email"
+            style="@style/primaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="User Email"
+            app:layout_constraintBottom_toBottomOf="@+id/image_user_avatar"
+            app:layout_constraintStart_toEndOf="@+id/image_user_avatar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

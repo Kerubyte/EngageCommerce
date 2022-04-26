@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
 
     private fun observeLoginResult() {
 
-        loginViewModel.loginResult.observe(viewLifecycleOwner, { result ->
+        loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
 
             when (result) {
 
@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
                 is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.NetworkError ->
                     showErrorSnackbar(requireView(), R.string.network_error)
             }
-        })
+        }
     }
 
     private fun doOnEmailInputChange() {

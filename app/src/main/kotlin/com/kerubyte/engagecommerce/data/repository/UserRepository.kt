@@ -1,5 +1,6 @@
 package com.kerubyte.engagecommerce.data.repository
 
+import com.google.firebase.firestore.DocumentReference
 import com.kerubyte.engagecommerce.domain.model.User
 import com.kerubyte.engagecommerce.infrastructure.util.Result
 
@@ -13,6 +14,8 @@ interface UserRepository {
     ): Result<Nothing>
 
     suspend fun loginUser(email: String, password: String): Result<Nothing>
+
+    fun getCurrentUser(): DocumentReference?
 
     suspend fun getUserData(): Result<User>
 

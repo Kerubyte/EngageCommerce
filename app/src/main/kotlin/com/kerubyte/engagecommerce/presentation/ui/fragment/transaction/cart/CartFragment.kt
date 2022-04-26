@@ -61,7 +61,7 @@ class CartFragment : Fragment() {
 
     private fun observeUserCart() {
 
-        viewModel.productsInCart.observe(viewLifecycleOwner, {
+        viewModel.productsInCart.observe(viewLifecycleOwner) {
 
             when (it) {
 
@@ -77,21 +77,22 @@ class CartFragment : Fragment() {
 
                 is com.kerubyte.engagecommerce.infrastructure.util.Result.Error.NetworkError -> {
                     hideProgressBar()
-                    showErrorSnackbar(requireView(), R.string.network_error)                }
+                    showErrorSnackbar(requireView(), R.string.network_error)
+                }
             }
-        })
+        }
     }
 
     private fun observeNavigation() {
 
-        viewModel.navigate.observe(viewLifecycleOwner, { event ->
+        viewModel.navigate.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 val args = binding.textCartTotalValue.text.toString()
                 navigateWithArgs(
                     CartFragmentDirections.actionCartFragmentToCheckoutFragment(args)
                 )
             }
-        })
+        }
     }
 
     private fun setBindings() {
@@ -101,7 +102,7 @@ class CartFragment : Fragment() {
 
     private fun setOnItemClickListener() {
         cartAdapter.setOnItemClickListener { product ->
-            viewModel.removeFromCart(product.uid)
+            viewModel.handleRemoveFromCart(product.uid)
         }
     }
 

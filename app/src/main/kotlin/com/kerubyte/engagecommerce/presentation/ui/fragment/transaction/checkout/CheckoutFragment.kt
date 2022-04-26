@@ -61,7 +61,7 @@ class CheckoutFragment : Fragment() {
 
     private fun observeProductsInCart() {
 
-        checkoutViewModel.productsInCart.observe(viewLifecycleOwner, {
+        checkoutViewModel.productsInCart.observe(viewLifecycleOwner) {
 
             when (it) {
 
@@ -79,17 +79,17 @@ class CheckoutFragment : Fragment() {
                     showErrorSnackbar(requireView(), R.string.network_error)
                 }
             }
-        })
+        }
     }
 
     private fun observeNavigation() {
 
-        checkoutViewModel.navigate.observe(viewLifecycleOwner, { event ->
+        checkoutViewModel.navigate.observe(viewLifecycleOwner) { event ->
 
             event.getContentIfNotHandled()?.let {
                 restartMainActivity()
             }
-        })
+        }
     }
 
     private fun setBindings() {

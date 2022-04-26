@@ -2,14 +2,18 @@ package com.kerubyte.engagecommerce.presentation.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,8 +41,11 @@ class MainActivity : AppCompatActivity() {
         )
         NavigationUI.setupWithNavController(navigationView, navController)
 
+        firrre()
         setBindings()
         setupObserver()
+        val dupi = listOf("aa", "xx", "ww")
+        Log.d("dupik", "$dupi")
     }
 
     override fun onBackPressed() {
@@ -59,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBindings() {
         binding.mainActivity = this
+        binding.mainViewModel = mainViewModel
         binding.lifecycleOwner = this
     }
 
@@ -105,5 +113,24 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.currentUser.value?.data?.let {
             navigateToCart()
         } ?: navigateToLogin()
+    }
+
+    private fun firrre() {
+
+        FirebaseMessaging.getInstance()
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("wiadomosc", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.d("wiadomoscToken", "$token")
+            //Toast.makeText(this, "$token", Toast.LENGTH_LONG).show()
+        })
     }
 }

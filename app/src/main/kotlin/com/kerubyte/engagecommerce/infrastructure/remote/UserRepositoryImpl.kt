@@ -1,5 +1,8 @@
 package com.kerubyte.engagecommerce.infrastructure.remote
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kerubyte.engagecommerce.data.database.Authenticator
 import com.kerubyte.engagecommerce.data.database.DatabaseInteractor
 import com.kerubyte.engagecommerce.data.entity.DatabaseUser
@@ -17,14 +20,24 @@ import javax.inject.Inject
 class UserRepositoryImpl
 @Inject
 constructor(
+    private val auth: FirebaseAuth,
     private val databaseInteractor: DatabaseInteractor,
     private val authenticator: Authenticator,
     private val dispatcherProvider: DispatcherProvider,
     private val inputDatabaseUserMapper: NullableInputDatabaseUserMapper,
-    private val outputDatabaseUserMapper: NullableOutputDatabaseUserMapper
+    private val outputDatabaseUserMapper: NullableOutputDatabaseUserMapper,
+    private val firestore: FirebaseFirestore
 ) : UserRepository {
 
     private val currentUserUid = authenticator.getCurrentUserUid()
+
+    override fun getCurrentUser(): DocumentReference? {
+
+        return auth.currentUser?.let {
+            firestore.collection(COLLECTION_USERS)
+                .document(auth.currentUser!!.uid)
+        }
+    }
 
     override suspend fun createAccount(
         email: String,
