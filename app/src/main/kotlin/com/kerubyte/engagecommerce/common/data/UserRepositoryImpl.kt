@@ -5,10 +5,10 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kerubyte.engagecommerce.feature.auth.domain.Authenticator
 import com.kerubyte.engagecommerce.common.domain.DatabaseInteractor
-import com.kerubyte.engagecommerce.common.data.entity.DatabaseUser
+import com.kerubyte.engagecommerce.common.data.entity.UserEntity
 import com.kerubyte.engagecommerce.common.domain.UserRepository
 import com.kerubyte.engagecommerce.common.util.DispatcherProvider
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Constants.COLLECTION_USERS
 import com.kerubyte.engagecommerce.common.util.Result
 import kotlinx.coroutines.tasks.await
@@ -37,7 +37,7 @@ constructor(
         }
     }
 
-    override suspend fun getUserData(): Result<User> =
+    override suspend fun getUserData(): Result<UserModel> =
 
         withContext(dispatcherProvider.io) {
 
@@ -45,7 +45,7 @@ constructor(
                 val documentSnapshot = databaseInteractor
                     .getSingleDocument(COLLECTION_USERS, uid)
                     .await()
-                val response = documentSnapshot.toObject(DatabaseUser::class.java)
+                val response = documentSnapshot.toObject(UserEntity::class.java)
                 val result = inputDatabaseUserMapper.mapFromDatabase(response)
 
                 Result.Success(result)

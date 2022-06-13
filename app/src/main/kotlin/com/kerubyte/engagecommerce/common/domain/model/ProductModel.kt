@@ -1,6 +1,6 @@
 package com.kerubyte.engagecommerce.common.domain.model
 
-data class Product(
+data class ProductModel(
     val uid: String = "",
     val name: String = "",
     val brand: String = "",

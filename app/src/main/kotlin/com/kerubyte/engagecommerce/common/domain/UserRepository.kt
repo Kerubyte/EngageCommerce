@@ -1,14 +1,14 @@
 package com.kerubyte.engagecommerce.common.domain
 
 import com.google.firebase.firestore.DocumentReference
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Result
 
 interface UserRepository {
 
     fun getCurrentUser(): DocumentReference?
 
-    suspend fun getUserData(): Result<User>
+    suspend fun getUserData(): Result<UserModel>
 
     suspend fun addToCart(productUid: String): Result<Nothing>
 

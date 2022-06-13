@@ -1,13 +1,13 @@
 package com.kerubyte.engagecommerce.common.data
 
-import com.kerubyte.engagecommerce.common.data.entity.DatabaseUser
+import com.kerubyte.engagecommerce.common.data.entity.UserEntity
 import com.kerubyte.engagecommerce.common.util.DatabaseMapper
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 
-class NullableOutputDatabaseUserMapper : DatabaseMapper<DatabaseUser?, User> {
+class NullableOutputDatabaseUserMapper : DatabaseMapper<UserEntity?, UserModel> {
 
-    fun mapToEntity(model: User): DatabaseUser {
-        return DatabaseUser(
+    fun mapToEntity(model: UserModel): UserEntity {
+        return UserEntity(
             uid = model.uid,
             firstName = model.firstName,
             lastName = model.lastName,

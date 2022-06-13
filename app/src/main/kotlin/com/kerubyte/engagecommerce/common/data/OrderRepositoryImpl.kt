@@ -22,7 +22,7 @@ constructor(
 
     private val currentUserUid = authenticator.getCurrentUserUid()
 
-    override suspend fun createOrder(userOrder: Map<String, Any>): Result<Nothing> =
+    override suspend fun createOrder(userOrder: Map<String, Any>): Result<Any> =
 
         withContext(dispatcherProvider.io) {
             val timeNow = calendar.time.toString()

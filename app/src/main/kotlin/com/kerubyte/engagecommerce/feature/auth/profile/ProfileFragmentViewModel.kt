@@ -2,7 +2,7 @@ package com.kerubyte.engagecommerce.feature.auth.profile
 
 import androidx.lifecycle.*
 import com.kerubyte.engagecommerce.common.domain.UserRepository
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,8 +15,8 @@ constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<Result<User>>()
-    val currentUser: LiveData<Result<User>>
+    private val _currentUser = MutableLiveData<Result<UserModel>>()
+    val currentUser: LiveData<Result<UserModel>>
         get() = _currentUser
 
     val userName =

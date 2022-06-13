@@ -3,8 +3,8 @@ package com.kerubyte.engagecommerce.feature.product.detail
 import androidx.lifecycle.*
 import com.kerubyte.engagecommerce.common.domain.ProductRepository
 import com.kerubyte.engagecommerce.common.domain.UserRepository
-import com.kerubyte.engagecommerce.common.domain.model.Product
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.ProductModel
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Event
 import com.kerubyte.engagecommerce.common.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,12 +22,12 @@ constructor(
 
     private val productUid = savedStateHandle.get<String>("productUid")
 
-    private val _currentProduct = MutableLiveData<Result<Product>>()
-    val currentProduct: LiveData<Result<Product>>
-        get() = _currentProduct
+    private val _currentProductModel = MutableLiveData<Result<ProductModel>>()
+    val currentProductModel: LiveData<Result<ProductModel>>
+        get() = _currentProductModel
 
-    private val _currentUser = MutableLiveData<Result<User>>()
-    val currentUser: LiveData<Result<User>>
+    private val _currentUser = MutableLiveData<Result<UserModel>>()
+    val currentUser: LiveData<Result<UserModel>>
         get() = _currentUser
 
     private val _navigate = MutableLiveData<Event<Boolean>>()
@@ -44,7 +44,7 @@ constructor(
             viewModelScope.launch {
 
                 val result = productRepository.getSingleProduct(uid)
-                _currentProduct.postValue(result)
+                _currentProductModel.postValue(result)
             }
         }
     }

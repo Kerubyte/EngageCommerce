@@ -1,6 +1,5 @@
 package com.kerubyte.engagecommerce.common.util
 
-import com.kerubyte.engagecommerce.common.util.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

@@ -4,5 +4,5 @@ import com.kerubyte.engagecommerce.common.util.Result
 
 interface OrderRepository {
 
-    suspend fun createOrder(userOrder: Map<String, Any>): Result<Nothing>
+    suspend fun createOrder(userOrder: Map<String, Any>): Result<Any>
 }

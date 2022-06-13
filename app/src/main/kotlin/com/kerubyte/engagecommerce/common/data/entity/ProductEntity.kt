@@ -1,6 +1,6 @@
 package com.kerubyte.engagecommerce.common.data.entity
 
-data class DatabaseProduct(
+data class ProductEntity(
     val uid: String? = null,
     val name: String? = null,
     val brand: String? = null,

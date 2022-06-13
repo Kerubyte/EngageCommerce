@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kerubyte.engagecommerce.databinding.RecyclerCartItemBinding
-import com.kerubyte.engagecommerce.common.domain.model.Product
+import com.kerubyte.engagecommerce.common.domain.model.ProductModel
 import com.kerubyte.engagecommerce.common.util.BindingAdapter.loadImage
 
 class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
@@ -26,12 +26,12 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
         return differ.currentList.size
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<ProductModel>() {
+        override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
             return oldItem.uid == newItem.uid
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
             return oldItem == newItem
         }
     }
@@ -41,7 +41,7 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RecyclerCartItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Product) {
+        fun bind(item: ProductModel) {
             binding.item = item
             loadImage(binding.imageCartItemImage, item.imageUrl)
             binding.buttonRemoveFromCart.setOnClickListener {
@@ -51,9 +51,9 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
         }
     }
 
-    private var onItemClickListener: ((Product) -> Unit)? = null
+    private var onItemClickListener: ((ProductModel) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Product) -> Unit) {
+    fun setOnItemClickListener(listener: (ProductModel) -> Unit) {
         onItemClickListener = listener
     }
 

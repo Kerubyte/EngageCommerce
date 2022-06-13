@@ -4,7 +4,7 @@ import com.kerubyte.engagecommerce.common.util.Constants
 import com.kerubyte.engagecommerce.common.util.DispatcherProvider
 import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.common.domain.DatabaseInteractor
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.feature.auth.domain.AuthRepository
 import com.kerubyte.engagecommerce.feature.auth.domain.Authenticator
 import com.kerubyte.engagecommerce.common.data.NullableOutputDatabaseUserMapper
@@ -34,7 +34,7 @@ constructor(
         val currentUid = authenticator.getCurrentUserUid()
 
         currentUid?.let { uid ->
-            val user = User(
+            val user = UserModel(
                 uid,
                 firstName,
                 lastName,

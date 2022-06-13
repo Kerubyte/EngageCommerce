@@ -60,14 +60,14 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@{viewModel.currentProduct.data.name}"
+                    android:text="@{viewModel.currentProductModel.data.name}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/image_product_image"
-                    imageUrl="@{viewModel.currentProduct.data.imageUrl}"
+                    imageUrl="@{viewModel.currentProductModel.data.imageUrl}"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="16dp"
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
-                    android:text="@{viewModel.currentProduct.data.formattedPrice}"
+                    android:text="@{viewModel.currentProductModel.data.formattedPrice}"
                     android:textColor="@color/primaryAccentColor"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -100,7 +100,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@{viewModel.currentProduct.data.description}"
+                    android:text="@{viewModel.currentProductModel.data.description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_product_price" />

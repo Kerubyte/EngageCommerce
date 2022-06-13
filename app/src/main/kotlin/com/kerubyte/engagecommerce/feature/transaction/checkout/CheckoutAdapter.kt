@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kerubyte.engagecommerce.databinding.RecyclerCheckoutItemBinding
-import com.kerubyte.engagecommerce.common.domain.model.Product
+import com.kerubyte.engagecommerce.common.domain.model.ProductModel
 import com.kerubyte.engagecommerce.common.util.BindingAdapter
 
 class CheckoutAdapter : RecyclerView.Adapter<CheckoutAdapter.ViewHolder>() {
@@ -26,12 +26,12 @@ class CheckoutAdapter : RecyclerView.Adapter<CheckoutAdapter.ViewHolder>() {
         return differ.currentList.size
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<ProductModel>() {
+        override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
             return oldItem.uid == newItem.uid
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
             return oldItem == newItem
         }
     }
@@ -41,7 +41,7 @@ class CheckoutAdapter : RecyclerView.Adapter<CheckoutAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RecyclerCheckoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Product) {
+        fun bind(item: ProductModel) {
             binding.item = item
             BindingAdapter.loadImage(binding.imageTitleItemImageCheckout, item.imageUrl)
             binding.executePendingBindings()

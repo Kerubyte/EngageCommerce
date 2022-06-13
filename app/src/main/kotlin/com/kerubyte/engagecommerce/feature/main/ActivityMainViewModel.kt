@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.toObject
-import com.kerubyte.engagecommerce.common.data.entity.DatabaseUser
+import com.kerubyte.engagecommerce.common.data.entity.UserEntity
 import com.kerubyte.engagecommerce.common.domain.UserRepository
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.data.NullableInputDatabaseUserMapper
 import com.kerubyte.engagecommerce.common.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +23,8 @@ constructor(
     private val userMapper: NullableInputDatabaseUserMapper
 ) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<Result<User>>()
-    val currentUser: LiveData<Result<User>>
+    private val _currentUser = MutableLiveData<Result<UserModel>>()
+    val currentUser: LiveData<Result<UserModel>>
         get() = _currentUser
 
     private val userDocument = userRepository.getCurrentUser()
@@ -39,7 +39,7 @@ constructor(
             }
             querySnapshot?.let { it ->
 
-                val userEntity = it.toObject<DatabaseUser>()
+                val userEntity = it.toObject<UserEntity>()
                 val currentUser = userMapper.mapFromDatabase(userEntity)
                 val cartSizeValue = provideCartSize(currentUser)
                 _cartSize.value = cartSizeValue
@@ -50,7 +50,7 @@ constructor(
     val cartSize: LiveData<String>
         get() = _cartSize
 
-    private fun provideCartSize(currentUser: User): String {
+    private fun provideCartSize(currentUser: UserModel): String {
 
         val userCart = currentUser.cart.size
         return if (userCart == 0) "0"

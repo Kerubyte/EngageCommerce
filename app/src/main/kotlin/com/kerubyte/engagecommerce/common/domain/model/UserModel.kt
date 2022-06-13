@@ -1,6 +1,6 @@
 package com.kerubyte.engagecommerce.common.domain.model
 
-data class User(
+data class UserModel(
     val uid: String,
     val firstName: String,
     val lastName: String,

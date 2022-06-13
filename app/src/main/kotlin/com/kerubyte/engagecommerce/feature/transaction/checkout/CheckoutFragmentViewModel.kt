@@ -4,8 +4,8 @@ import androidx.lifecycle.*
 import com.kerubyte.engagecommerce.common.domain.OrderRepository
 import com.kerubyte.engagecommerce.common.domain.ProductRepository
 import com.kerubyte.engagecommerce.common.domain.UserRepository
-import com.kerubyte.engagecommerce.common.domain.model.Product
-import com.kerubyte.engagecommerce.common.domain.model.User
+import com.kerubyte.engagecommerce.common.domain.model.ProductModel
+import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Event
 import com.kerubyte.engagecommerce.common.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,8 +22,8 @@ constructor(
     private val orderRepository: OrderRepository
 ) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<Result<User>>()
-    val currentUser: LiveData<Result<User>>
+    private val _currentUser = MutableLiveData<Result<UserModel>>()
+    val currentUser: LiveData<Result<UserModel>>
         get() = _currentUser
 
     private val _navigate = MutableLiveData<Event<Boolean>>()
@@ -46,9 +46,9 @@ constructor(
 
     val userAddress = Transformations.map(currentUser) { it.data?.address }
 
-    private fun getProductsFromCart(userCart: List<String>): LiveData<Result<List<Product>>> {
+    private fun getProductsFromCart(userCart: List<String>): LiveData<Result<List<ProductModel>>> {
 
-        val productsInCart = MutableLiveData<Result<List<Product>>>()
+        val productsInCart = MutableLiveData<Result<List<ProductModel>>>()
 
         viewModelScope.launch {
             val products = productRepository.getProductsFromCart(userCart)
