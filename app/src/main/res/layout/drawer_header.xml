@@ -6,10 +6,10 @@
     <data>
         <variable
             name="mainViewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.activity.ActivityMainViewModel" />
+            type="com.kerubyte.engagecommerce.feature.main.ActivityMainViewModel" />
         <variable
             name="mainActivity"
-            type="com.kerubyte.engagecommerce.presentation.ui.activity.MainActivity" />
+            type="com.kerubyte.engagecommerce.feature.main.MainActivity" />
 
     </data>
 

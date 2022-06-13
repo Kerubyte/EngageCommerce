@@ -6,10 +6,10 @@
     <data>
         <variable
             name="mainViewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.activity.ActivityMainViewModel" />
+            type="com.kerubyte.engagecommerce.feature.main.ActivityMainViewModel" />
         <variable
             name="mainActivity"
-            type="com.kerubyte.engagecommerce.presentation.ui.activity.MainActivity" />
+            type="com.kerubyte.engagecommerce.feature.main.MainActivity" />
 
     </data>
 
@@ -17,13 +17,13 @@
         android:id="@+id/layout_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.activity.MainActivity">
+        tools:context=".feature.main.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_activity_main_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.activity.MainActivity">
+        tools:context=".feature.main.MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_actionbar_root"

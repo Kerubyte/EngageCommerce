@@ -7,11 +7,11 @@
 
         <variable
             name="checkoutFragment"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout.CheckoutFragment" />
+            type="com.kerubyte.engagecommerce.feature.transaction.checkout.CheckoutFragment" />
 
         <variable
             name="checkoutViewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout.CheckoutFragmentViewModel" />
+            type="com.kerubyte.engagecommerce.feature.transaction.checkout.CheckoutFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

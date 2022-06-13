@@ -8,11 +8,11 @@
 
         <variable
             name="loginFragment"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.login.LoginFragment" />
+            type="com.kerubyte.engagecommerce.feature.auth.login.LoginFragment" />
 
         <variable
             name="loginViewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.login.LoginFragmentViewModel" />
+            type="com.kerubyte.engagecommerce.feature.auth.login.LoginFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

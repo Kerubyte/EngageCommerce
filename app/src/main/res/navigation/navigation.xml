@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/titleFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.title.TitleFragment"
+        android:name="com.kerubyte.engagecommerce.feature.product.listing.TitleFragment"
         android:label="TitleFragment" >
         <action
             android:id="@+id/action_titleFragment_to_productDetailFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.detail.ProductDetailFragment"
+        android:name="com.kerubyte.engagecommerce.feature.product.detail.ProductDetailFragment"
         android:label="ProductDetailFragment" >
         <argument
             android:name="productUid"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragment"
+        android:name="com.kerubyte.engagecommerce.feature.auth.register.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.login.LoginFragment"
+        android:name="com.kerubyte.engagecommerce.feature.auth.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.cart.CartFragment"
+        android:name="com.kerubyte.engagecommerce.feature.transaction.cart.CartFragment"
         android:label="CartFragment" >
         <action
             android:id="@+id/action_cartFragment_to_checkoutFragment"
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.transaction.checkout.CheckoutFragment"
+        android:name="com.kerubyte.engagecommerce.feature.transaction.checkout.CheckoutFragment"
         android:label="CheckoutFragment" >
         <argument
             android:name="cartValue"
@@ -54,6 +54,6 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.profile.ProfileFragment"
+        android:name="com.kerubyte.engagecommerce.feature.auth.profile.ProfileFragment"
         android:label="ProfileFragment" />
 </navigation>

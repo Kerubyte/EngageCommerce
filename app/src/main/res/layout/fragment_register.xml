@@ -8,11 +8,11 @@
 
         <variable
             name="registerFragment"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragment" />
+            type="com.kerubyte.engagecommerce.feature.auth.register.RegisterFragment" />
 
         <variable
             name="registerViewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.register.RegisterFragmentViewModel" />
+            type="com.kerubyte.engagecommerce.feature.auth.register.RegisterFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

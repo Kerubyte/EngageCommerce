@@ -7,11 +7,11 @@
 
         <variable
             name="profileViewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.profile.ProfileFragmentViewModel" />
+            type="com.kerubyte.engagecommerce.feature.auth.profile.ProfileFragmentViewModel" />
 
         <variable
             name="profileFragment"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.auth.profile.ProfileFragment" />
+            type="com.kerubyte.engagecommerce.feature.auth.profile.ProfileFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.kerubyte.engagecommerce.presentation.ui.fragment.detail.ProductDetailFragmentViewModel" />
+            type="com.kerubyte.engagecommerce.feature.product.detail.ProductDetailFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
