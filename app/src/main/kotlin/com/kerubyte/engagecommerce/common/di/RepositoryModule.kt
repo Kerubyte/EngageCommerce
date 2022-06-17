@@ -1,8 +1,10 @@
 package com.kerubyte.engagecommerce.common.di
 
+import com.kerubyte.engagecommerce.common.data.MarketingRepositoryImpl
 import com.kerubyte.engagecommerce.common.data.OrderRepositoryImpl
 import com.kerubyte.engagecommerce.common.data.ProductRepositoryImpl
 import com.kerubyte.engagecommerce.common.data.UserRepositoryImpl
+import com.kerubyte.engagecommerce.common.domain.MarketingRepository
 import com.kerubyte.engagecommerce.common.domain.OrderRepository
 import com.kerubyte.engagecommerce.common.domain.ProductRepository
 import com.kerubyte.engagecommerce.common.domain.UserRepository
@@ -41,4 +43,10 @@ abstract class RepositoryModule {
     abstract fun bindOrderRepository(
         orderRepositoryImpl: OrderRepositoryImpl
     ): OrderRepository
+
+    @ActivityRetainedScoped
+    @Binds
+    abstract fun bindMarketingRepository(
+        marketingRepositoryImpl: MarketingRepositoryImpl
+    ): MarketingRepository
 }

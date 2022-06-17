@@ -6,8 +6,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kerubyte.engagecommerce.feature.auth.domain.Authenticator
 import com.kerubyte.engagecommerce.common.domain.DatabaseInteractor
 import com.kerubyte.engagecommerce.common.data.entity.UserEntity
+import com.kerubyte.engagecommerce.common.data.mapper.user.NullableInputDatabaseUserMapper
+import com.kerubyte.engagecommerce.common.data.mapper.user.NullableOutputDatabaseUserMapper
 import com.kerubyte.engagecommerce.common.domain.UserRepository
-import com.kerubyte.engagecommerce.common.util.DispatcherProvider
+import com.kerubyte.engagecommerce.common.domain.DispatcherProvider
 import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Constants.COLLECTION_USERS
 import com.kerubyte.engagecommerce.common.util.Result

@@ -9,11 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
+import com.kerubyte.engagecommerce.common.util.Constants.SCREEN_PROFILE
 import com.kerubyte.engagecommerce.databinding.FragmentProfileBinding
 import com.kerubyte.engagecommerce.common.util.setAnimation
+import com.user.sdk.UserCom
+import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
+@ScreenName(name = SCREEN_PROFILE)
 class ProfileFragment : Fragment() {
 
     private val profileViewModel: ProfileFragmentViewModel by viewModels()
@@ -33,6 +37,7 @@ class ProfileFragment : Fragment() {
 
         setAnimation()
         setBindings()
+        UserCom.getInstance().trackScreen(this)
 
         return binding.root
     }

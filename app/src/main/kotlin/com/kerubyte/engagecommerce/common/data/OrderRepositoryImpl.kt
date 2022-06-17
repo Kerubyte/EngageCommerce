@@ -4,7 +4,7 @@ import android.icu.util.Calendar
 import com.kerubyte.engagecommerce.feature.auth.domain.Authenticator
 import com.kerubyte.engagecommerce.common.domain.DatabaseInteractor
 import com.kerubyte.engagecommerce.common.domain.OrderRepository
-import com.kerubyte.engagecommerce.common.util.DispatcherProvider
+import com.kerubyte.engagecommerce.common.domain.DispatcherProvider
 import com.kerubyte.engagecommerce.common.util.Constants.COLLECTION_ORDERS
 import com.kerubyte.engagecommerce.common.util.Result
 import kotlinx.coroutines.tasks.await

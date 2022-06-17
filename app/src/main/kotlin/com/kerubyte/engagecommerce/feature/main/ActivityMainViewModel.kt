@@ -9,7 +9,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.kerubyte.engagecommerce.common.data.entity.UserEntity
 import com.kerubyte.engagecommerce.common.domain.UserRepository
 import com.kerubyte.engagecommerce.common.domain.model.UserModel
-import com.kerubyte.engagecommerce.common.data.NullableInputDatabaseUserMapper
+import com.kerubyte.engagecommerce.common.data.mapper.user.NullableInputDatabaseUserMapper
 import com.kerubyte.engagecommerce.common.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -3,10 +3,10 @@ package com.kerubyte.engagecommerce.common.data
 import com.kerubyte.engagecommerce.common.domain.DatabaseInteractor
 import com.kerubyte.engagecommerce.common.data.entity.ProductEntity
 import com.kerubyte.engagecommerce.common.domain.ProductRepository
-import com.kerubyte.engagecommerce.common.util.DispatcherProvider
+import com.kerubyte.engagecommerce.common.domain.DispatcherProvider
 import com.kerubyte.engagecommerce.common.domain.model.ProductModel
 import com.kerubyte.engagecommerce.common.util.Constants.COLLECTION_PRODUCTS
-import com.kerubyte.engagecommerce.feature.product.NullableInputDatabaseProductMapper
+import com.kerubyte.engagecommerce.common.data.mapper.product.NullableInputDatabaseProductMapper
 import com.kerubyte.engagecommerce.common.util.Result
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext

@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
+import com.user.sdk.UserCom
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,11 +41,9 @@ class MainActivity : AppCompatActivity() {
         )
         NavigationUI.setupWithNavController(navigationView, navController)
 
-        firrre()
         setBindings()
         setupObserver()
-        val dupi = listOf("aa", "xx", "ww")
-        Log.d("dupik", "$dupi")
+
     }
 
     override fun onBackPressed() {
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        mainViewModel.currentUser.observe(this, { response ->
+        mainViewModel.currentUser.observe(this) { response ->
             when (response) {
                 is Result.Success ->
                     updateUI()
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 is Result.Error.NetworkError ->
                     Log.d("MainActivity", "${R.string.network_error}")
             }
-        })
+        }
     }
 
     private fun updateUI() {
@@ -112,24 +111,5 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.currentUser.value?.data?.let {
             navigateToCart()
         } ?: navigateToLogin()
-    }
-
-    private fun firrre() {
-
-        FirebaseMessaging.getInstance()
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("wiadomosc", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-            Log.d("wiadomoscToken", "$token")
-            //Toast.makeText(this, "$token", Toast.LENGTH_LONG).show()
-        })
     }
 }

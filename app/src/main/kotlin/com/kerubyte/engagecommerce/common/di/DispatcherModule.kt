@@ -1,6 +1,6 @@
 package com.kerubyte.engagecommerce.common.di
 
-import com.kerubyte.engagecommerce.common.util.DispatcherProvider
+import com.kerubyte.engagecommerce.common.domain.DispatcherProvider
 import com.kerubyte.engagecommerce.common.util.DispatcherProviderImpl
 import dagger.Binds
 import dagger.Module

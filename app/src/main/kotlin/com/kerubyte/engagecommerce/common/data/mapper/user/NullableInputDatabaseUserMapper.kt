@@ -1,11 +1,10 @@
-package com.kerubyte.engagecommerce.common.data
+package com.kerubyte.engagecommerce.common.data.mapper.user
 
 import com.kerubyte.engagecommerce.common.util.DatabaseMapper
 import com.kerubyte.engagecommerce.common.data.entity.UserEntity
 import com.kerubyte.engagecommerce.common.domain.model.UserModel
 
 interface NullableDatabaseUserMapper<Entity, Model> : DatabaseMapper<Entity?, Model>
-
 
 class NullableInputDatabaseUserMapper : DatabaseMapper<UserEntity?, UserModel> {
 

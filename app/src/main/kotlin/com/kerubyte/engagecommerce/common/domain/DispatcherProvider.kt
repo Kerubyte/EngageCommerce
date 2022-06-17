@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.common.util
+package com.kerubyte.engagecommerce.common.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
 

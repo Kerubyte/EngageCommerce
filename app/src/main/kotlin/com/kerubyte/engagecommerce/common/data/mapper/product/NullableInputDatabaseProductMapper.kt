@@ -1,4 +1,4 @@
-package com.kerubyte.engagecommerce.feature.product
+package com.kerubyte.engagecommerce.common.data.mapper.product
 
 import com.kerubyte.engagecommerce.common.util.PriceFormatter
 import com.kerubyte.engagecommerce.common.data.entity.ProductEntity
