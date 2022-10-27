@@ -8,7 +8,6 @@ sealed class MarketingEvent(
     val eventAttributes: HashMap<String, Any>
 ) : UserComEvent {
 
-    @Event(name = "Registration")
     class Registration(eventAttributes: HashMap<String, Any>): MarketingEvent(eventAttributes) {
         @SuppressLint("RestrictedApi")
         override fun toFlat(): MutableMap<String, Any> {
@@ -16,11 +15,23 @@ sealed class MarketingEvent(
         }
     }
 
-    @Event(name = "Login")
     class Login(eventAttributes: HashMap<String, Any>): MarketingEvent(eventAttributes) {
         @SuppressLint("RestrictedApi")
         override fun toFlat(): MutableMap<String, Any> {
             return eventAttributes
         }
     }
+
+    class PurchaseSummary(eventAttributes: HashMap<String, Any>): MarketingEvent(eventAttributes) {
+        @SuppressLint("RestrictedApi")
+        override fun toFlat(): MutableMap<String, Any> {
+            return eventAttributes
+        }
+    }
+}
+
+enum class MarketingEventType {
+    REGISTRATION,
+    LOGIN,
+    PURCHASE
 }

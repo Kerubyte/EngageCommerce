@@ -16,15 +16,22 @@ import com.kerubyte.engagecommerce.R
 import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.databinding.ActivityMainBinding
 import com.user.sdk.UserCom
+import com.user.sdk.customer.CustomerUpdateCallback
+import com.user.sdk.customer.RegisterResponse
+import com.user.sdk.notification.UserComNotification
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     private val mainViewModel: ActivityMainViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
+
+    @Inject
+    lateinit var callback: CustomerUpdateCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         setBindings()
         setupObserver()
-
+        UserCom.getInstance().handleRouteFromNotification(intent)
     }
 
     override fun onBackPressed() {

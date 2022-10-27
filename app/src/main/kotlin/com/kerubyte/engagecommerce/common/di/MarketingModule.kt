@@ -35,11 +35,11 @@ object MarketingModule {
     @Singleton
     fun provideObjectCustomerCallback() = object : CustomerUpdateCallback {
         override fun onSuccess(p0: RegisterResponse) {
-            Log.d("register", "UserCom Registered123")
+            TODO()
         }
 
         override fun onFailure(p0: Throwable) {
-            Log.d("register", "UserCom Failure123")
+            TODO()
         }
     }
 }

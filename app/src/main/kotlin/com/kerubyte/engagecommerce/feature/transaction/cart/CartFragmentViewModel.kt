@@ -37,11 +37,9 @@ constructor(
     }
 
     val productsInCartValue = Transformations.map(productsInCart) { result ->
-
         val cartValue = result.data?.sumOf { product ->
             product.price
         }
-
         priceFormatter.formatPrice(cartValue)
     }
 

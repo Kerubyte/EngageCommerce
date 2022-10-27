@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kerubyte.engagecommerce.common.data.mapper.marketing.OutputEventAttributesMapper
-import com.kerubyte.engagecommerce.common.domain.MarketingRepository
-import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Event
-import com.kerubyte.engagecommerce.common.util.MarketingEvent
+import com.kerubyte.engagecommerce.common.util.MarketingEventType
+import com.kerubyte.engagecommerce.common.util.MarketingUtil
 import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.feature.auth.data.util.InputValidator
 import com.kerubyte.engagecommerce.feature.auth.data.util.InputValidator.isValidName
@@ -22,8 +20,8 @@ class RegisterFragmentViewModel
 @Inject
 constructor(
     private val authRepository: AuthRepository,
-    private val marketingRepository: MarketingRepository,
-    private val eventAttributesMapper: OutputEventAttributesMapper
+    private val inputValidator: InputValidator,
+    private val marketingUtil: MarketingUtil
 ) : ViewModel() {
 
     private val _isValidFirstName = MutableLiveData<Boolean>()
@@ -50,7 +48,7 @@ constructor(
     val accountCreated: LiveData<Result<Any>>
         get() = _accountCreated
 
-    fun createUserAccount(
+    fun createUserAccountWithMarketing(
         firstName: String,
         lastName: String,
         email: String,
@@ -58,40 +56,20 @@ constructor(
     ) {
         if (validateRegisterInputs(firstName, lastName, email, password)) {
             viewModelScope.launch {
-                val result = authRepository.createAccount(email, password, firstName, lastName)
+                val result = authRepository.createAccount(
+                    email = email,
+                    password = password,
+                    firstName = firstName,
+                    lastName =lastName
+                )
                 _accountCreated.postValue(result)
-                registerCustomer(result)
-                sendRegistrationEvent(result)
-            }
-        }
-    }
-
-    private suspend fun registerCustomer(result: Result<Any>) {
-        if (result is Result.Success) {
-            result.data?.let { userModel ->
-                marketingRepository.registerCustomer(userModel as UserModel)
-            }
-        }
-    }
-
-    private suspend fun sendRegistrationEvent(result: Result<Any>) {
-        if (result is Result.Success) {
-            result.data?.let { userModel ->
-                marketingRepository.sendMarketingEvent(
-                    makeRegistrationEvent(userModel as UserModel)
+                marketingUtil.registerCustomer(result)
+                marketingUtil.sendMarketingEvent(
+                    result = result,
+                    marketingEventType = MarketingEventType.REGISTRATION
                 )
             }
         }
-    }
-
-    private fun makeRegistrationEvent(userModel: UserModel): MarketingEvent {
-        return MarketingEvent.Registration(
-            eventAttributesMapper.mapFromRegistrationInput(
-                firstName = userModel.firstName,
-                lastName = userModel.lastName,
-                email = userModel.email
-            )
-        )
     }
 
     fun validateFirstName(firstName: String) {
@@ -120,9 +98,9 @@ constructor(
         email: String,
         password: String
     ): Boolean {
-        return InputValidator.isValidEmail(email)
-                && InputValidator.isValidPassword(password)
-                && isValidName(firstName)
-                && isValidName(lastName)
+        return inputValidator.isValidEmail(email)
+                && inputValidator.isValidPassword(password)
+                && inputValidator.isValidName(firstName)
+                && inputValidator.isValidName(lastName)
     }
 }

@@ -9,13 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
+import com.kerubyte.engagecommerce.common.util.*
 import com.kerubyte.engagecommerce.common.util.Constants.SCREEN_REGISTER
-import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.databinding.FragmentRegisterBinding
-import com.kerubyte.engagecommerce.common.util.navigate
-import com.kerubyte.engagecommerce.common.util.restartMainActivity
-import com.kerubyte.engagecommerce.common.util.setAnimation
-import com.kerubyte.engagecommerce.common.util.showErrorSnackbar
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,18 +45,14 @@ class RegisterFragment : Fragment() {
 
 
     private fun subscribeObserver() {
-
         observeRegistrationResult()
         doOnInputTextChange()
         observeNavigateToLogin()
     }
 
     private fun observeRegistrationResult() {
-
         registerViewModel.accountCreated.observe(viewLifecycleOwner) {
-
             when (it) {
-
                 is Result.Success ->
                     restartMainActivity()
                 is Result.Error.AuthenticationError ->
@@ -72,17 +64,20 @@ class RegisterFragment : Fragment() {
     }
 
     fun createUserAccount() {
-
         val firstName = binding.inputFirstName.text.toString()
         val lastName = binding.inputLastName.text.toString()
         val email = binding.inputEmail.text.toString()
         val password = binding.inputPassword.text.toString()
 
-        registerViewModel.createUserAccount(firstName, lastName, email, password)
+        registerViewModel.createUserAccountWithMarketing(
+            firstName = firstName,
+            lastName = lastName,
+            email = email,
+            password = password
+        )
     }
 
     private fun doOnFirstNameInputChange() {
-
         val firstNameInput = binding.inputFirstName
         firstNameInput.doOnTextChanged { text, _, _, _ ->
             registerViewModel.validateFirstName(text.toString())
@@ -90,7 +85,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun doOnLastNameInputChange() {
-
         val lastNameInput = binding.inputLastName
         lastNameInput.doOnTextChanged { text, _, _, _ ->
             registerViewModel.validateLastName(text.toString())
@@ -98,7 +92,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun doOnEmailInputChange() {
-
         val emailInput = binding.inputEmail
         emailInput.doOnTextChanged { text, _, _, _ ->
             registerViewModel.validateEmail(text.toString())
@@ -106,7 +99,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun doOnPasswordInputChange() {
-
         val passwordInput = binding.inputPassword
         passwordInput.doOnTextChanged { text, _, _, _ ->
             registerViewModel.validatePassword(text.toString())
@@ -114,7 +106,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun doOnInputTextChange() {
-
         doOnFirstNameInputChange()
         doOnLastNameInputChange()
         doOnEmailInputChange()
@@ -122,7 +113,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun observeNavigateToLogin() {
-
         registerViewModel.navigate.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 navigate(R.id.loginFragment)

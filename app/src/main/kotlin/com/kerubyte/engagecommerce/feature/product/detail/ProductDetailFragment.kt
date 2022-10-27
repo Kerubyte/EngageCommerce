@@ -44,13 +44,11 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun setBindings() {
-
         binding.viewModel = detailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun subscribeObserver() {
-
         detailViewModel.navigate.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 navigate(R.id.loginFragment)

@@ -9,13 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kerubyte.engagecommerce.R
+import com.kerubyte.engagecommerce.common.util.*
 import com.kerubyte.engagecommerce.common.util.Constants.SCREEN_LOGIN
-import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.databinding.FragmentLoginBinding
-import com.kerubyte.engagecommerce.common.util.navigate
-import com.kerubyte.engagecommerce.common.util.restartMainActivity
-import com.kerubyte.engagecommerce.common.util.setAnimation
-import com.kerubyte.engagecommerce.common.util.showErrorSnackbar
 import com.user.sdk.UserCom
 import com.user.sdk.events.ScreenName
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +44,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObserver() {
-
         observeLoginResult()
         doOnEmailInputChange()
         doOnPasswordInputChange()
@@ -56,11 +51,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun observeLoginResult() {
-
         loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
-
             when (result) {
-
                 is Result.Success ->
                     restartMainActivity()
                 is Result.Error.AuthenticationError ->
@@ -72,7 +64,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun doOnEmailInputChange() {
-
         val emailInput = binding.inputUserEmail
         emailInput.doOnTextChanged { text, _, _, _ ->
             loginViewModel.validateEmail(text.toString())
@@ -80,7 +71,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun doOnPasswordInputChange() {
-
         val passwordInput = binding.inputUserPassword
         passwordInput.doOnTextChanged { text, _, _, _ ->
             loginViewModel.validatePassword(text.toString())
@@ -88,20 +78,17 @@ class LoginFragment : Fragment() {
     }
 
     fun loginUser() {
-
         val userEmail = binding.inputUserEmail.text.toString()
         val userPassword = binding.inputUserPassword.text.toString()
-
-        loginViewModel.loginUser(userEmail, userPassword)
+        loginViewModel.loginUserWithMarketing(userEmail, userPassword)
     }
 
     private fun observeNavigateToRegister() {
-
-        loginViewModel.navigate.observe(viewLifecycleOwner, { event ->
+        loginViewModel.navigate.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 navigate(R.id.registerFragment)
             }
-        })
+        }
     }
 
     private fun setBindings() {

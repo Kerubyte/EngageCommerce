@@ -1,13 +1,13 @@
 package com.kerubyte.engagecommerce.feature.auth.data
 
-import com.kerubyte.engagecommerce.common.util.Constants
-import com.kerubyte.engagecommerce.common.domain.DispatcherProvider
-import com.kerubyte.engagecommerce.common.util.Result
+import com.kerubyte.engagecommerce.common.data.mapper.user.NullableOutputDatabaseUserMapper
 import com.kerubyte.engagecommerce.common.domain.DatabaseInteractor
+import com.kerubyte.engagecommerce.common.domain.DispatcherProvider
 import com.kerubyte.engagecommerce.common.domain.model.UserModel
+import com.kerubyte.engagecommerce.common.util.Constants
+import com.kerubyte.engagecommerce.common.util.Result
 import com.kerubyte.engagecommerce.feature.auth.domain.AuthRepository
 import com.kerubyte.engagecommerce.feature.auth.domain.Authenticator
-import com.kerubyte.engagecommerce.common.data.mapper.user.NullableOutputDatabaseUserMapper
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -28,7 +28,10 @@ constructor(
         lastName: String
     ): Result<Any> = withContext(dispatcherProvider.io) {
         authenticator
-            .createUserWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(
+                email = email,
+                password = password
+            )
             .await()
 
         val currentUid = authenticator.getCurrentUserUid()
@@ -61,11 +64,11 @@ constructor(
         withContext(dispatcherProvider.io) {
             authenticator
                 .loginUserWithEmailAndPassword(
-                    email,
-                    password
+                    email = email,
+                    password = password
                 )
                 .await()
 
-            Result.Success(null)
+            Result.Success(data = email)
         }
 }

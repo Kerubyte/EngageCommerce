@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kerubyte.engagecommerce.feature.auth.data.util.InputValidator
 import com.kerubyte.engagecommerce.common.util.Event
+import com.kerubyte.engagecommerce.common.util.MarketingEventType
+import com.kerubyte.engagecommerce.common.util.MarketingUtil
 import com.kerubyte.engagecommerce.common.util.Result
+import com.kerubyte.engagecommerce.feature.auth.data.util.InputValidator
 import com.kerubyte.engagecommerce.feature.auth.domain.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +19,8 @@ class LoginFragmentViewModel
 @Inject
 constructor(
     private val authRepository: AuthRepository,
-    private val inputValidator: InputValidator
+    private val inputValidator: InputValidator,
+    private val marketingUtil: MarketingUtil
 ) : ViewModel() {
 
     private val _isValidEmail = MutableLiveData<Boolean>()
@@ -36,26 +39,30 @@ constructor(
     val navigate: LiveData<Event<Boolean>>
         get() = _navigate
 
-    fun loginUser(email: String, password: String) {
-
+    fun loginUserWithMarketing(email: String, password: String) {
         if (validateLoginInputs(email, password)) {
-
             viewModelScope.launch {
-                val result = authRepository.loginUser(email, password)
+                val result = authRepository.loginUser(
+                    email =email,
+                    password = password
+                )
                 _loginResult.postValue(result)
+                marketingUtil.registerCustomer(result)
+                marketingUtil.sendMarketingEvent(
+                    result = result,
+                    marketingEventType = MarketingEventType.LOGIN
+                )
             }
-                }else {
+        } else {
             _loginResult.value = Result.Error.AuthenticationError(null)
         }
     }
 
     fun validateEmail(email: String) {
-
         _isValidEmail.value = inputValidator.isValidEmail(email)
     }
 
     fun validatePassword(password: String) {
-
         _isValidPassword.value = inputValidator.isValidPassword(password)
     }
 
@@ -64,7 +71,7 @@ constructor(
     }
 
     private fun validateLoginInputs(email: String, password: String): Boolean {
-
-        return inputValidator.isValidEmail(email) && inputValidator.isValidPassword(password)
+        return inputValidator.isValidEmail(email) &&
+                inputValidator.isValidPassword(password)
     }
 }

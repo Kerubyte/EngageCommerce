@@ -6,7 +6,9 @@ import com.kerubyte.engagecommerce.common.domain.UserRepository
 import com.kerubyte.engagecommerce.common.domain.model.ProductModel
 import com.kerubyte.engagecommerce.common.domain.model.UserModel
 import com.kerubyte.engagecommerce.common.util.Event
+import com.kerubyte.engagecommerce.common.util.MarketingUtil
 import com.kerubyte.engagecommerce.common.util.Result
+import com.user.sdk.events.ProductEventType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +19,8 @@ class ProductDetailFragmentViewModel
 constructor(
     savedStateHandle: SavedStateHandle,
     private val productRepository: ProductRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val marketingUtil: MarketingUtil
 ) : ViewModel() {
 
     private val productUid = savedStateHandle.get<String>("productUid")
@@ -34,23 +37,24 @@ constructor(
     val navigate: LiveData<Event<Boolean>>
         get() = _navigate
 
-    val isNotInCart = Transformations.map(_currentUser) {
+    val isNotInCart = Transformations.map(currentUser) {
         it.data?.cart?.let { userCart -> productUid !in userCart } ?: true
     }
 
-    private fun getSingleProduct() {
-
+    private fun getSingleProductWithMarketing() {
         productUid?.let { uid ->
             viewModelScope.launch {
-
                 val result = productRepository.getSingleProduct(uid)
                 _currentProductModel.postValue(result)
+                marketingUtil.sendProductEvent(
+                    result = result,
+                    productEventType = ProductEventType.DETAIL
+                )
             }
         }
     }
 
     private fun getCurrentUser() {
-
         viewModelScope.launch {
             val result = userRepository.getUserData()
             _currentUser.postValue(result)
@@ -58,7 +62,6 @@ constructor(
     }
 
     private fun addToCart() {
-
         productUid?.let { uid ->
             viewModelScope.launch {
                 userRepository.addToCart(uid)
@@ -67,10 +70,17 @@ constructor(
     }
 
     fun handleAddToCartClick() {
-
         currentUser.value?.data?.let {
             addToCart()
             getCurrentUser()
+            viewModelScope.launch {
+                currentProductModel.value?.let { result ->
+                    marketingUtil.sendProductEvent(
+                        result = result,
+                        productEventType = ProductEventType.ADD_TO_CART
+                    )
+                }
+            }
         } ?: navigate()
     }
 
@@ -79,7 +89,7 @@ constructor(
     }
 
     init {
-        getSingleProduct()
+        getSingleProductWithMarketing()
         getCurrentUser()
     }
 }
